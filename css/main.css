@@ -2843,7 +2843,10 @@ header.header {
   }
 }
 body {
-  background: linear-gradient(rgba(255,245,246,0.85), rgba(255,245,246,0.85), #fff5f6), url("/images/pcbg/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("/images/pcbg/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: -moz-linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("/images/pcbg/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: -webkit-linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("/images/pcbg/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: -o-linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("/images/pcbg/masuri-miku.jpg") no-repeat 0% 100%/cover;
   background-attachment: fixed;
 }
 .post {
