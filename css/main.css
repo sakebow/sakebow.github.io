@@ -1,6 +1,6 @@
 :root {
   --body-bg-color: #eee;
-  --content-bg-color: rgba(0,0,0,0);
+  --content-bg-color: rgba(255,233,244,0.25);
   --card-bg-color: #f5f5f5;
   --text-color: #555;
   --blockquote-color: #666;
@@ -836,8 +836,8 @@ pre code {
   margin-bottom: 20px;
   padding: 1em;
   position: relative;
-  border: 1px solid #eee;
-  border-left-width: 5px;
+  background: #f5f5f5;
+  border: 1px solid transparent;
 }
 .post-body .note summary {
   cursor: pointer;
@@ -861,65 +861,122 @@ pre code {
 .post-body .note :last-child {
   margin-bottom: 0;
 }
-.post-body .note.default {
-  border-left-color: #777;
+.post-body .note:not(.no-icon) {
+  padding-left: 2.5em;
 }
-.post-body .note.default h2,
-.post-body .note.default h3,
-.post-body .note.default h4,
-.post-body .note.default h5,
-.post-body .note.default h6 {
-  color: #777;
+.post-body .note:not(.no-icon)::before {
+  font-size: 1.5em;
+  left: 0.3em;
+  position: absolute;
+  top: calc(50% - 1em);
+}
+.post-body .note.default {
+  background: #f3f3f3;
+  border-color: #e1e1e1;
+  color: #666;
+}
+.post-body .note.default a:not(.btn) {
+  border-bottom-color: #666;
+  color: #666;
+}
+.post-body .note.default a:not(.btn):hover {
+  border-bottom-color: #454545;
+  color: #454545;
+}
+.post-body .note.default:not(.no-icon)::before {
+  content: '\f0a9';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 .post-body .note.primary {
-  border-left-color: #6f42c1;
-}
-.post-body .note.primary h2,
-.post-body .note.primary h3,
-.post-body .note.primary h4,
-.post-body .note.primary h5,
-.post-body .note.primary h6 {
+  background: #f3daff;
+  border-color: #e1c2ff;
   color: #6f42c1;
 }
-.post-body .note.info {
-  border-left-color: #428bca;
+.post-body .note.primary a:not(.btn) {
+  border-bottom-color: #6f42c1;
+  color: #6f42c1;
 }
-.post-body .note.info h2,
-.post-body .note.info h3,
-.post-body .note.info h4,
-.post-body .note.info h5,
-.post-body .note.info h6 {
-  color: #428bca;
+.post-body .note.primary a:not(.btn):hover {
+  border-bottom-color: #453298;
+  color: #453298;
+}
+.post-body .note.primary:not(.no-icon)::before {
+  content: '\f055';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+.post-body .note.info {
+  background: #d9edf7;
+  border-color: #b3e5ef;
+  color: #31708f;
+}
+.post-body .note.info a:not(.btn) {
+  border-bottom-color: #31708f;
+  color: #31708f;
+}
+.post-body .note.info a:not(.btn):hover {
+  border-bottom-color: #215761;
+  color: #215761;
+}
+.post-body .note.info:not(.no-icon)::before {
+  content: '\f05a';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 .post-body .note.success {
-  border-left-color: #5cb85c;
+  background: #dff0d8;
+  border-color: #d0e6be;
+  color: #3c763d;
 }
-.post-body .note.success h2,
-.post-body .note.success h3,
-.post-body .note.success h4,
-.post-body .note.success h5,
-.post-body .note.success h6 {
-  color: #5cb85c;
+.post-body .note.success a:not(.btn) {
+  border-bottom-color: #3c763d;
+  color: #3c763d;
+}
+.post-body .note.success a:not(.btn):hover {
+  border-bottom-color: #32562c;
+  color: #32562c;
+}
+.post-body .note.success:not(.no-icon)::before {
+  content: '\f058';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 .post-body .note.warning {
-  border-left-color: #f0ad4e;
+  background: #fcf4e3;
+  border-color: #fae4cd;
+  color: #8a6d3b;
 }
-.post-body .note.warning h2,
-.post-body .note.warning h3,
-.post-body .note.warning h4,
-.post-body .note.warning h5,
-.post-body .note.warning h6 {
-  color: #f0ad4e;
+.post-body .note.warning a:not(.btn) {
+  border-bottom-color: #8a6d3b;
+  color: #8a6d3b;
+}
+.post-body .note.warning a:not(.btn):hover {
+  border-bottom-color: #714f30;
+  color: #714f30;
+}
+.post-body .note.warning:not(.no-icon)::before {
+  content: '\f06a';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 .post-body .note.danger {
-  border-left-color: #d9534f;
+  background: #f2dfdf;
+  border-color: #ebcdd2;
+  color: #a94442;
 }
-.post-body .note.danger h2,
-.post-body .note.danger h3,
-.post-body .note.danger h4,
-.post-body .note.danger h5,
-.post-body .note.danger h6 {
-  color: #d9534f;
+.post-body .note.danger a:not(.btn) {
+  border-bottom-color: #a94442;
+  color: #a94442;
+}
+.post-body .note.danger a:not(.btn):hover {
+  border-bottom-color: #84333f;
+  color: #84333f;
+}
+.post-body .note.danger:not(.no-icon)::before {
+  content: '\f056';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
 }
 .post-body .tabs {
   margin-bottom: 20px;
@@ -1671,6 +1728,11 @@ pre code {
   display: inline-block;
   margin: 0 5px;
   animation: icon-animate 1.33s ease-in-out infinite;
+}
+.beian img {
+  display: inline-block;
+  margin: 0 3px;
+  vertical-align: middle;
 }
 @keyframes icon-animate {
   0%, 100% {
@@ -2842,29 +2904,57 @@ header.header {
     padding: 10px 12px;
   }
 }
+.fireworks {
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+}
 body {
-  background: linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("http://images.sakebow.cn/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background: -moz-linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("http://images.sakebow.cn/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background: -webkit-linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("http://images.sakebow.cn/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background: -o-linear-gradient(#fff5f6, rgba(255,245,246,0.85), #fff5f6), url("http://images.sakebow.cn/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: -moz-linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: -webkit-linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
+  background: -o-linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
   background-attachment: fixed;
+}
+.post-body h1,
+.post-body h2 {
+  border-bottom: none;
+  border-radius: 15px;
+  padding: 6px 0;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease-out;
+}
+.post-body h1:hover::after,
+.post-body h2:hover::after {
+  left: -50%;
+}
+.post-body h1:hover,
+.post-body h2:hover {
+  padding: 6px 25px;
+}
+.post-body h1::after,
+.post-body h2::after {
+  content: ' ';
+  position: absolute;
+  top: 0;
+  left: -200%;
+  width: 200%;
+  height: 100%;
+  display: block;
+  background: linear-gradient(to right, rgba(255,219,230,0.85), rgba(255,219,230,0.85), rgba(255,219,230,0.05));
+  z-index: -1;
+  transition: all 0.5s ease-out;
 }
 .post {
   -webkit-box-shadow: 0 0 5px rgba(202,203,203,0.5);
   -moz-box-shadow: 0 0 5px rgba(202,203,204,0.5);
 }
-.posts-expand,
-.post-content,
-.main-inner,
-.sidebar,
-.sidebar-inner,
-.index {
-  background: rgba(0,0,0,0);
-}
-.post-block {
-  border-radius: 10px;
-  background-color: #ffe9f4;
-}
 .popup {
   opacity: 0.9;
+}
+.beian img {
+  width: 16px;
+  height: 16px;
 }
