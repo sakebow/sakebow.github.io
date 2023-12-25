@@ -2900,11 +2900,7 @@ header.header {
   top: 0;
 }
 body {
-  background: linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background: -moz-linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background: -webkit-linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background: -o-linear-gradient(rgba(255,245,246,0.9), rgba(255,245,246,0.75), rgba(255,245,246,0.9)), url("http://images.sakebow.cn/background/masuri-miku.jpg") no-repeat 0% 100%/cover;
-  background-attachment: fixed;
+  position: relative;
 }
 .post-body h1,
 .post-body h2 {
