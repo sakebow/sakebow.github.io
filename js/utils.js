@@ -12,7 +12,6 @@ HTMLElement.prototype.wrap = function(wrapper) {
       bubbles: true
     })
   );
-
   if (document.readyState === 'loading') {
     document.addEventListener('readystatechange', onPageLoaded, { once: true });
     addBackgroundImageDiv();
@@ -36,7 +35,7 @@ function addBackgroundImageDiv () {
   opacityMask.style.width = "100%";
   opacityMask.style.height = "100%";
   opacityMask.style.opacity = "0.8";
-  opacityMask.style.zIndex = "-1";
+  opacityMask.style.zIndex = "-2";
   const imageContainer = document.createElement("div");
   imageContainer.style.position = "fixed";
   imageContainer.style.top = "0";
@@ -44,7 +43,7 @@ function addBackgroundImageDiv () {
   imageContainer.style.content = "";
   imageContainer.style.width = "100%";
   imageContainer.style.height = "100%";
-  imageContainer.style.zIndex = "-2";
+  imageContainer.style.zIndex = "-3";
   const imageScroller = document.createElement("div");
   imageScroller.id = "image-scroller";
   imageScroller.style.position = "fixed";
@@ -57,7 +56,7 @@ function addBackgroundImageDiv () {
   imageContainer.style.justifyContent = "space-around";
   imageContainer.style.alignContent = "center";
   imageContainer.style.alignItems = "center";
-  imageScroller.style.zIndex = "-3";
+  imageScroller.style.zIndex = "-4";
   document.body.appendChild(opacityMask);
   document.body.appendChild(imageContainer);
   document.body.appendChild(imageScroller);
@@ -87,9 +86,9 @@ function addBackgroundImageDiv () {
   // create style element
   const imageRollStyle = document.createElement('style');
   // set animation time for all
-  const EPOCH_TIME = "64s ";
+  const EPOCH_TIME = 64;
   // set animation style for all
-  const ANIMATION_DEFAULT_SETTINGS = "linear infinite both running ";
+  const ANIMATION_DEFAULT_SETTINGS = "s linear infinite running ";
   // set keyframes into style element
   imageRollStyle.innerHTML = `@keyframes image-roll {
     0%  { left: 0; } 24% { left: 0; } 25% { left: -100%; } 49% { left: -100%; } 50% { left: -200%; }
@@ -169,10 +168,35 @@ function addBackgroundImageDiv () {
 
   // set background image url after rolling
   // --------------------------------------
-  // let changeImageInterval = setInterval(function () {
-  //   const imgWindows = document.getElementById("image-scroller").children;
-  // }, 20000);
-  // todo-list
+  let count = 0;
+  const imgUrls = { 'pc': [
+    '/race-miku.jpg', '/masuri-miku.jpg', '/planet-miku.jpg', '/4mikus.jpg', '/84672028_p0.jpg', '/84932457_p0.png'
+  ] }
+  document.onreadystatechange = function () {
+    if (document.readyState === 'complete') {
+      console.log('done');
+      let imgChangeInterval = null;
+      let imageChangeTimeOut = setTimeout(function () {
+        console.log('timeout');
+        if (imgChangeInterval != null) {
+          clearInterval(imgChangeInterval);
+          imgChangeInterval = null;
+        }
+        imgChangeInterval = setInterval(function () {
+          const imageDivElement = document.getElementById("image-scroller").children[count % 4];
+          let sampleImg = Math.floor(Math.random() * imgUrls[DEVICES[0]].length);
+          imageDivElement.innerHTML = "<img" +
+            " src='" + BASE_URL + DEVICES[0] + imgUrls[DEVICES[0]][sampleImg] + "'" +
+            " style='width: 100%; height: 100%;'" +
+            " alt='network broken?' />";
+          console.log(`changed, now is ${count % 4} and ${imgUrls[DEVICES[0]][sampleImg]}`) // no
+          ++count;
+        }, 64000 / 4);
+        clearTimeout(imageChangeTimeOut);
+      }, 2000);
+    }
+  }
+  // well done! now images can be updated!
 }
 
 NexT.utils = {

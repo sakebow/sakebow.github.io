@@ -2928,7 +2928,7 @@ body {
   width: 200%;
   height: 100%;
   display: block;
-  background: linear-gradient(to right, rgba(227,165,176,0.9), rgba(227,165,176,0.9), rgba(227,165,176,0.5));
+  background: linear-gradient(to right, rgba(240,118,139,0.9), rgba(240,118,139,0.9), rgba(240,118,139,0.5));
   z-index: -1;
   transition: all 0.5s ease-out;
 }
