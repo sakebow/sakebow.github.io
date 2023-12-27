@@ -33,29 +33,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"sakebow.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":10,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言并没有多高深的见解，本篇只是单纯的复习动画效果。">
+    <meta name="description" content="前言看着图像识别好像很有意思的样子，于是就自己搭了一个深度学习服务器。虽然说是服务器，实际上也是垃圾佬套装搭一个勉强够看的显卡。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="transition与keyframes配合hover形成动画的区别">
-<meta property="og:url" content="http://sakebow.cn/2023/12/23/CSS/transition/index.html">
+<meta property="og:title" content="1660Ti+AlmaLinux9搭建YOLO5环境">
+<meta property="og:url" content="http://sakebow.cn/2023/12/26/YOLO/install/index.html">
 <meta property="og:site_name" content="小小万事屋">
-<meta property="og:description" content="前言并没有多高深的见解，本篇只是单纯的复习动画效果。">
+<meta property="og:description" content="前言看着图像识别好像很有意思的样子，于是就自己搭了一个深度学习服务器。虽然说是服务器，实际上也是垃圾佬套装搭一个勉强够看的显卡。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-12-23T14:48:00.000Z">
-<meta property="article:modified_time" content="2023-12-23T23:53:05.306Z">
+<meta property="og:image" content="http://images.sakebow.cn/yolo/install/GeForce%E5%8A%9F%E8%83%BD%E5%8F%AF%E7%94%A8%E6%80%A7.png">
+<meta property="og:image" content="http://images.sakebow.cn/yolo/install/CUDA%E4%B8%AD%E9%9B%86%E6%88%90%E7%9A%84GeForce%E9%A9%B1%E5%8A%A8.png">
+<meta property="article:published_time" content="2023-12-26T00:58:45.000Z">
+<meta property="article:modified_time" content="2023-12-27T04:54:50.410Z">
 <meta property="article:author" content="sakebow">
-<meta property="article:tag" content="css">
-<meta property="article:tag" content="experience">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="YOLO5">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://images.sakebow.cn/yolo/install/GeForce%E5%8A%9F%E8%83%BD%E5%8F%AF%E7%94%A8%E6%80%A7.png">
 
 
-<link rel="canonical" href="http://sakebow.cn/2023/12/23/CSS/transition/">
+<link rel="canonical" href="http://sakebow.cn/2023/12/26/YOLO/install/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://sakebow.cn/2023/12/23/CSS/transition/","path":"2023/12/23/CSS/transition/","title":"transition与keyframes配合hover形成动画的区别"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://sakebow.cn/2023/12/26/YOLO/install/","path":"2023/12/26/YOLO/install/","title":"1660Ti+AlmaLinux9搭建YOLO5环境"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>transition与keyframes配合hover形成动画的区别 | 小小万事屋</title>
+<title>1660Ti+AlmaLinux9搭建YOLO5环境 | 小小万事屋</title>
   
 
 
@@ -271,7 +274,7 @@ mjx-container[display="true"] + br {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#keyframes%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%BA%8E%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">keyframes可以用于动画效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#transition%E7%94%A8%E4%BA%8E%E8%A1%A5%E8%B6%B3%E4%B8%8A%E8%BF%B0%E7%BC%BA%E9%99%B7"><span class="nav-number">3.</span> <span class="nav-text">transition用于补足上述缺陷</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">硬件配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C%EF%BC%9ACUDA%E9%80%82%E9%85%8D%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text">准备工作：CUDA适配性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E4%B8%8A%E6%89%8B%EF%BC%9ACUDA%E5%AE%89%E8%A3%85"><span class="nav-number">4.</span> <span class="nav-text">实际上手：CUDA安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E5%98%B4%E4%B8%80%E5%8F%A5%EF%BC%9A%E5%85%A8%E7%90%83%E4%B8%BB%E6%B5%81%E6%89%8D%E6%98%AF%E7%A8%B3%E4%B8%80%E6%89%8B"><span class="nav-number">5.</span> <span class="nav-text">多嘴一句：全球主流才是稳一手</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#cudnn%E6%89%8D%E6%98%AF%E7%9C%9F%E6%AD%A3%E7%9A%84%E7%8E%84%E5%AD%A6"><span class="nav-number">6.</span> <span class="nav-text">cudnn才是真正的玄学</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -342,7 +345,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2023/12/23/CSS/transition/">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2023/12/26/YOLO/install/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar/avatar.jpg">
@@ -355,12 +358,12 @@ mjx-container[display="true"] + br {
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="transition与keyframes配合hover形成动画的区别 | 小小万事屋">
+      <meta itemprop="name" content="1660Ti+AlmaLinux9搭建YOLO5环境 | 小小万事屋">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          transition与keyframes配合hover形成动画的区别
+          1660Ti+AlmaLinux9搭建YOLO5环境
         </h1>
 
         <div class="post-meta-container">
@@ -371,14 +374,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2023-12-23 22:48:00" itemprop="dateCreated datePublished" datetime="2023-12-23T22:48:00+08:00">2023-12-23</time>
+      <time title="创建时间：2023-12-26 08:58:45" itemprop="dateCreated datePublished" datetime="2023-12-26T08:58:45+08:00">2023-12-26</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-24 07:53:05" itemprop="dateModified" datetime="2023-12-24T07:53:05+08:00">2023-12-24</time>
+      <time title="修改时间：2023-12-27 12:54:50" itemprop="dateModified" datetime="2023-12-27T12:54:50+08:00">2023-12-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -386,7 +389,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
+          <a href="/categories/YOLO/" itemprop="url" rel="index"><span itemprop="name">YOLO</span></a>
         </span>
     </span>
 
@@ -397,14 +400,14 @@ mjx-container[display="true"] + br {
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>441</span>
+      <span>1.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -414,27 +417,73 @@ mjx-container[display="true"] + br {
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>并没有多高深的见解，本篇只是单纯的复习动画效果。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>看着图像识别好像很有意思的样子，于是就自己搭了一个深度学习服务器。虽然说是服务器，实际上也是垃圾佬套装搭一个勉强够看的显卡。</p>
 <span id="more"></span>
 
-<h1 id="keyframes可以用于动画效果"><a href="#keyframes可以用于动画效果" class="headerlink" title="keyframes可以用于动画效果"></a>keyframes可以用于动画效果</h1><p>对于<code>keyframes</code>，我们可以简单设定每个关键帧的具体状态，从而使得<code>hover</code>能够触发一些动画。</p>
-<p>比如，我们对<code>position</code>为<code>absolute</code>、<code>left</code>为<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="5.154ex" height="1.692ex" role="img" focusable="false" viewBox="0 -666 2278 748"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container>的<code>div</code>设定这样一个动画：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> move-<span class="attribute">right</span> {</span><br><span class="line">  from {</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">100%</span>;</span><br><span class="line">  }</span><br><span class="line">  to {</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">100%</span>;</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h1 id="硬件配置"><a href="#硬件配置" class="headerlink" title="硬件配置"></a>硬件配置</h1><p>硬件配置对于现在的服务器配置而言可能有些滑稽了。</p>
+<table>
+<thead>
+<tr>
+<th align="center">key</th>
+<th align="center">value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">CPU</td>
+<td align="center">e3-1245v3</td>
+</tr>
+<tr>
+<td align="center">GPU</td>
+<td align="center">GTX 1660Ti 6G(YESTON)</td>
+</tr>
+<tr>
+<td align="center">memory</td>
+<td align="center">SAMSUNG ECC 1600MHz 8Gx2</td>
+</tr>
+<tr>
+<td align="center">motherboard</td>
+<td align="center">B85itx(EPOX)</td>
+</tr>
+<tr>
+<td align="center">HardDisk</td>
+<td align="center">500G M2(IDK)</td>
+</tr>
+</tbody></table>
+<p>滑稽归滑稽，能用还是能用。对于垃圾佬来说，这个配置可不低了。</p>
+<h1 id="准备工作：CUDA适配性"><a href="#准备工作：CUDA适配性" class="headerlink" title="准备工作：CUDA适配性"></a>准备工作：CUDA适配性</h1><p>在这里格外强调一下，有个叫显卡适配性的东西，需要各位做好售前调研。官方也给出了适配性说明：<a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-gpus">点击此处跳转到该页面</a>。</p>
+<p>适配性说明文档中对所有适配的显卡进行了说明，包括很多系列。在这里我们以最大众的<code>GTX</code>（也就是<code>GeForce</code>系列）为例：</p>
+<p><img data-src="http://images.sakebow.cn/yolo/install/GeForce%E5%8A%9F%E8%83%BD%E5%8F%AF%E7%94%A8%E6%80%A7.png" alt="GeForce适配性说明"></p>
+<p>可以看到每种卡支持什么都已经列出来了。不过单纯看这个<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="2.891ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 1278 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(500,0)"></path><path data-c="39" d="M352 287Q304 211 232 211Q154 211 104 270T44 396Q42 412 42 436V444Q42 537 111 606Q171 666 243 666Q245 666 249 666T257 665H261Q273 665 286 663T323 651T370 619T413 560Q456 472 456 334Q456 194 396 97Q361 41 312 10T208 -22Q147 -22 108 7T68 93T121 149Q143 149 158 135T173 96Q173 78 164 65T148 49T135 44L131 43Q131 41 138 37T164 27T206 22H212Q272 22 313 86Q352 142 352 280V287ZM244 248Q292 248 321 297T351 430Q351 508 343 542Q341 552 337 562T323 588T293 615T246 625Q208 625 181 598Q160 576 154 546T147 441Q147 358 152 329T172 282Q197 248 244 248Z" transform="translate(778,0)"></path></g></g></g></svg></mjx-container>什么的可能有些难懂，这里需要额外观察这篇说明这些数字的文档：<a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capabilities">可用性数字说明</a>。</p>
+<p>其实也没什么相当值得注意的内容，只是单纯的告诉你哪些支持分布式共享内存，哪些支持更宽的位数，哪些支持<code>Tensor</code>核心等等内容。我们真正意义上关心的只有我们当前要买的卡，或者说已经有的卡是否在名单中。</p>
+<p>显然，<code>1660Ti</code>不在里面，只有一个<code>1650Ti</code>。这就相当尴尬了。</p>
+<p>你可能会有些迷惑，因为你明明在<code>CSDN</code>上看到有些网站写了这些玩意的，比如<a target="_blank" rel="noopener" href="https://blog.csdn.net/wyf2015fei/article/details/105995237">深度学习小记录——显卡1660Ti适配的Tensorflow和CUDA、CUDNN安装教程</a>，又比如<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45766925/article/details/107916680">Windows+GTX1660TI下安装CUDA 10.1&amp;cudnn 7.6.5 + tensorflow/pytorch</a></p>
+<p>官方并没有一个详细的说明，实际测试下来似乎也确实能用。所以，目前我的猜测是，对于部分主流设备，<code>1660Ti</code>展现出较强的适配性。但是部分非主流设备，<code>1660Ti</code>多少会有点问题。可以总结为：<strong>官方也不确定是不是完美支持</strong>。</p>
+<p>那就相当随机了。如果希望稳一手，还是买截图中存在的设备；如果希望极致性价比，买什么都行，但买上述列出设备之外的还是像开盲盒一样刺激。</p>
+<h1 id="实际上手：CUDA安装"><a href="#实际上手：CUDA安装" class="headerlink" title="实际上手：CUDA安装"></a>实际上手：CUDA安装</h1><p>这些教程都已经很多了，没什么别的可讲的，有必要的话各位参照一下其他的教程就行了。</p>
+<p>所以我在这里仅作总结：</p>
+<p>如果是<code>Windows</code>，直接下载好所有的安装包，然后逐个双击开始安装，然后等待到结束后开始下一个安装包的安装。整体流程简单方便，没有什么难点。</p>
+<p>如果是<code>Linux</code>，尤其是像我一样使用最新版的<code>AlmaLinux</code>的话，可能会遇到一点奇奇怪怪的问题。</p>
+<p>在<code>Linux</code>中安装过程与<code>Windows</code>不同。<code>Windows</code>是<code>GeForce</code>驱动与<code>CUDA</code>驱动分开安装的，<code>Linux</code>的<code>GeForce</code>驱动在<code>CUDA</code>驱动里面集成了，作为一个选项给用户提供安装选择。所以，如果你优先安装了<code>GeForce</code>驱动，那就不要再勾选<code>CUDA</code>中的<code>GeForce</code>驱动了。如果你没有安装<code>GeForce</code>驱动，那就别忘了勾选<code>CUDA</code>中的<code>GeForce</code>驱动了。</p>
+<p>由于我已经安装过了，所以这里利用人家<code>Ubuntu</code>的截图：</p>
+<p><img data-src="http://images.sakebow.cn/yolo/install/CUDA%E4%B8%AD%E9%9B%86%E6%88%90%E7%9A%84GeForce%E9%A9%B1%E5%8A%A8.png" alt="CUDA中集成的GeForce驱动"></p>
+<p>使用红色方框框住的部分就是<code>GeForce</code>驱动。如果你单独安装了，那就别勾选；如果直接安装的<code>CUDA</code>，那就勾选。</p>
+<p>于是等待就好了。</p>
+<h1 id="多嘴一句：全球主流才是稳一手"><a href="#多嘴一句：全球主流才是稳一手" class="headerlink" title="多嘴一句：全球主流才是稳一手"></a>多嘴一句：全球主流才是稳一手</h1><p>我安装的最新版。其实没有什么硬件限制，直接上最新的，没关系。有限制的是后来的框架底层，只要使用的是<code>PyTorch</code>、<code>Tensorflow</code>这两个主流深度学习框架就行。</p>
+<p>全球主流的话，那就一定会有一个人为这个主流做出一点贡献。这个人可能是开源社区大佬，也有可能是官方在编人员。</p>
+<p>如果你安装的是<code>PaddlePaddle</code>这类并没有在全球成为主流的深度学习框架的话，即使官方文档再怎么充分、再怎么细致，有些兼容问题还是没办法。比如<code>PaddlePaddle</code>，如果直接上最新的<code>CUDA</code>一定会出现问题，甚至<code>gcc</code>与<code>g++</code>版本较高也一定会出现问题。最坏的情况是设备全部重买，最好的情况是降版本重装。总之跟垃圾佬折腾硬件一样需要一步一个脚印地折腾。</p>
+<h1 id="cudnn才是真正的玄学"><a href="#cudnn才是真正的玄学" class="headerlink" title="cudnn才是真正的玄学"></a>cudnn才是真正的玄学</h1><p>如果说主流框架没有什么<code>CUDA</code>版本的限制，那么<code>cudnn</code>这类深度底层的东西就该有限制了吧？</p>
+<p>确实，有限制。但是怎么限制的，我还没弄明白。总之，如果你使用的显卡在适配性说明中并没有出现，但是<code>CUDA</code>顺利安装了，<code>cudnn</code>就会展现出它的作用。</p>
+<p>在执行测试的时候，使用命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python3 <span class="comment"># 尝试测试</span></span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; import torch <span class="comment"># 导入包</span></span></span><br><span class="line"><span class="meta prompt_">&gt;</span><span class="language-bash">&gt;&gt; torch.cuda.is_available() <span class="comment"># 检测显卡可用性</span></span></span><br><span class="line">true # 返回可用</span><br></pre></td></tr></table></figure>
 
-<p>如果<code>div</code>有颜色的话，那这个动画效果就像是让<code>div</code>飞过去了一样。当然如果速度慢一点就是飘过去的。</p>
-<p>但是，如果并不是那么巧，我们所设定的<code>left</code>如果只有<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 1000 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path></g></g></g></svg></mjx-container>，那么<code>div</code>就会停在一半。</p>
-<p>这个时候，如果把鼠标移出来，就会出现一个很尴尬的场景：</p>
-<p><code>div</code><strong>直接闪回了</strong>。那是因为鼠标移出后，<code>hover</code>事件立即就结束了，对应的<code>animation</code>设置也就直接结束了，<code>div</code>恢复到<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.186ex;" xmlns="http://www.w3.org/2000/svg" width="5.154ex" height="1.692ex" role="img" focusable="false" viewBox="0 -666 2278 748"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="2212" d="M84 237T84 250T98 270H679Q694 262 694 250T679 230H98Q84 237 84 250Z"></path></g><g data-mml-node="mn" transform="translate(778,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(1000,0)"></path></g></g></g></svg></mjx-container>的状态。</p>
-<p>这可并不美观。</p>
-<h1 id="transition用于补足上述缺陷"><a href="#transition用于补足上述缺陷" class="headerlink" title="transition用于补足上述缺陷"></a>transition用于补足上述缺陷</h1><p>这个时候，<code>transition</code>就来了，它可以通过设定</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> {</span><br><span class="line">  <span class="attribute">transition</span>: all <span class="number">1s</span> ease-out;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>这一切都看起来没问题。</p>
+<p>但是在执行<code>train.py</code>的时候，问题来了。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RuntimeError: CUDA error: no kernel image is available for execution on the device</span><br></pre></td></tr></table></figure>
 
-<p>这样就表示，无论是什么情况，只要某个事件触发了<code>div</code>的某种属性的改变，那么就会用<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.023ex;" xmlns="http://www.w3.org/2000/svg" width="2.192ex" height="1.529ex" role="img" focusable="false" viewBox="0 -666 969 676"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mi" transform="translate(500,0)"><path data-c="1D460" d="M131 289Q131 321 147 354T203 415T300 442Q362 442 390 415T419 355Q419 323 402 308T364 292Q351 292 340 300T328 326Q328 342 337 354T354 372T367 378Q368 378 368 379Q368 382 361 388T336 399T297 405Q249 405 227 379T204 326Q204 301 223 291T278 274T330 259Q396 230 396 163Q396 135 385 107T352 51T289 7T195 -10Q118 -10 86 19T53 87Q53 126 74 143T118 160Q133 160 146 151T160 120Q160 94 142 76T111 58Q109 57 108 57T107 55Q108 52 115 47T146 34T201 27Q237 27 263 38T301 66T318 97T323 122Q323 150 302 164T254 181T195 196T148 231Q131 256 131 289Z"></path></g></g></g></svg></mjx-container>的时间、逐渐变慢的改变速度，来实现这样一个动画效果。同时，按照同样的时间与速度缓慢恢复到原来的状态。</p>
-<blockquote>
-<p>需要注意的是，<code>transition</code>需要放在<code>div</code>下，而不是<code>div:hover</code>下。</p>
-</blockquote>
-<p>当然，<code>transition</code>也并不是完美的。比如，<code>linear-gradient</code>这类就没有办法。</p>
-<p>并不是说<code>transition</code>没有办法做到，而是说，<code>linear-gradient</code>本身就不是个好惹的家伙。因为他实际上是<strong>图片</strong>，所以定了就是定了。</p>
+<p>你可能认为是环境问题，实际上就是环境不兼容罢了。但比较奇怪的是，没有环境兼容。我也做过很多次测试，但是就是不行。</p>
+<p>只能说，全是玄学。</p>
+<p>删除<code>cudnn</code>后一切正常，显卡也确实比苹果电脑<code>M1</code>的核显要快上<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.532ex" role="img" focusable="false" viewBox="0 -677 500 677"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g></g></svg></mjx-container>倍左右，也不确定是否正常。</p>
+<p>凑合着用吧。</p>
 
     </div>
 
@@ -452,7 +501,7 @@ mjx-container[display="true"] + br {
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://sakebow.cn/2023/12/23/CSS/transition/" title="transition与keyframes配合hover形成动画的区别">http://sakebow.cn/2023/12/23/CSS/transition/</a>
+      <a href="http://sakebow.cn/2023/12/26/YOLO/install/" title="1660Ti+AlmaLinux9搭建YOLO5环境">http://sakebow.cn/2023/12/26/YOLO/install/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -461,21 +510,21 @@ mjx-container[display="true"] + br {
 </div>
 
           <div class="post-tags">
-              <a href="/tags/css/" rel="tag"># css</a>
-              <a href="/tags/experience/" rel="tag"># experience</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/YOLO5/" rel="tag"># YOLO5</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/12/23/custom/transparent-post/" rel="prev" title="为post设置透明度">
-                  <i class="fa fa-angle-left"></i> 为post设置透明度
+                <a href="/2023/12/26/custom/background-dynamic-more/" rel="prev" title="Hexo设置更多的动态背景图">
+                  <i class="fa fa-angle-left"></i> Hexo设置更多的动态背景图
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/12/25/custom/background-dynamic/" rel="next" title="Hexo设置少量固定的动态背景图">
-                  Hexo设置少量固定的动态背景图 <i class="fa fa-angle-right"></i>
+                <a href="/2023/12/26/WebGIS/ruoyi-admin-openlayer/" rel="next" title="RuoYi框架结合OpenLayer实现地图模块">
+                  RuoYi框架结合OpenLayer实现地图模块 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
