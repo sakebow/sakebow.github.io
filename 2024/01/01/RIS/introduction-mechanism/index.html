@@ -36,13 +36,14 @@
     <meta name="description" content="前言我们在了解了衰减模型的基础上，了解到了信号在接触RIS之前与之后所产生的损耗，接下来，我们将继续探讨RIS的机理，并尝试挖掘RIS可做的内容。 同样的，正文将以相对正经的文字编辑，在前言与附录中将给出类似博客一样口吻。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RIS方向的研究（二）：RIS硬件与机理">
-<meta property="og:url" content="http://sakebow.cn/2023/12/29/RIS/introduction-mechanism/index.html">
+<meta property="og:url" content="http://sakebow.cn/2024/01/01/RIS/introduction-mechanism/index.html">
 <meta property="og:site_name" content="小小万事屋">
 <meta property="og:description" content="前言我们在了解了衰减模型的基础上，了解到了信号在接触RIS之前与之后所产生的损耗，接下来，我们将继续探讨RIS的机理，并尝试挖掘RIS可做的内容。 同样的，正文将以相对正经的文字编辑，在前言与附录中将给出类似博客一样口吻。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://images.sakebow.cn/RIS/introduction-menchanism/RIS%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84.png">
-<meta property="article:published_time" content="2023-12-29T07:04:25.000Z">
-<meta property="article:modified_time" content="2023-12-30T14:10:11.380Z">
+<meta property="og:image" content="http://images.sakebow.cn/RIS/introduction-menchanism/%E5%9F%BA%E7%AB%99%E6%A0%B9%E6%8D%AE%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BE%9BRIS%E4%BC%98%E5%8C%96.png">
+<meta property="article:published_time" content="2024-01-01T07:04:25.000Z">
+<meta property="article:modified_time" content="2024-01-01T13:08:46.308Z">
 <meta property="article:author" content="sakebow">
 <meta property="article:tag" content="theory">
 <meta property="article:tag" content="introduction">
@@ -50,11 +51,11 @@
 <meta name="twitter:image" content="http://images.sakebow.cn/RIS/introduction-menchanism/RIS%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84.png">
 
 
-<link rel="canonical" href="http://sakebow.cn/2023/12/29/RIS/introduction-mechanism/">
+<link rel="canonical" href="http://sakebow.cn/2024/01/01/RIS/introduction-mechanism/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://sakebow.cn/2023/12/29/RIS/introduction-mechanism/","path":"2023/12/29/RIS/introduction-mechanism/","title":"RIS方向的研究（二）：RIS硬件与机理"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://sakebow.cn/2024/01/01/RIS/introduction-mechanism/","path":"2024/01/01/RIS/introduction-mechanism/","title":"RIS方向的研究（二）：RIS硬件与机理"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>RIS方向的研究（二）：RIS硬件与机理 | 小小万事屋</title>
@@ -222,7 +223,7 @@ mjx-container[display="true"] + br {
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">11</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">12</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">11</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">6</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">13</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -291,7 +292,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -344,7 +345,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2023/12/29/RIS/introduction-mechanism/">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/01/01/RIS/introduction-mechanism/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar/avatar.jpg">
@@ -372,15 +373,9 @@ mjx-container[display="true"] + br {
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2023-12-29 15:04:25" itemprop="dateCreated datePublished" datetime="2023-12-29T15:04:25+08:00">2023-12-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-30 22:10:11" itemprop="dateModified" datetime="2023-12-30T22:10:11+08:00">2023-12-30</time>
+      <time title="创建时间：2024-01-01 15:04:25 / 修改时间：21:08:46" itemprop="dateCreated datePublished" datetime="2024-01-01T15:04:25+08:00">2024-01-01</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -399,14 +394,14 @@ mjx-container[display="true"] + br {
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>602</span>
+      <span>792</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
+      <span>3 分钟</span>
     </span>
 </div>
 
@@ -422,14 +417,23 @@ mjx-container[display="true"] + br {
 
 <h1 id="RIS项目背景"><a href="#RIS项目背景" class="headerlink" title="RIS项目背景"></a>RIS项目背景</h1><p><code>RIS</code>作为一种超材料，为无线信号的反射带来了极大的便利。具体而言，<code>RIS</code>表面上分布着许多反射单元，每个反射单元灵活的控制系数变化来最大化传输的信号<sup><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9348585">[1]</a></sup>。</p>
 <p>通过在无线网络中密集部署<code>IRSs</code>，灵活地协调反射发射机和接收器之间的信号传播，从而为无线信道衰落损耗和干扰问题提供了一种新的手段<sup><a target="_blank" rel="noopener" href="https://ieeexplore.ieee.org/document/9723438">[2]</a></sup>。</p>
-<p><code>IRS</code>硬件架构如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示。</p>
+<p><code>IRS</code>硬件架构如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示<sup><a target="_blank" rel="noopener" href="https://d.wanfangdata.com.cn/thesis/ChJUaGVzaXNOZXdTMjAyMzEyMjISCUQwMjgwNzI3MRoIbmFkeDIxZDM%3D">[3]</a></sup>。</p>
 <p><img data-src="http://images.sakebow.cn/RIS/introduction-menchanism/RIS%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84.png" alt="IRS硬件架构"></p>
 <div style="color:#999;padding:2px;text-align:center;font-size:14px;">
   图1 RIS硬件架构
 </div>
 
+<p>利用如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示的<code>IRS</code>设备，信号射到反射表面时，反射单元将调制后的信号反射到指定的位置。同时，每个反射单元都由独立的控制信号进行控制。其中，控制信号由基站发送，并遵循一定的反馈机制进行优化，如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g></g></svg></mjx-container>所示<sup><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2006.03377.pdf">[4]</a></sup>。</p>
+<p><img data-src="http://images.sakebow.cn/RIS/introduction-menchanism/%E5%9F%BA%E7%AB%99%E6%A0%B9%E6%8D%AE%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BE%9BRIS%E4%BC%98%E5%8C%96.png" alt="基站根据反馈提供RIS优化"></p>
+<div style="color:#999;padding:2px;text-align:center;font-size:14px;">
+  图2 基站根据反馈进行优化
+</div>
+
+<p>基于</p>
 <h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Huang C., Zappone A., Alexandropoulos G., Debbah M., Yuen C., Reconfigurable intelligent surfaces for energy efficiency in wireless communication[C]. IEEE Transactions on Wireless Communications, IEEE 92nd Vehicular Technology Conference (VTC2020-Fall), Victoria, BC, Canada, 2020:1-5.</p>
 <p>[2] Qi F., Liu Q., Li W., Yu P., Qiu X.Enhanced 5G Mobile Broadcasting Service With Shape-Adaptive RIS[J].IEEE Transactions on Broadcasting 2022,68(3):704-711.</p>
+<p>[3] 邵智敏. 基于智能反射表面的无线信道传输技术研究[D]. 杭州电子科技大学,2022.</p>
+<p>[4] Bjrnson E., Zdogan Z., Larsson E.Reconfigurable Intelligent Surfaces: Three Myths and Two Critical Questions[J].IEEE Communications Magazine.2020, 58(12): 90-96.</p>
 <h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>在这里将详细展开正文中没能说清楚的东西。</p>
 <h2 id="RIS为什么叫做超材料"><a href="#RIS为什么叫做超材料" class="headerlink" title="RIS为什么叫做超材料"></a>RIS为什么叫做超材料</h2><p>自然界中能够找到的材料（或者加工的材料），都是原子通过已知的规则组合在一起，都遵循自然界的物理规律。比如，粗糙表面是漫反射，而且漫反射的方向无法控制。超材料则是完全依靠人工的设计将原子组织在一起，所以具有那些自然材料所不具备的性质。比如<code>RIS</code>能够控制反射方向。</p>
 <h2 id="RIS？IRS？"><a href="#RIS？IRS？" class="headerlink" title="RIS？IRS？"></a>RIS？IRS？</h2><p><code>RIS</code>全称<code>Reconfigurable Intelligent  Surfaces</code>，直译是<strong>可重构智能表面</strong>，大多也都将他称为<strong>智能反射表面</strong>。</p>
@@ -452,7 +456,7 @@ mjx-container[display="true"] + br {
   </li>
   <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://sakebow.cn/2023/12/29/RIS/introduction-mechanism/" title="RIS方向的研究（二）：RIS硬件与机理">http://sakebow.cn/2023/12/29/RIS/introduction-mechanism/</a>
+      <a href="http://sakebow.cn/2024/01/01/RIS/introduction-mechanism/" title="RIS方向的研究（二）：RIS硬件与机理">http://sakebow.cn/2024/01/01/RIS/introduction-mechanism/</a>
   </li>
   <li class="post-copyright-license">
       <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -469,7 +473,7 @@ mjx-container[display="true"] + br {
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/12/29/RIS/introduction-loss/" rel="prev" title="RIS方向的研究（一）：损耗模型知识储备">
+                <a href="/2024/01/01/RIS/introduction-loss/" rel="prev" title="RIS方向的研究（一）：损耗模型知识储备">
                   <i class="fa fa-angle-left"></i> RIS方向的研究（一）：损耗模型知识储备
                 </a>
             </div>
@@ -496,7 +500,7 @@ mjx-container[display="true"] + br {
   </div>
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2023</span>
+    <span itemprop="copyrightYear">2024</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -508,14 +512,14 @@ mjx-container[display="true"] + br {
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">14k</span>
+    <span title="站点总字数">16k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">50 分钟</span>
+    <span title="站点阅读时长">59 分钟</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
