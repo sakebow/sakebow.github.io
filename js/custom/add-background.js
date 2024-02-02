@@ -146,28 +146,27 @@
   // --------------------------------------
   let count = 0;
   const imgUrls = { 'pc': [
-    '/race-miku.jpg', '/masuri-miku.jpg', '/planet-miku.jpg', '/4mikus.jpg', '/84672028_p0.jpg', '/84932457_p0.png'
+    'race-miku.jpg', 'masuri-miku.jpg', 'planet-miku.jpg', '4mikus.jpg', '84672028_p0.jpg', '84932457_p0.png',
+    'touhou-red.jpg', 'shojo-white.jpg', 'reimu-christmas.jpg', '2020-miku.jpg', 'yae-chiyapao.jpg'
   ] }
   document.onreadystatechange = function () {
     if (document.readyState === 'complete') {
-      console.log('done');
       let imgChangeInterval = null;
       let imageChangeTimeOut = setTimeout(function () {
-        console.log('timeout');
         if (imgChangeInterval != null) {
           clearInterval(imgChangeInterval);
           imgChangeInterval = null;
         }
         imgChangeInterval = setInterval(function () {
-          const imageDivElement = document.getElementById("image-scroller").children[count % 4];
+          const imageDivElement = document.getElementById("image-scroller").children[count];
           let sampleImg = Math.floor(Math.random() * imgUrls[DEVICES[0]].length);
           imageDivElement.innerHTML = "<img" +
-            " src='" + BASE_URL + DEVICES[0] + imgUrls[DEVICES[0]][sampleImg] + "'" +
+            " src='" + BASE_URL + DEVICES[0] + '/' + imgUrls[DEVICES[0]][sampleImg] + "'" +
             " style='width: 100%; height: 100%;'" +
             " alt='network broken?' />";
           console.log(`changed, now is ${count % 4} and ${imgUrls[DEVICES[0]][sampleImg]}`) // no
-          ++count;
-        }, 64000 / 4);
+          count = (count === 3 ? 0 : count + 1);
+        }, 16000);
         clearTimeout(imageChangeTimeOut);
       }, 2000);
     }
