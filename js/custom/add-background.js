@@ -144,7 +144,7 @@
 
   // set background image url after rolling
   // --------------------------------------
-  let count = 0;
+  let count = 0, updateIndex = 0;
   const imgUrls = { 'pc': [
     'race-miku.jpg', 'masuri-miku.jpg', 'planet-miku.jpg', '4mikus.jpg', '84672028_p0.jpg', '84932457_p0.png',
     'touhou-red.jpg', 'shojo-white.jpg', 'reimu-christmas.jpg', '2020-miku.jpg', 'yae-chiyapao.jpg'
@@ -158,15 +158,15 @@
           imgChangeInterval = null;
         }
         imgChangeInterval = setInterval(function () {
-          const imageDivElement = document.getElementById("image-scroller").children[count];
+          updateIndex = (count + 2) % 4
+          const imageDivElement = document.getElementById("image-scroller").children[updateIndex];
           let sampleImg = Math.floor(Math.random() * imgUrls[DEVICES[0]].length);
           imageDivElement.innerHTML = "<img" +
             " src='" + BASE_URL + DEVICES[0] + '/' + imgUrls[DEVICES[0]][sampleImg] + "'" +
             " style='width: 100%; height: 100%;'" +
             " alt='network broken?' />";
-          console.log(`changed, now is ${count % 4} and ${imgUrls[DEVICES[0]][sampleImg]}`) // no
-          count = (count === 3 ? 0 : count + 1);
-        }, 16000);
+          count = (count + 1) % 4;
+        }, 64000 / 4);
         clearTimeout(imageChangeTimeOut);
       }, 2000);
     }
