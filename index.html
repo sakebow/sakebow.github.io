@@ -217,7 +217,7 @@ mjx-container[display="true"] + br {
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">18</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">8</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">18</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">22</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">9</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">21</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -285,18 +285,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -328,6 +328,397 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/02/14/custom/linux-change-cursor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="sakebow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小万事屋">
+      <meta itemprop="description" content="一个似乎什么都想做的小站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 小小万事屋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/02/14/custom/linux-change-cursor/" class="post-title-link" itemprop="url">AlmaLinux更换鼠标样式为Windows样式</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-02-14 16:08:30 / 修改时间：21:05:01" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/custom/" itemprop="url" rel="index"><span itemprop="name">custom</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>只不过是突发奇想，想着<code>Windows</code>能够使用动态指针，是不是<code>Linux</code>也有呢？于是尝试了一下。当然，这也是一次试试就逝世。</p>
+<p>感谢各位开源社区大佬的辛苦付出，尤其感谢<a target="_blank" rel="noopener" href="https://blog.csdn.net/">CSDN</a>用户<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41172785">~yuyu</a>的文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41172785/article/details/89063164">将Windows上的鼠标指针主题移植到Linux上</a>、<a target="_blank" rel="noopener" href="https://stackoverflow.com/">StackOverflow</a>上对于<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50602024/error-while-loading-shared-libraries-libmagickcore-7-q16hdri-so-6">libMagickCore-7.Q16HDRI.so.6</a>的讨论</p>
+<h1 id="先看看条件与依赖"><a href="#先看看条件与依赖" class="headerlink" title="先看看条件与依赖"></a>先看看条件与依赖</h1><p>其实在<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41172785/article/details/89063164">将Windows上的鼠标指针主题移植到Linux上</a>一文中已经告诉了基本的方案。为了方便读者们不用再去翻来翻去的对照学习，这里就先回顾一下大佬们说了什么。</p>
+<p>配置方案无非就是分几步走：</p>
+<ul>
+<li>先下载自己中意的指针包</li>
+<li>在<code>Windows</code>端下载<code>CursorXP</code></li>
+<li>利用<code>CursorXP</code>设置鼠标</li>
+<li>在<code>Linux</code>端配置<code>perl</code>环境，</li>
+<li>在<code>linux</code>端执行转换命令</li>
+<li>在应用鼠标主题的系统中下载<code>gnome-tweak</code></li>
+<li>将转换结果放入指定的文件夹</li>
+<li>在<code>gnome-tweak</code>上选择主题</li>
+</ul>
+<p>听起来很简单对吧？但为了这<strong>简单</strong>的几个步骤，我的春节<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 500 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path></g></g></g></svg></mjx-container>天休假，有满满<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.532ex" role="img" focusable="false" viewBox="0 -677 500 677"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g></g></svg></mjx-container>天在配这鬼玩意。</p>
+<p>首先粗略看一下这些个步骤，需要我们<strong>不止有一个系统</strong>，无论是虚拟机还是双系统。</p>
+<p>然后呢，系统也是有要求的，比如需要<code>gnome</code>桌面。倒也不是<code>KDE</code>没有牌面，只是单纯的转换命令只能转为<code>gnome</code>能识别的<code>x11-cursor</code>格式。这也说明，<code>KDE</code>用来做美化的确实不如<code>gnome</code>多。（悲）</p>
+<p>其他的环境倒是没什么可说的。就近的几个<code>Linux</code>发行版都会集成，所以也不用担心要不要<code>miniconda</code>或者<code>anaconda</code>之类的。反倒是安装之后，系统可能会查歪了你正在用的<code>perl</code>，导致安装的东西也不知道在哪。</p>
+<h1 id="第一步：测试最终效果"><a href="#第一步：测试最终效果" class="headerlink" title="第一步：测试最终效果"></a>第一步：测试最终效果</h1><p>你可能很惊讶，什么都没开始做就已经能测试效果了。</p>
+<p>首先感谢<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41172785">~yuyu</a>，她为我们开放了破解版的<code>CursorXP</code>以及各种需要的文件，下载链接在这里：</p>
+<blockquote>
+<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1mXcBK_a2U2taOUSaJoeIGQ">https://pan.baidu.com/s/1mXcBK_a2U2taOUSaJoeIGQ</a></p>
+<p>提取码：2b1p</p>
+</blockquote>
+<p>我们可以首先下载其中可以使用的初音壁纸<code>Miku.tar.gz</code>。先保存到<code>~/Downloads/</code>文件夹下，然后解压：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo tar -zxvf ~/Downloads/Miku.tar.gz -C /usr/share/icons</span></span><br></pre></td></tr></table></figure>
+
+<p>当然，哪怕没有<code>gnome-tweak</code>，现在也可以通过一些设置方法查看效果了。</p>
+<p>不过为了保险起见，我们还是先下载一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo yum install gnome-tweak -y</span></span><br></pre></td></tr></table></figure>
+
+<p>打开<code>gnome-tweak</code>主界面，选择侧边栏的<code>Appearance</code>一栏中找到<code>Cursor</code>，对应的下拉框选项中就会有<code>Miku</code>的选项，就像这样：</p>
+<p><img data-src="http://images.sakebow.cn/custom/linux-change-cursor/%E6%9F%A5%E7%9C%8B%E6%95%88%E6%9E%9C.png" alt="查看效果"></p>
+<p>这些自定义的主题选中即生效，非常方便，如下图所示。</p>
+<p><img data-src="http://images.sakebow.cn/custom/linux-change-cursor/%E9%BC%A0%E6%A0%87%E6%A0%B7%E5%BC%8F.jpg" alt="查看效果"></p>
+<p><del>实在不知道怎么截图的时候把鼠标也给截进去，所以就这样了</del></p>
+<p>那既然知道会有什么效果，也知道最终的文件大概是什么结构，那我们是否成功也就多了一个判断条件。接下来我们就正式开始吧。</p>
+<h1 id="第二步：使用CursorXP修改鼠标样式"><a href="#第二步：使用CursorXP修改鼠标样式" class="headerlink" title="第二步：使用CursorXP修改鼠标样式"></a>第二步：使用CursorXP修改鼠标样式</h1><p>这一步确实是一个非常考验耐心的一步。你的每一个鼠标都需要一个个对照着进行设置，直到所有的都设置完。</p>
+<h2 id="CurosrXP安装"><a href="#CurosrXP安装" class="headerlink" title="CurosrXP安装"></a>CurosrXP安装</h2><p><code>CursorXP</code>这个软件收费是很合理的，因为功能很强大。但至于付不付钱，各位就自行判断了。本着学习的目的，相关的内容是不能在明面上传播的。所以，请允许我这么介绍：</p>
+<p>还是上面的百度网盘链接，我们下载<code>CursorXP</code>压缩包，下好后解压会发现有好几个文件。其中，最重要的实际上就只有两个：<code>setup.exe</code>与<code>keygen.exe</code>。</p>
+<p>双击<code>setup.exe</code>就能够开始安装<code>CursorXP</code>软件，这个没什么好说的。就只是接受许可条款后会立即跳转到输入序列号的页面。这个时候，另一个软件就是为了解除一些麻烦而设计的。双击后，复制其中的某个超长随机字符串，就能够粘贴过来，最终成功安装。</p>
+<h2 id="CursorXP使用"><a href="#CursorXP使用" class="headerlink" title="CursorXP使用"></a>CursorXP使用</h2><p>虽然说我可能在安装方面说的有点难懂，但破解过<code>Adobe</code>、<code>AutoDesk</code>等软件的人应该明白我想说什么。所以，接下来就开始使用吧。</p>
+<p>为了方便（<del>其实也是出于个人喜好</del>），我这里也就使用<a target="_blank" rel="noopener" href="https://www.bilibili.com/">B站</a>UP主<a target="_blank" rel="noopener" href="https://space.bilibili.com/36254981">一葉A4</a>提供的<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1P7sHbmXYOA-1MGu5lYQxSQ&pwd=7xny">拉菲鼠标主题</a></p>
+<blockquote>
+<p>P.S.：拉菲鼠标主题链接点击后直接跳转到百度网盘页面，点击提取即可看到内容。如果想看预览，则需要参考UP主的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1k94y1v7o6/">这部介绍视频</a></p>
+</blockquote>
+<p>然后，就打开我们刚刚安装好的<code>CursorXP</code>进行设置：</p>
+<p><img data-src="http://images.sakebow.cn/custom/linux-change-cursor/CursorXP%E8%AE%BE%E7%BD%AE%E6%A0%B7%E5%BC%8F.png" alt="CursorXP设置鼠标样式"></p>
+<p>需要注意的是，第<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 500 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path></g></g></g></svg></mjx-container>步设置热点主要是为了让鼠标的哪个点能够用于触发动作。观察拉菲这套鼠标主题可以发现，部分元素有着相当明显的热点定位。比如鼠标指针明显是对应右上角的小图标，而不是大大的拉菲。如果热点设置错误的话，很有可能会出现一些相当不友好的体验。</p>
+<p>除此之外，也可能是破解版的原因，第<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 500 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path></g></g></g></svg></mjx-container>步设置热点的过程中往往并不能直接生效，需要另外再次设置才能生效。所以第<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 500 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path></g></g></g></svg></mjx-container>步可能需要执行两次才能实现。另外，使用起来也并不是很顺畅，还有很多难以言说的奇怪bug，比如应用后不生效、重启后所有修改丢失等等问题。所以需要在第<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 500 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path></g></g></g></svg></mjx-container>步执行后顺着红色箭头观察预览图中的热点（<em>也就是十字叉的位置</em>）是否与你所希望的位置相符。如果不符就需要反复调整。</p>
+<p>经过以上步骤，我们就拿到了<code>laffey.CurXPTheme</code>文件了。当然，这个文件名是自定义的，并不是自适应的。</p>
+<h1 id="第三步：Linux端环境搭建与命令执行"><a href="#第三步：Linux端环境搭建与命令执行" class="headerlink" title="第三步：Linux端环境搭建与命令执行"></a>第三步：Linux端环境搭建与命令执行</h1><p>这个步骤经历了太多磨难，所以也很难说到底是哪个步骤出了问题。所以，为了解除疑虑，我们直接采用最保守的方法：反复测试。也就是说，无论什么情况，按照下面说的这个步骤，大致上是不会有误的。</p>
+<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><p>测试过程中采用阿里云<code>ECS</code>服务器，选用<code>Ubuntu</code>的<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="5.154ex" height="1.581ex" role="img" focusable="false" viewBox="0 -677 2278 699"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(500,0)"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(1000,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(1278,0)"></path><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z" transform="translate(1778,0)"></path></g></g></g></svg></mjx-container>版本，并且是重新安装的、什么多余的包都没有的系统。</p>
+<p>其中命令包含：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">apt-get update &amp;&amp; apt-get upgrade -y &amp;&amp; apt-get dist-upgrade -y</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">apt-get install libconfig-inifiles-perl perlmagick imagemagick x11-apps unzip -y</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">chmod</span> u+x 104659-sd2xc-2.5.pl</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./104659-sd2xc-2.5.pl --install laffey.CurXPTheme</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>是的</strong>，<strong>没错</strong>，<strong>我为了这<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.532ex" role="img" focusable="false" viewBox="0 -677 500 677"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g></g></svg></mjx-container>行命令花了<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.532ex" role="img" focusable="false" viewBox="0 -677 500 677"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g></g></svg></mjx-container>天。</strong></p>
+<p>其他的命令就单纯是用<code>scp</code>移动文件了。</p>
+<p>这几行代码甚至都没有解析的余地。硬是要解析的话，第一行就是新系统需要<code>update</code>一下才能开始安装，然后就是根据文件<code>104659-sd2xc-2.5.pl</code>中所展示的说明补包，再赋予可执行权限，最后执行。</p>
+<p>执行过程中，<code>laffey.CurXPTheme</code>参数就是我们在第一步中利用<code>CursorXP</code>另存为的鼠标指针主题，执行之后将生成<code>laffey.tar.gz</code>压缩包，里面是<code>x11-cursor</code>文件，包含一个存放资源文件的<code>cursor</code>文件夹与一个声明鼠标指针主题的声明文件<code>index.theme</code>。而<code>--install</code>参数则是将<code>laffey.tar.gz</code>解压到<code>~/.icons/</code>文件夹下，从而使得鼠标指针主题能够直接生效。</p>
+<p>那么，我这<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.532ex" role="img" focusable="false" viewBox="0 -677 500 677"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z"></path></g></g></g></svg></mjx-container>天都在干什么呢？没错，我最开始的时候没有<code>Ubuntu</code>。</p>
+<blockquote>
+<p>哼，哼，哼，啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊（<em>首</em>）</p>
+</blockquote>
+<p>那么其他系统呢？当然，文件<code>104659-sd2xc-2.5.pl</code>也给出了说明：<code>Fedora</code>也能用。那就来试试。</p>
+<h2 id="Fedora"><a href="#Fedora" class="headerlink" title="Fedora"></a>Fedora</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">yum install ImageMagick ImageMagick-perl perl-Config-IniFiles xcursorgen unzip -y</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">chmod</span> u+x 104659-sd2xc-2.5.pl</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./104659-sd2xc-2.5.pl --install laffey.CurXPTheme</span></span><br></pre></td></tr></table></figure>
+
+<p>由于<code>yum</code>并不像<code>apt</code>需要<code>update</code>，这个命令也就更短了。</p>
+<h2 id="其他系统均失败"><a href="#其他系统均失败" class="headerlink" title="其他系统均失败"></a>其他系统均失败</h2><p>很不幸，除了这两个以外，任何系统都不行。主要是包太难配了。</p>
+<p>目前测试了<code>AlmaLinux</code>与<code>RockyLinux</code>，虽然都同为<code>yum</code>源，但是有些包就是缺。于是考虑从源码角度执行。下面是大致过程：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo yum install perl-CPAN <span class="comment"># cpan下载包</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">cpan <span class="comment"># 用于换源</span></span></span><br><span class="line"><span class="meta prompt_">cpan[1]&gt; </span><span class="language-bash">o conf urllist pop <span class="comment"># 删除原有源</span></span></span><br><span class="line"><span class="meta prompt_">cpan[2]&gt; </span><span class="language-bash">o conf commit <span class="comment"># 保存删除</span></span></span><br><span class="line"><span class="meta prompt_">cpan[3]&gt; </span><span class="language-bash">o conf urllist push http://mirrors.ustc.edu.cn/CPAN/ <span class="comment"># 新增中科大源</span></span></span><br><span class="line"><span class="meta prompt_">cpan[4]&gt; </span><span class="language-bash">o conf commit <span class="comment"># 保存新增</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">perl -MCPAN -e <span class="string">"install Image::Magick"</span> <span class="comment"># 安装</span></span></span><br><span class="line"><span class="meta prompt_">log[perl]&gt; </span><span class="language-bash"><span class="comment"># include &lt;MagickCore/MagickCore.h&gt; -&gt; No Such File（日志显示：没有这个头文件）</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo yum install ImageMagick-perl -y <span class="comment"># 补包</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo rpm -ivh https://repo.alimalinux.org/almalinux9/synergy/x86_64/os/Packages/xcursorgen-1.0.7-6.el9.x86_64.rpm <span class="comment"># 再补包</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./104659-sd2xc-2.5.pl --install laffey.CurXPTheme <span class="comment"># 执行</span></span></span><br><span class="line">log[./]&gt; 0 # 日志显示转成功的文件数量，为0表示什么都没转</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">tar -zxvf laffey.tar.gz &amp;&amp; <span class="built_in">ls</span> laffey/cursor <span class="comment"># 解压并查看资源文件</span></span></span><br><span class="line"><span class="meta prompt_">log[tar]&gt; </span><span class="language-bash"><span class="string">''</span> <span class="comment"># 什么都没有</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo dnf install ImageMagick ImageMagick-perl perl-Config-IniFiles xcursorgen unzip -y <span class="comment"># 又补包</span></span></span><br><span class="line"><span class="meta prompt_">log[dnf]&gt; </span><span class="language-bash">xcursorgen not found <span class="comment"># 没有这个东西，尝试了dnf search，也没有</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./104659-sd2xc-2.5.pl --install laffey.CurXPTheme <span class="comment"># 执行</span></span></span><br><span class="line">log[./]&gt; Exception 420: no decode delegate for this image format `PNG` # 直接报错</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo yum install libjpeg libjpeg-devel libpng libpng-devel libtiff libtiff-devel libungif libungif-devel -y <span class="comment"># 又双叒叕补包</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">./104659-sd2xc-2.5.pl --install laffey.CurXPTheme <span class="comment"># 执行</span></span></span><br><span class="line">log[./]&gt; Exception 420: no decode delegate for this image format `PNG` # 没效果</span><br></pre></td></tr></table></figure>
+
+<p>所以，也就到此为止了。目前只有<code>Ubuntu</code>与<code>Fedora</code>两个系统是可以使用的。</p>
+<h1 id="第四步：应用主题"><a href="#第四步：应用主题" class="headerlink" title="第四步：应用主题"></a>第四步：应用主题</h1><p>当然，我当前安装的<code>AlmaLinux</code>已经运行了有些日子了，不可能说换就换。所以，这上面的操作都是直接用<code>ECS</code>完成的。所以，从<code>ECS</code>上下载下来：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">scp root@www.sakebow.cn:/data/www/images/laffey.tar.gz ~/Downloads/</span></span><br></pre></td></tr></table></figure>
+
+<p>然后运用：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo tar -zxvf ~/Downloads/laffey.tar.gz -C /usr/share/icons/</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来就可以使用<code>gnome-tweak</code>应用这个主题了！</p>
+<p><img data-src="http://images.sakebow.cn/custom/linux-change-cursor/%E8%AE%BE%E7%BD%AE%E6%88%90%E5%8A%9F.jpg" alt="设置成功"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/02/14/experience/cannot-open-chrome/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="sakebow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小万事屋">
+      <meta itemprop="description" content="一个似乎什么都想做的小站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 小小万事屋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/02/14/experience/cannot-open-chrome/" class="post-title-link" itemprop="url">linuxqq关闭主面板后无法再次打开的问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-02-14 16:08:30 / 修改时间：16:20:28" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/experience/" itemprop="url" rel="index"><span itemprop="name">experience</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>350</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>被<code>Windows</code>给贯坏了，因为<code>Windows</code>重启之后能够始终加载上一次没能关闭的页面，这就让我使用这种方法保存当前不想关、收藏了也容易忘的页面。结果这种操作直接导致<code>Linux</code>上的<code>chrome</code>就直接启动不了。记录一下解决过程。</p>
+<h1 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h1><p>既然浏览器无法启动，那么应该怎么查看日志呢？不知道日志就在那乱整，就跟瞎子一样。</p>
+<p>就直接命令行启动吧：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/usr/bin/google-chrome</span></span><br></pre></td></tr></table></figure>
+
+<p>当然，无法启动。但我这边的提示是：当前浏览器被另一个进程占用。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>既然是占用，那就像是<code>vim</code>编辑后意外退出产生的<code>.swp</code>文件一样，给浏览器锁住了。那么删除这个文件就好。</p>
+<p>删除什么呢？</p>
+<p>在<a target="_blank" rel="noopener" href="https://askubuntu.com/questions/476918/google-chrome-wont-start-after-changing-hostname">这里</a>找到了答案：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/.config/google-chrome/Singleton*</span><br></pre></td></tr></table></figure>
+
+<p>这里面其实包含了三个文件：</p>
+<p><code>SingletonCookie</code>、<code>SingletonLock</code>以及<code>SingletonSocket</code>。删除这三个文件后，成功打开。</p>
+<p>可惜这种解决方案没办法保存上一次没能关掉的页面了。</p>
+<h1 id="推广到Edge"><a href="#推广到Edge" class="headerlink" title="推广到Edge"></a>推广到Edge</h1><p>既然<code>edge</code>与<code>chrome</code>都是一样的内核，那是不是意味着这种方法能够通用？</p>
+<p>果不其然发现了这个文件夹<code> ~/.config/microsoft-edge</code>，于是执行操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~/.config/microsoft-edge/Singleton*</span><br></pre></td></tr></table></figure>
+
+<p>解决问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/02/14/experience/cannot-open-linux-qq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="sakebow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小万事屋">
+      <meta itemprop="description" content="一个似乎什么都想做的小站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 小小万事屋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/02/14/experience/cannot-open-linux-qq/" class="post-title-link" itemprop="url">linuxqq关闭主面板后无法再次打开的问题</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-02-14 16:08:30 / 修改时间：16:12:33" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/experience/" itemprop="url" rel="index"><span itemprop="name">experience</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>309</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>听说QQ出了<code>linux</code>版，所以来试试。结果试试就逝世。这次记录一个关闭后没办法打开的解决办法。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>刚安装好后如果点了关闭，系统托盘里也没有，点击图标又是重新登录。当然，我们最简单、最粗暴的反应：<strong>干掉他</strong>。</p>
+<p>于是你输入命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ps -ef | grep qq</span></span><br></pre></td></tr></table></figure>
+
+<p>然后你就发现一堆东西：</p>
+<p><img data-src="http://images.sakebow.cn/experience/cannot-open-linux-qq/linuxqq%E8%BF%9B%E7%A8%8B%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81.png" alt="linuxqq进程太多了！"><br>看着就吓人不是吗。</p>
+<p>所以还是搜索了一下，在<a target="_blank" rel="noopener" href="https://community.fydeos.com/t/topic/34813/13">这里</a>发现了一个方法：</p>
+<p><img data-src="http://images.sakebow.cn/experience/cannot-open-linux-qq/%E7%B1%B3%E5%A5%87%E5%A6%99%E5%A6%99%E6%B3%95.png" alt="米奇妙妙法"><br>然后就蹦出来了。</p>
+<p>后来才发现，<code>ctrl</code>+<code>alt</code>+<code>x</code>实际上是<code>QQ</code>官方设置的显示（或隐藏）主面板的快捷键。</p>
+<h1 id="强调一点"><a href="#强调一点" class="headerlink" title="强调一点"></a>强调一点</h1><p>当然，很大概率他会提示你这个快捷键是冲突的。至于和什么冲突了，我还没找到。作为强迫症的我，还是修改了这个快捷键。</p>
+<p>如果你能够记住你修改成了什么，那没有关系。如果你没能记住为了解决冲突你修改成了什么，那就彻底没办法了。只能把<code>ps -ef | grep qq</code>显示的所有东西都给干掉再登录了。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1058,332 +1449,8 @@ mjx-container[display="true"] + br {
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2023/12/27/YOLO/v5-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-      <meta itemprop="name" content="sakebow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小小万事屋">
-      <meta itemprop="description" content="一个似乎什么都想做的小站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 小小万事屋">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/27/YOLO/v5-install/" class="post-title-link" itemprop="url">1660Ti+AlmaLinux9搭建YOLO5环境</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-12-27 08:58:45" itemprop="dateCreated datePublished" datetime="2023-12-27T08:58:45+08:00">2023-12-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-29 09:24:00" itemprop="dateModified" datetime="2023-12-29T09:24:00+08:00">2023-12-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/YOLO/" itemprop="url" rel="index"><span itemprop="name">YOLO</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>1.5k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>5 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>看着图像识别好像很有意思的样子，于是就自己搭了一个深度学习服务器。虽然说是服务器，实际上也是垃圾佬套装搭一个勉强够看的显卡。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/27/YOLO/v5-install/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2023/12/26/Python/decorator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-      <meta itemprop="name" content="sakebow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小小万事屋">
-      <meta itemprop="description" content="一个似乎什么都想做的小站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 小小万事屋">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/26/Python/decorator/" class="post-title-link" itemprop="url">Python装饰器笔试题（简单难度）</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-12-26 08:58:45" itemprop="dateCreated datePublished" datetime="2023-12-26T08:58:45+08:00">2023-12-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-24 22:20:56" itemprop="dateModified" datetime="2024-01-24T22:20:56+08:00">2024-01-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>895</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>3 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这次遇到了一个比较神奇的面试题：给定方法</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x, y</span>):</span><br><span class="line">  <span class="keyword">return</span> x + y</span><br></pre></td></tr></table></figure>
-
-<p>要求在不改变源代码的前提下，使用装饰器，为<code>add</code>方法增加运行时间输出的功能。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/26/Python/decorator/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2023/12/26/custom/background-dynamic-import/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-      <meta itemprop="name" content="sakebow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小小万事屋">
-      <meta itemprop="description" content="一个似乎什么都想做的小站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 小小万事屋">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/12/26/custom/background-dynamic-import/" class="post-title-link" itemprop="url">通过引入js文件的方式使Hexo设置更多的动态背景图</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-12-26 08:58:45" itemprop="dateCreated datePublished" datetime="2023-12-26T08:58:45+08:00">2023-12-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-02-02 15:51:47" itemprop="dateModified" datetime="2024-02-02T15:51:47+08:00">2024-02-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/customize/" itemprop="url" rel="index"><span itemprop="name">customize</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>298</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="/2023/12/26/custom/background-dynamic-more/">这篇文章</a>中，我们发现了如何通过修改<code>utils.js</code>实现背景图轮播与更新，现在我们再用一个引入<code>js</code>文件的方式，实现<code>NexT_config</code>可以控制的背景图轮播与更新。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/26/custom/background-dynamic-import/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1409,14 +1476,14 @@ mjx-container[display="true"] + br {
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">21k</span>
+    <span title="站点总字数">24k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:16</span>
+    <span title="站点阅读时长">1:28</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
