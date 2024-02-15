@@ -33,15 +33,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"sakebow.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":10,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言被Windows给贯坏了，因为Windows重启之后能够始终加载上一次没能关闭的页面，这就让我使用这种方法保存当前不想关、收藏了也容易忘的页面。结果这种操作直接导致Linux上的chrome就直接启动不了。记录一下解决过程。 问题发现既然浏览器无法启动，那么应该怎么查看日志呢？不知道日志就在那乱整，就跟瞎子一样。 就直接命令行启动吧： 1$ &#x2F;usr&#x2F;bin&#x2F;google-chrome  当然">
+    <meta name="description" content="前言被Windows给贯坏了，因为Windows重启之后能够始终加载上一次没能关闭的页面，这就让我使用这种方法保存当前不想关、收藏了也容易忘的页面。结果这种操作直接导致Linux上的chrome就直接启动不了。记录一下解决过程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linuxqq关闭主面板后无法再次打开的问题">
 <meta property="og:url" content="http://sakebow.cn/2024/02/14/experience/cannot-open-chrome/index.html">
 <meta property="og:site_name" content="小小万事屋">
-<meta property="og:description" content="前言被Windows给贯坏了，因为Windows重启之后能够始终加载上一次没能关闭的页面，这就让我使用这种方法保存当前不想关、收藏了也容易忘的页面。结果这种操作直接导致Linux上的chrome就直接启动不了。记录一下解决过程。 问题发现既然浏览器无法启动，那么应该怎么查看日志呢？不知道日志就在那乱整，就跟瞎子一样。 就直接命令行启动吧： 1$ &#x2F;usr&#x2F;bin&#x2F;google-chrome  当然">
+<meta property="og:description" content="前言被Windows给贯坏了，因为Windows重启之后能够始终加载上一次没能关闭的页面，这就让我使用这种方法保存当前不想关、收藏了也容易忘的页面。结果这种操作直接导致Linux上的chrome就直接启动不了。记录一下解决过程。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-02-14T08:08:30.000Z">
-<meta property="article:modified_time" content="2024-02-14T08:20:28.156Z">
+<meta property="article:modified_time" content="2024-02-15T13:07:00.972Z">
 <meta property="article:author" content="sakebow">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="linuxqq">
@@ -258,9 +258,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-02-14 16:08:30 / 修改时间：16:20:28" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+      <time title="创建时间：2024-02-14 16:08:30" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-02-15 21:07:00" itemprop="dateModified" datetime="2024-02-15T21:07:00+08:00">2024-02-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -279,7 +285,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>350</span>
+      <span>351</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -297,6 +303,8 @@
     
     
     <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>被<code>Windows</code>给贯坏了，因为<code>Windows</code>重启之后能够始终加载上一次没能关闭的页面，这就让我使用这种方法保存当前不想关、收藏了也容易忘的页面。结果这种操作直接导致<code>Linux</code>上的<code>chrome</code>就直接启动不了。记录一下解决过程。</p>
+<span id="more"></span>
+
 <h1 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h1><p>既然浏览器无法启动，那么应该怎么查看日志呢？不知道日志就在那乱整，就跟瞎子一样。</p>
 <p>就直接命令行启动吧：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">/usr/bin/google-chrome</span></span><br></pre></td></tr></table></figure>

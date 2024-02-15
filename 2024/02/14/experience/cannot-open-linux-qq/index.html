@@ -33,17 +33,17 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"sakebow.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":10,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="前言听说QQ出了linux版，所以来试试。结果试试就逝世。这次记录一个关闭后没办法打开的解决办法。 解决方案刚安装好后如果点了关闭，系统托盘里也没有，点击图标又是重新登录。当然，我们最简单、最粗暴的反应：干掉他。 于是你输入命令： 1$ ps -ef | grep qq  然后你就发现一堆东西： 看着就吓人不是吗。 所以还是搜索了一下，在这里发现了一个方法： 然后就蹦出来了。 后来才发现，ctrl">
+    <meta name="description" content="前言听说QQ出了linux版，所以来试试。结果试试就逝世。这次记录一个关闭后没办法打开的解决办法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linuxqq关闭主面板后无法再次打开的问题">
 <meta property="og:url" content="http://sakebow.cn/2024/02/14/experience/cannot-open-linux-qq/index.html">
 <meta property="og:site_name" content="小小万事屋">
-<meta property="og:description" content="前言听说QQ出了linux版，所以来试试。结果试试就逝世。这次记录一个关闭后没办法打开的解决办法。 解决方案刚安装好后如果点了关闭，系统托盘里也没有，点击图标又是重新登录。当然，我们最简单、最粗暴的反应：干掉他。 于是你输入命令： 1$ ps -ef | grep qq  然后你就发现一堆东西： 看着就吓人不是吗。 所以还是搜索了一下，在这里发现了一个方法： 然后就蹦出来了。 后来才发现，ctrl">
+<meta property="og:description" content="前言听说QQ出了linux版，所以来试试。结果试试就逝世。这次记录一个关闭后没办法打开的解决办法。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://images.sakebow.cn/experience/cannot-open-linux-qq/linuxqq%E8%BF%9B%E7%A8%8B%E5%A4%AA%E5%A4%9A%E4%BA%86%EF%BC%81.png">
 <meta property="og:image" content="http://images.sakebow.cn/experience/cannot-open-linux-qq/%E7%B1%B3%E5%A5%87%E5%A6%99%E5%A6%99%E6%B3%95.png">
 <meta property="article:published_time" content="2024-02-14T08:08:30.000Z">
-<meta property="article:modified_time" content="2024-02-14T08:12:33.104Z">
+<meta property="article:modified_time" content="2024-02-15T13:07:29.352Z">
 <meta property="article:author" content="sakebow">
 <meta property="article:tag" content="Linux">
 <meta property="article:tag" content="linuxqq">
@@ -261,9 +261,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2024-02-14 16:08:30 / 修改时间：16:12:33" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+      <time title="创建时间：2024-02-14 16:08:30" itemprop="dateCreated datePublished" datetime="2024-02-14T16:08:30+08:00">2024-02-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-02-15 21:07:29" itemprop="dateModified" datetime="2024-02-15T21:07:29+08:00">2024-02-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -282,7 +288,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>309</span>
+      <span>310</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -300,6 +306,8 @@
     
     
     <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>听说QQ出了<code>linux</code>版，所以来试试。结果试试就逝世。这次记录一个关闭后没办法打开的解决办法。</p>
+<span id="more"></span>
+
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>刚安装好后如果点了关闭，系统托盘里也没有，点击图标又是重新登录。当然，我们最简单、最粗暴的反应：<strong>干掉他</strong>。</p>
 <p>于是你输入命令：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ps -ef | grep qq</span></span><br></pre></td></tr></table></figure>
