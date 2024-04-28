@@ -217,7 +217,7 @@ mjx-container[display="true"] + br {
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">38</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">10</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">31</span></a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">40</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">12</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">33</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -285,18 +285,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -328,6 +328,261 @@ mjx-container[display="true"] + br {
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/04/28/Java/filter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="sakebow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小万事屋">
+      <meta itemprop="description" content="一个似乎什么都想做的小站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 小小万事屋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/04/28/Java/filter/" class="post-title-link" itemprop="url">Java8的filter</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-04-28 09:33:33 / 修改时间：14:44:23" itemprop="dateCreated datePublished" datetime="2024-04-28T09:33:33+08:00">2024-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<code>Python</code>中，如果需要对<code>list</code>进行筛选，直接给出<code>b = [i for i in a if i &gt; 5]</code>就行。但<code>Java</code>中，筛选又该怎么表述？</p>
+<h1 id="构造测试类"><a href="#构造测试类" class="headerlink" title="构造测试类"></a>构造测试类</h1><p>我们假设有这么一个数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment"> * 水果类，包含水果名称与水果价格</span></span><br><span class="line"><span class="comment"> * 单独放在Fruit.java文件中</span></span><br><span class="line"><span class="comment"> * P.S.：需要在pom中的dependency加上lombok依赖</span></span><br><span class="line"><span class="comment"> *  */</span> </span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Fruit</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> String name;</span><br><span class="line">  <span class="keyword">private</span> <span class="type">double</span> price;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Fruit&#123;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> + </span><br><span class="line">           <span class="string">&quot;, price=&quot;</span> + price + <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="生成测试集"><a href="#生成测试集" class="headerlink" title="生成测试集"></a>生成测试集</h1><p>然后我们在另一个<code>Main.java</code>文件中加入初始化列表的逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> List&lt;Fruit&gt; <span class="title function_">generateFruits</span><span class="params">()</span> &#123;</span><br><span class="line">    List&lt;Fruit&gt; fruits = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;apple&quot;</span>, <span class="number">1.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;banana&quot;</span>, <span class="number">2.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;orange&quot;</span>, <span class="number">3.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;pear&quot;</span>, <span class="number">4.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;grape&quot;</span>, <span class="number">5.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;watermelon&quot;</span>, <span class="number">6.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;pineapple&quot;</span>, <span class="number">7.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;mango&quot;</span>, <span class="number">8.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;strawberry&quot;</span>, <span class="number">9.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;blueberry&quot;</span>, <span class="number">10.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;raspberry&quot;</span>, <span class="number">11.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;blackberry&quot;</span>, <span class="number">12.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;cranberry&quot;</span>, <span class="number">13.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;apricot&quot;</span>, <span class="number">14.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;cherry&quot;</span>, <span class="number">15.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;plum&quot;</span>, <span class="number">16.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;peach&quot;</span>, <span class="number">17.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;pomegranate&quot;</span>, <span class="number">18.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;kiwi&quot;</span>, <span class="number">19.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;mangosteen&quot;</span>, <span class="number">20.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;papaya&quot;</span>, <span class="number">21.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;guava&quot;</span>, <span class="number">22.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;lychee&quot;</span>, <span class="number">23.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;passion fruit&quot;</span>, <span class="number">24.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;coconut&quot;</span>, <span class="number">25.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;dragon fruit&quot;</span>, <span class="number">26.0</span>));</span><br><span class="line">    fruits.add(<span class="keyword">new</span> <span class="title class_">Fruit</span>(<span class="string">&quot;pomegranate&quot;</span>, <span class="number">27.0</span>));</span><br><span class="line">    <span class="keyword">return</span> fruits;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个时候肯定会报错的。因为一般的，类中不会允许你有静态方法，有也只能是<code>main</code>方法。<code>IDEA</code>也一定会让你把<code>static</code>取消的。现在取不取消先看心情吧。</p>
+<h1 id="筛选逻辑"><a href="#筛选逻辑" class="headerlink" title="筛选逻辑"></a>筛选逻辑</h1><p>然后我们加入主函数逻辑：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  List&lt;Fruit&gt; fruits = generateFruits();</span><br><span class="line">  List&lt;Fruit&gt; filteredFruits = fruits.stream().filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>)</span><br><span class="line">    .sorted(Comparator.comparing(Fruit::getPrice))</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line">  <span class="keyword">for</span> (Fruit f : filteredFruits)</span><br><span class="line">    System.out.println(f.toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>众所周知，<code>Java</code>中静态方法中不允许调用非静态方法。如果之前你删除了<code>generateFruits</code>方法的<code>static</code>，你现在完善了<code>main</code>方法后，<code>IDEA</code>又会要求你加上<code>static</code>。所以，刚刚取不取消看心情，就是因为这个。</p>
+<p>这段筛选代码是什么意思呢？</p>
+<ol>
+<li><code>fruits.stream()</code>：将<code>fruits</code>转换为<code>Stream</code>。</li>
+<li><code>.filter(fruit -&gt; fruit.getPrice() &lt;= 10.0)</code>：筛选出价格小于等于10.0的水果。</li>
+<li><code>.sorted(Comparator.comparing(Fruit::getPrice))</code>：对筛选出的水果按照价格排序。</li>
+<li><code>.collect(Collectors.toList())</code>：将筛选出的水果收集到一个新的<code>List</code>中。</li>
+</ol>
+<p>完成后，我们使用<code>for</code>循环遍历筛选出的水果，并使用<code>System.out.println()</code>打印每个水果的信息，也就是调用<code>toString()</code>方法获取了水果的名称和价格。</p>
+<h1 id="再复杂一点"><a href="#再复杂一点" class="headerlink" title="再复杂一点"></a>再复杂一点</h1><p>除了筛选与排序，我们的米奇妙妙<code>List</code>还有一些其他的米奇妙妙小工具。</p>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p>我们可以将<code>main</code>方法魔改成这个样子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  List&lt;Fruit&gt; fruits = generateFruits();</span><br><span class="line">  List&lt;String&gt; filteredFruitNames = fruits.stream()</span><br><span class="line">    .filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>)</span><br><span class="line">    .map(Fruit::getName)</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line">  <span class="keyword">for</span> (String s : filteredFruitNames)</span><br><span class="line">    System.out.println(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发现了吗？我们如果并不关系其他的字段，而只需要筛选出<code>name</code>字段的时候，就可以使用<code>map</code>方法。使用<code>map($&#123;class&#125;::$&#123;field&#125;)</code>，我们就可以针对原本<code>filter</code>筛选出来的<code>$&#123;class&#125;</code>的实例化对象中，提取出其中的<code>$&#123;field&#125;</code>字段。</p>
+<p>很方便对吧？</p>
+<h2 id="toMap"><a href="#toMap" class="headerlink" title="toMap"></a>toMap</h2><p>我们筛选出来的内容在之后可能会以<code>JSON</code>格式给出来，这个也就在后续步骤中要求我们将<code>List</code>修改为<code>Map</code>对象或者<code>VO</code>对象。而如果直接使用<code>toMap</code>，虽然原理上也是类似的，但是过程将会被简化。</p>
+<p>我们可以将<code>main</code>方法魔改成这个样子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  List&lt;Fruit&gt; fruits = generateFruits();</span><br><span class="line">  Map&lt;String, Fruit&gt; fruitMap = fruits.stream()</span><br><span class="line">    .filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>)</span><br><span class="line">    .collect(Collectors.toMap(Fruit::getName, fruit -&gt; fruit));</span><br><span class="line">  <span class="keyword">for</span> (Map.Entry&lt;String, Fruit&gt; entry : fruitMap.entrySet())</span><br><span class="line">    System.out.println(entry.getKey() + <span class="string">&quot;: &quot;</span> + entry.getValue().toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，这个只是一个示例。没事为啥要把好不容易查出来的<code>Fruit</code>对象又包装一层呢。</p>
+<p>不过这个示例确实说明了<code>toMap</code>的功能，能够相当灵活的配置输出的键值对。</p>
+<p>当然，这个并没有真正的<code>HashMap</code>那么智能，没有办法避免重复的键。这就需要我们额外设置取舍逻辑。比如，我们可以保留遇到的第一个键：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Fruit&gt; fruitMap = fruits.stream()</span><br><span class="line">  .filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>)</span><br><span class="line">  .collect(Collectors.toMap(</span><br><span class="line">    Fruit::getName,</span><br><span class="line">    fruit -&gt; fruit,</span><br><span class="line">    (f1, f2) -&gt; f1</span><br><span class="line">  ));</span><br></pre></td></tr></table></figure>
+
+<p>发现了吗，我们在<code>fruit -&gt; fruit</code>后面增加了一个逻辑：<code>(f1, f2) -&gt; f1</code>。这个代表着如果遇到重复的键，保留第一个。同样的，如果设置<code>(f1, f2) -&gt; f2</code>，那么将会保留第二个。</p>
+<h1 id="比较少见的"><a href="#比较少见的" class="headerlink" title="比较少见的"></a>比较少见的</h1><p>除了以上用到的以外，还有一些比较少用的，用处基本上算得上是<code>SQL</code>的补充。</p>
+<h2 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h2><p>在筛选结果之后，如果我们使用<code>toMap</code>删掉了我们并不关心的字段，最终获得了若干列完全一样的<code>map</code>，那么我们就需要进行去重，避免部分内容在特定的业务下被重复计算。</p>
+<p>而我们只需要这么使用就好：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Fruit&gt; fruitMap = fruits.stream()</span><br><span class="line">  .filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>).distinct()</span><br><span class="line">  .collect(Collectors.toMap(Fruit::getName, fruit -&gt; fruit, (f1, f2) -&gt; f1));</span><br></pre></td></tr></table></figure>
+
+<p>对，就是在<code>filter</code>后面增加一个<code>distinct()</code>。</p>
+<h2 id="findFirst、findAny以及orElse"><a href="#findFirst、findAny以及orElse" class="headerlink" title="findFirst、findAny以及orElse"></a>findFirst、findAny以及orElse</h2><p>这三个放在一起是因为他们往往是配套使用的。<code>findFirst</code>与<code>findAny</code>分别表示寻找到<code>filter</code>中搜索到的<strong>第一个</strong>与<strong>任意一个</strong>，两者并不能同时使用；而<code>orElse</code>则表示如果找不到，则返回一个默认值。</p>
+<p>我们可以将<code>main</code>方法魔改成这个样子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  List&lt;Fruit&gt; fruits = generateFruits();</span><br><span class="line">  <span class="type">Fruit</span> <span class="variable">f</span> <span class="operator">=</span> fruits.stream()</span><br><span class="line">    .filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>)</span><br><span class="line">    .findFirst()</span><br><span class="line">    .orElse(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">if</span> (f != <span class="literal">null</span>)</span><br><span class="line">    System.out.println(f.toString());</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    System.out.println(<span class="string">&quot;not found&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这就是说，查找第一个价格小于等于10.0的水果，如果找不到，则返回<code>null</code>。如果加上<code>sort</code>，那这就意味着找到价格最便宜的水果。</p>
+<p>当然，我们可以不用局限于这个索引，毕竟我们并不太希望关心查询结果列表中到底是怎么样排布的。所以可以继续魔改：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">  List&lt;Fruit&gt; fruits = generateFruits();</span><br><span class="line">  <span class="type">Fruit</span> <span class="variable">f</span> <span class="operator">=</span> fruits.stream()</span><br><span class="line">    .filter(fruit -&gt; fruit.getPrice() &lt;= <span class="number">10.0</span>)</span><br><span class="line">    .min(Comparator.comparing(Fruit::getPrice))</span><br><span class="line">    .orElse(<span class="literal">null</span>);</span><br><span class="line">  <span class="keyword">if</span> (f != <span class="literal">null</span>)</span><br><span class="line">    System.out.println(f.toString());</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    System.out.println(<span class="string">&quot;not found&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>加上了<code>min</code>方法后，整段代码的意义就变成了：找到了最便宜的水果，如果找不到，则返回<code>null</code>。</p>
+<p>虽然这些内容都能够在<code>SQL</code>中获取到，不过如何使用还是看整体团队的风格进行取舍。有些人喜欢用<code>SQL</code>一把完成，因为这样高效。但是相应的，这样的方法也使得维护基本上是不可能的。我想，后台越来越大也是因为这样吧。</p>
+<h1 id="最后说说为什么要用stream"><a href="#最后说说为什么要用stream" class="headerlink" title="最后说说为什么要用stream"></a>最后说说为什么要用stream</h1><p>stream的优点在于，我们能够很方便的进行筛选与排序，并且能够很方便的进行<code>map</code>操作。</p>
+<p>实际上，<code>stream</code>的效率往往是不如<code>for</code>循环的。不管你数据量是大还是不大，效率就是不如人家。</p>
+<p>但是呢，<code>stream</code>写代码的过程中，能变得简洁（<del>说白了就是能缩行</del>），所以<code>stream</code>好！</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/04/26/message/introduction-mr-mdt/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="sakebow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小万事屋">
+      <meta itemprop="description" content="一个似乎什么都想做的小站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 小小万事屋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/04/26/message/introduction-mr-mdt/" class="post-title-link" itemprop="url">MR与MDT</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-04-26 11:11:11" itemprop="dateCreated datePublished" datetime="2024-04-26T11:11:11+08:00">2024-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-04-28 20:37:26" itemprop="dateModified" datetime="2024-04-28T20:37:26+08:00">2024-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/message/" itemprop="url" rel="index"><span itemprop="name">message</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>790</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>用户测量报告（<code>Measure Report</code>，<code>MR</code>）与测量数据传输（<code>Measure Data Transfer</code>，<code>MDT</code>）是两个重要的概念，<code>MR</code>能够推导出<code>MDT</code>。那么，怎么推导呢？</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/04/26/message/introduction-mr-mdt/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1155,208 +1410,6 @@ mjx-container[display="true"] + br {
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/02/21/Python/adjust-duplicates/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-      <meta itemprop="name" content="sakebow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小小万事屋">
-      <meta itemprop="description" content="一个似乎什么都想做的小站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 小小万事屋">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/02/21/Python/adjust-duplicates/" class="post-title-link" itemprop="url">PDF加粗内容重复读取解决方案</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-02-21 20:09:20 / 修改时间：20:37:51" itemprop="dateCreated datePublished" datetime="2024-02-21T20:09:20+08:00">2024-02-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>648</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>2 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>pdfplumber</code>读取<code>PDF</code>的过程中，由于加黑的内容会被莫名其妙的读取两次，带来了很大的困扰。这篇文章将给出解决方案。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/02/21/Python/adjust-duplicates/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/02/20/experience/hexo-oblique/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar/avatar.jpg">
-      <meta itemprop="name" content="sakebow">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="小小万事屋">
-      <meta itemprop="description" content="一个似乎什么都想做的小站">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 小小万事屋">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2024/02/20/experience/hexo-oblique/" class="post-title-link" itemprop="url">Hexo下写公式不被识别的情况</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2024-02-20 21:17:30 / 修改时间：21:54:33" itemprop="dateCreated datePublished" datetime="2024-02-20T21:17:30+08:00">2024-02-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/experience/" itemprop="url" rel="index"><span itemprop="name">experience</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>286</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>1 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>翻了翻以前写的博客，发现公式并没有被渲染，但是在<code>VSCode</code>中又完美显示。记录一下。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/02/20/experience/hexo-oblique/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1384,14 +1437,14 @@ mjx-container[display="true"] + br {
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">32k</span>
+    <span title="站点总字数">34k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:55</span>
+    <span title="站点阅读时长">2:04</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
