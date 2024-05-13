@@ -73,39 +73,6 @@
       </tags>
   </entry>
   <entry>
-    <title>RuoYi-Vue项目添加新的菜单与子菜单</title>
-    <url>/2024/05/04/Java/RuoYi-add-menu/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<code>RuoYi-Vue</code>项目中，菜单与数据库相连，如果需要添加新的菜单就需要在数据库中增加相应的记录。</p>
-<span id="more"></span>
-
-<h1 id="插入模板"><a href="#插入模板" class="headerlink" title="插入模板"></a>插入模板</h1><p>其实诸如<a href="https://blog.csdn.net/Keep__Me/article/details/132164404">这些教程</a>会详细说明如何使用官方的代码生成模块来创建菜单记录，所以就不详细展开了，这里主要说明记录有什么需要注意的地方。</p>
-<p>当然，官方的代码生成可以提供<code>SQL</code>参考，官方的原有材料也可以提供借鉴。没错，我说的就是最开始的时候根目录下的<code>sql</code>文件夹。其中的两个官方内置的<code>sql</code>文件中给出了<code>sys_menu</code>菜单的样例：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 一级菜单</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sys_menu <span class="keyword">values</span>(<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;系统管理&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;system&#x27;</span>,           <span class="keyword">null</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;M&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;system&#x27;</span>,   <span class="string">&#x27;admin&#x27;</span>, sysdate(), <span class="string">&#x27;&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;系统管理目录&#x27;</span>);</span><br><span class="line"><span class="comment">-- 二级菜单</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sys_menu <span class="keyword">values</span>(<span class="string">&#x27;100&#x27;</span>,  <span class="string">&#x27;用户管理&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,   <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;user&#x27;</span>,       <span class="string">&#x27;system/user/index&#x27;</span>,        <span class="string">&#x27;&#x27;</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;system:user:list&#x27;</span>,        <span class="string">&#x27;user&#x27;</span>,          <span class="string">&#x27;admin&#x27;</span>, sysdate(), <span class="string">&#x27;&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;用户管理菜单&#x27;</span>);</span><br><span class="line"><span class="comment">-- 用户管理按钮</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sys_menu <span class="keyword">values</span>(<span class="string">&#x27;1000&#x27;</span>, <span class="string">&#x27;用户查询&#x27;</span>, <span class="string">&#x27;100&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,  <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;system:user:query&#x27;</span>,          <span class="string">&#x27;#&#x27;</span>, <span class="string">&#x27;admin&#x27;</span>, sysdate(), <span class="string">&#x27;&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>不难看出，在插入菜单的过程中，点击后展开子菜单的项标记为<code>M</code>，点击后跳转到指定页面的子菜单项为<code>C</code>，与按钮相关的菜单项为<code>F</code>；同时，一级菜单的<code>parent_id</code>为0，而二级菜单的<code>parent_id</code>与一次菜单的<code>menu_id</code>一致。而其他内容都对菜单显示的影响关系不大。</p>
-<p>也就是说，如果我们需要在现有的菜单中添加<strong>一级</strong>菜单，那就需要设置<code>menu_type</code>为<code>M</code>，<code>parent_id</code>为<code>0</code>。为了让菜单在页面上显示，还需要设置<code>visible</code>为<code>0</code>、<code>status</code>为<code>0</code>、<code>is_frame</code>为<code>1</code>。而<strong>二级</strong>菜单，不同之处仅在于<code>menu_type</code>为<code>C</code>，<code>parent_id</code>为上一级菜单的<code>menu_id</code>，<strong>三级</strong>菜单同理。</p>
-<p>除了这些字段，对于一级菜单，我们并不需要他能够跳转到什么地方，那么在这里就只需要将<code>component</code>属性设置为<code>NULL</code>，而<code>perms</code>属性设置为空字符串<code>&#39;&#39;</code>即可。而二级菜单需要跳转到固定的地方，所以<code>component</code>属性需要与前端保持一致。</p>
-<p>比如，我在<code>views</code>文件夹下创建了<code>pixiv</code>文件夹，在其中放了一个<code>index.vue</code>文件，那么<code>component</code>属性就设置为<code>pixiv/index</code>。而如果你使用的是官方的代码生成模块，你就会发现在<code>api</code>文件夹下还有额外的一个<code>js</code>文件。别慌，这个文件只是单纯的封装了一下提交的过程，从而让我们的页面能够更专注于业务的实现。类似这种：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">listImages</span>(<span class="params">query</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">request</span>(&#123;</span><br><span class="line">    <span class="attr">url</span>: <span class="string">&#x27;/pixiv/gallery&#x27;</span>,</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">    <span class="attr">params</span>: query</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然，我们会发现一个问题：这样子封装的话，是无法使用<code>Restful</code>风格对<code>API</code>进行请求的。</p>
-<p>这也是为什么从头到尾<code>RuoYi</code>框架并没有使用<code>Restful</code>风格的<code>API</code>。</p>
-<p>当然，你会说这应当是规范。但是另外还有一部分人会认为规范的存在就是会影响到交付的效率的，这就单纯是个人偏好了，没什么值得争论的。</p>
-<p>对于刚入门的朋友，不如直接用数据库客户端修改，这样能够对照到每一列的含义与数据。对于比较熟悉的朋友……还需要我说么？（诶嘿~⭐）</p>
-<h1 id="前端显示"><a href="#前端显示" class="headerlink" title="前端显示"></a>前端显示</h1><p>完成了数据库信息录入，接下来就是前端内容展示了。对于展示过程，也没有什么需要额外设置的，菜单栏立即生效。</p>
-<p>但是如果需要二级菜单能够点击并跳转访问，那么就需要二级菜单对应到前端的真实组件地址。这个地址就是之前我们在数据库中设置的<code>component</code>属性。</p>
-<p>官方的代码生成模块中直接给定了一个表格模板，使用肯定是没问题的，不使用也没关系，只需要与需求尽可能贴合就好了。</p>
-<p>完成了前端、数据库，那么接下来完善后端就能够启动并调试了。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>RuoYi</tag>
-        <tag>menu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>FileInputStream和Files.newInputStream？</title>
     <url>/2024/05/07/Java/FileInputStream-and-Files.newInputStream/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在上传文件的时候，发现还有一个新的东西叫做<code>Files.newInputStream</code>，就稍微看了一下下。主要应用示例在<a href="/2024/05/07/Java/jsch/">这篇文章</a>中。</p>
@@ -155,6 +122,84 @@
         <tag>RuoYi</tag>
         <tag>Java</tag>
         <tag>NIO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RuoYi-Vue项目添加字段映射</title>
+    <url>/2024/05/04/Java/RuoYi-add-map-json/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在后端，我们有时候会忘记字段映射对应的值，每次就需要重新查表再编码，所以会有一些枚举类或者静态类，按照业务需求将枚举类或者静态类中的值映射到数据库字段上，这样在编码时，就可以直接使用枚举类或者静态类中的值，而不需要再查表。类似这样：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ImageUsageType</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">COLLECTION</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">BLOG</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">BACKGROUND</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">AVATAR</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">ICON</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但这么做了之后，后端是方便了，前端又怎么将0到4转换为我们能看懂的名字呢？</p>
+<span id="more"></span>
+
+<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>如果你使用的是<code>Vue</code>，比较简单的思路就是直接在文件中给出映射关系，也就是在<code>data</code>中定义我们所需要的映射：</p>
+<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">data</span> () &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    imageUsageType: &#123; <span class="number">0</span>: <span class="string">&#x27;collection&#x27;</span>, <span class="number">1</span>: <span class="string">&#x27;blog&#x27;</span>,</span><br><span class="line">      <span class="number">2</span>: <span class="string">&#x27;background&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;avatar&#x27;</span>, <span class="number">4</span>: <span class="string">&#x27;icon&#x27;</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样的话我们就不需要担心这个页面的映射了。但是其他页面就头疼了，每个页面都需要这么设计。</p>
+<p>我们就需要使用一个<code>JSON</code>文件，或者一个类似<code>Java</code>的类一样，将0到4重新转换回来。</p>
+<h1 id="JSON实现"><a href="#JSON实现" class="headerlink" title="JSON实现"></a>JSON实现</h1><p>众所周知，数字是不能够作为变量的。而后端传过来的只有数字。很明显，如果使用类进行映射将会相当麻烦。那么就只剩下<code>JSON</code>实现了。</p>
+<p>于是我们就定义这样一个<code>usage.json</code>文件：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;0&quot;</span><span class="punctuation">:</span> <span class="string">&quot;collection&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;blog&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;background&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;3&quot;</span><span class="punctuation">:</span> <span class="string">&quot;avatar&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;4&quot;</span><span class="punctuation">:</span> <span class="string">&quot;icon&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>Vue</code>中引入这个文件：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> usage <span class="keyword">from</span> <span class="string">&#x27;@/assets/usage.json&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>不过，我们使用的是<code>RuoYi-Vue</code>，并不能够像<code>Vue3</code>一样引入就完事，还需要使用<code>Vue2</code>的方法，将<code>usage.json</code>文件转换为<code>Vue</code>的<code>data</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> usage <span class="keyword">from</span> <span class="string">&#x27;@/assets/usage.json&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">imageUsageType</span>: usage &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，每个页面就可以按照需要设置<code>imageUsageType</code>，将后端的数字映射回我们能够看懂的名字了。</p>
+<h1 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h1><p>当然，<code>JS</code>也可以完成这个过程。但是完成的思路有些许不太一样。</p>
+<p>使用<code>JS</code>实现的过程中，我们需要定义一个数组，这个数组需要按照索引的顺序给出来：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> usageTypes = [<span class="string">&#x27;collection&#x27;</span>, <span class="string">&#x27;blog&#x27;</span>, <span class="string">&#x27;background&#x27;</span>, <span class="string">&#x27;avatar&#x27;</span>, <span class="string">&#x27;icon&#x27;</span>]</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> usageTypes</span><br></pre></td></tr></table></figure>
+
+<p>然后，我们再引入这个数组：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> usageTypes <span class="keyword">from</span> <span class="string">&#x27;@/assets/usageTypes.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后，引用：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">imageUsageType</span>: usageTypes &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，<code>JSON</code>对象<code>usage</code>与<code>JavaScript</code>数组<code>usageTypes</code>相比，终归还是<code>JSON</code>相对更为灵活，主要是因为<code>JavaScript</code>数组中的元素需要严格按照索引的顺序，否则的话很难查出问题在哪。<code>JSON</code>虽然说可以按照当天的心情随意修改顺序，但还是建议各位遵循一定的规范，自由过头了可不好。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>RuoYi</tag>
+        <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>RuoYi-Vue项目添加新的菜单与子菜单</title>
+    <url>/2024/05/04/Java/RuoYi-add-menu/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<code>RuoYi-Vue</code>项目中，菜单与数据库相连，如果需要添加新的菜单就需要在数据库中增加相应的记录。</p>
+<span id="more"></span>
+
+<h1 id="插入模板"><a href="#插入模板" class="headerlink" title="插入模板"></a>插入模板</h1><p>其实诸如<a href="https://blog.csdn.net/Keep__Me/article/details/132164404">这些教程</a>会详细说明如何使用官方的代码生成模块来创建菜单记录，所以就不详细展开了，这里主要说明记录有什么需要注意的地方。</p>
+<p>当然，官方的代码生成可以提供<code>SQL</code>参考，官方的原有材料也可以提供借鉴。没错，我说的就是最开始的时候根目录下的<code>sql</code>文件夹。其中的两个官方内置的<code>sql</code>文件中给出了<code>sys_menu</code>菜单的样例：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">-- 一级菜单</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sys_menu <span class="keyword">values</span>(<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;系统管理&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;system&#x27;</span>,           <span class="keyword">null</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;M&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;system&#x27;</span>,   <span class="string">&#x27;admin&#x27;</span>, sysdate(), <span class="string">&#x27;&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;系统管理目录&#x27;</span>);</span><br><span class="line"><span class="comment">-- 二级菜单</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sys_menu <span class="keyword">values</span>(<span class="string">&#x27;100&#x27;</span>,  <span class="string">&#x27;用户管理&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,   <span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;user&#x27;</span>,       <span class="string">&#x27;system/user/index&#x27;</span>,        <span class="string">&#x27;&#x27;</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;C&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;system:user:list&#x27;</span>,        <span class="string">&#x27;user&#x27;</span>,          <span class="string">&#x27;admin&#x27;</span>, sysdate(), <span class="string">&#x27;&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;用户管理菜单&#x27;</span>);</span><br><span class="line"><span class="comment">-- 用户管理按钮</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> sys_menu <span class="keyword">values</span>(<span class="string">&#x27;1000&#x27;</span>, <span class="string">&#x27;用户查询&#x27;</span>, <span class="string">&#x27;100&#x27;</span>, <span class="string">&#x27;1&#x27;</span>,  <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="string">&#x27;F&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;system:user:query&#x27;</span>,          <span class="string">&#x27;#&#x27;</span>, <span class="string">&#x27;admin&#x27;</span>, sysdate(), <span class="string">&#x27;&#x27;</span>, <span class="keyword">null</span>, <span class="string">&#x27;&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>不难看出，在插入菜单的过程中，点击后展开子菜单的项标记为<code>M</code>，点击后跳转到指定页面的子菜单项为<code>C</code>，与按钮相关的菜单项为<code>F</code>；同时，一级菜单的<code>parent_id</code>为0，而二级菜单的<code>parent_id</code>与一次菜单的<code>menu_id</code>一致。而其他内容都对菜单显示的影响关系不大。</p>
+<p>也就是说，如果我们需要在现有的菜单中添加<strong>一级</strong>菜单，那就需要设置<code>menu_type</code>为<code>M</code>，<code>parent_id</code>为<code>0</code>。为了让菜单在页面上显示，还需要设置<code>visible</code>为<code>0</code>、<code>status</code>为<code>0</code>、<code>is_frame</code>为<code>1</code>。而<strong>二级</strong>菜单，不同之处仅在于<code>menu_type</code>为<code>C</code>，<code>parent_id</code>为上一级菜单的<code>menu_id</code>，<strong>三级</strong>菜单同理。</p>
+<p>除了这些字段，对于一级菜单，我们并不需要他能够跳转到什么地方，那么在这里就只需要将<code>component</code>属性设置为<code>NULL</code>，而<code>perms</code>属性设置为空字符串<code>&#39;&#39;</code>即可。而二级菜单需要跳转到固定的地方，所以<code>component</code>属性需要与前端保持一致。</p>
+<p>比如，我在<code>views</code>文件夹下创建了<code>pixiv</code>文件夹，在其中放了一个<code>index.vue</code>文件，那么<code>component</code>属性就设置为<code>pixiv/index</code>。而如果你使用的是官方的代码生成模块，你就会发现在<code>api</code>文件夹下还有额外的一个<code>js</code>文件。别慌，这个文件只是单纯的封装了一下提交的过程，从而让我们的页面能够更专注于业务的实现。类似这种：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">listImages</span>(<span class="params">query</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">request</span>(&#123;</span><br><span class="line">    <span class="attr">url</span>: <span class="string">&#x27;/pixiv/gallery&#x27;</span>,</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&quot;GET&quot;</span>,</span><br><span class="line">    <span class="attr">params</span>: query</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，我们会发现一个问题：这样子封装的话，是无法使用<code>Restful</code>风格对<code>API</code>进行请求的。</p>
+<p>这也是为什么从头到尾<code>RuoYi</code>框架并没有使用<code>Restful</code>风格的<code>API</code>。</p>
+<p>当然，你会说这应当是规范。但是另外还有一部分人会认为规范的存在就是会影响到交付的效率的，这就单纯是个人偏好了，没什么值得争论的。</p>
+<p>对于刚入门的朋友，不如直接用数据库客户端修改，这样能够对照到每一列的含义与数据。对于比较熟悉的朋友……还需要我说么？（诶嘿~⭐）</p>
+<h1 id="前端显示"><a href="#前端显示" class="headerlink" title="前端显示"></a>前端显示</h1><p>完成了数据库信息录入，接下来就是前端内容展示了。对于展示过程，也没有什么需要额外设置的，菜单栏立即生效。</p>
+<p>但是如果需要二级菜单能够点击并跳转访问，那么就需要二级菜单对应到前端的真实组件地址。这个地址就是之前我们在数据库中设置的<code>component</code>属性。</p>
+<p>官方的代码生成模块中直接给定了一个表格模板，使用肯定是没问题的，不使用也没关系，只需要与需求尽可能贴合就好了。</p>
+<p>完成了前端、数据库，那么接下来完善后端就能够启动并调试了。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>RuoYi</tag>
+        <tag>menu</tag>
       </tags>
   </entry>
   <entry>
@@ -209,51 +254,6 @@
       <tags>
         <tag>RuoYi</tag>
         <tag>structure</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RuoYi-Vue项目添加字段映射</title>
-    <url>/2024/05/04/Java/RuoYi-add-map-json/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在后端，我们有时候会忘记字段映射对应的值，每次就需要重新查表再编码，所以会有一些枚举类或者静态类，按照业务需求将枚举类或者静态类中的值映射到数据库字段上，这样在编码时，就可以直接使用枚举类或者静态类中的值，而不需要再查表。类似这样：</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ImageUsageType</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">COLLECTION</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">BLOG</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">BACKGROUND</span> <span class="operator">=</span> <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">AVATAR</span> <span class="operator">=</span> <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">ICON</span> <span class="operator">=</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但这么做了之后，后端是方便了，前端又怎么将0到4转换为我们能看懂的名字呢？</p>
-<span id="more"></span>
-
-<h1 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h1><p>如果你使用的是<code>Vue</code>，比较简单的思路就是直接在文件中给出映射关系，也就是在<code>data</code>中定义我们所需要的映射：</p>
-<figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">data</span> () &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    imageUsageType: &#123; <span class="number">0</span>: <span class="string">&#x27;collection&#x27;</span>, <span class="number">1</span>: <span class="string">&#x27;blog&#x27;</span>,</span><br><span class="line">      <span class="number">2</span>: <span class="string">&#x27;background&#x27;</span>, <span class="number">3</span>: <span class="string">&#x27;avatar&#x27;</span>, <span class="number">4</span>: <span class="string">&#x27;icon&#x27;</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样的话我们就不需要担心这个页面的映射了。但是其他页面就头疼了，每个页面都需要这么设计。</p>
-<p>我们就需要使用一个<code>JSON</code>文件，或者一个类似<code>Java</code>的类一样，将0到4重新转换回来。</p>
-<h1 id="JSON实现"><a href="#JSON实现" class="headerlink" title="JSON实现"></a>JSON实现</h1><p>众所周知，数字是不能够作为变量的。而后端传过来的只有数字。很明显，如果使用类进行映射将会相当麻烦。那么就只剩下<code>JSON</code>实现了。</p>
-<p>于是我们就定义这样一个<code>usage.json</code>文件：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;0&quot;</span><span class="punctuation">:</span> <span class="string">&quot;collection&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;1&quot;</span><span class="punctuation">:</span> <span class="string">&quot;blog&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;2&quot;</span><span class="punctuation">:</span> <span class="string">&quot;background&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;3&quot;</span><span class="punctuation">:</span> <span class="string">&quot;avatar&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;4&quot;</span><span class="punctuation">:</span> <span class="string">&quot;icon&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-<p>然后在<code>Vue</code>中引入这个文件：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> usage <span class="keyword">from</span> <span class="string">&#x27;@/assets/usage.json&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>不过，我们使用的是<code>RuoYi-Vue</code>，并不能够像<code>Vue3</code>一样引入就完事，还需要使用<code>Vue2</code>的方法，将<code>usage.json</code>文件转换为<code>Vue</code>的<code>data</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> usage <span class="keyword">from</span> <span class="string">&#x27;@/assets/usage.json&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">imageUsageType</span>: usage &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样，每个页面就可以按照需要设置<code>imageUsageType</code>，将后端的数字映射回我们能够看懂的名字了。</p>
-<h1 id="JS实现"><a href="#JS实现" class="headerlink" title="JS实现"></a>JS实现</h1><p>当然，<code>JS</code>也可以完成这个过程。但是完成的思路有些许不太一样。</p>
-<p>使用<code>JS</code>实现的过程中，我们需要定义一个数组，这个数组需要按照索引的顺序给出来：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> usageTypes = [<span class="string">&#x27;collection&#x27;</span>, <span class="string">&#x27;blog&#x27;</span>, <span class="string">&#x27;background&#x27;</span>, <span class="string">&#x27;avatar&#x27;</span>, <span class="string">&#x27;icon&#x27;</span>]</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> usageTypes</span><br></pre></td></tr></table></figure>
-
-<p>然后，我们再引入这个数组：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> usageTypes <span class="keyword">from</span> <span class="string">&#x27;@/assets/usageTypes.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>最后，引用：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  data () &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">imageUsageType</span>: usageTypes &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当然，<code>JSON</code>对象<code>usage</code>与<code>JavaScript</code>数组<code>usageTypes</code>相比，终归还是<code>JSON</code>相对更为灵活，主要是因为<code>JavaScript</code>数组中的元素需要严格按照索引的顺序，否则的话很难查出问题在哪。<code>JSON</code>虽然说可以按照当天的心情随意修改顺序，但还是建议各位遵循一定的规范，自由过头了可不好。</p>
-]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>RuoYi</tag>
-        <tag>javascript</tag>
       </tags>
   </entry>
   <entry>
@@ -323,6 +323,44 @@
       <tags>
         <tag>filter</tag>
         <tag>List</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>在SpringBoot中注入自定义Bean</title>
+    <url>/2024/05/11/Java/import-custom-bean/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>SpringBoot</code>的过程中，我们往往需要通过配置文件设置一些配置。但更多时候，我们需要由<code>Spring</code>容器来注入这些配置并进行统一管理。下面将阐释具体方法。</p>
+<span id="more"></span>
+
+<h1 id="1-配置文件"><a href="#1-配置文件" class="headerlink" title="1. 配置文件"></a>1. 配置文件</h1><p>假设我们需要自定义<code>SSH</code>远程连接的配置，那么我们可以在<code>application.yml</code>中添加如下配置：</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">ssh:</span></span><br><span class="line">  <span class="attr">user:</span> <span class="string">username</span></span><br><span class="line">  <span class="attr">pass:</span> <span class="string">password</span></span><br><span class="line">  <span class="attr">host:</span> <span class="string">redis.sakebow.cn</span></span><br><span class="line">  <span class="attr">port:</span> <span class="number">22</span></span><br><span class="line">  <span class="attr">dest:</span> <span class="string">/data/ftp</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个文件中，我们定义了<code>SSH</code>连接中基本的配置项，包括用户名、密码、主机地址、端口号和目标目录。其中，目标目录主要用于存储<code>SCP</code>命令发送过去的文件。</p>
+<p>为了读取配置，我们可以使用<code>@ConfigurationProperties</code>注解，并指定配置文件的前缀。例如：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * SSH配置类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@ConfigurationProperties(prefix = &quot;ssh&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SSHProperties</span> &#123;</span><br><span class="line">  <span class="meta">@Value(&quot;$&#123;ssh.user&#125;&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> String user;</span><br><span class="line">  <span class="meta">@Value(&quot;$&#123;ssh.pass&#125;&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> String pass;</span><br><span class="line">  <span class="meta">@Value(&quot;$&#123;ssh.host&#125;&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> String host;</span><br><span class="line">  <span class="meta">@Value(&quot;$&#123;ssh.port&#125;&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> <span class="type">int</span> port;</span><br><span class="line">  <span class="meta">@Value(&quot;$&#123;ssh.dest&#125;&quot;)</span></span><br><span class="line">  <span class="keyword">private</span> String dest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>P.S.：这里命名为<code>SSHProperties</code>主要是因为需要适应<code>RuoYi</code>框架的命名规范。如果你并没有使用<code>RuoYi</code>框架，你完全可以命名为<code>SSHConfig</code>。</p>
+</blockquote>
+<blockquote>
+<p>P.P.S：实际上，<code>RuoYi</code>本身并没有集成<code>lombok</code>的<code>Data</code>注解，所以后面理论上需要有大量的<code>Getter</code>和<code>Setter</code>方法。这里为了简洁一点，就直接用注解代替了。</p>
+</blockquote>
+<p><code>@Component</code>注解用于将配置类注册为Spring容器中的组件，这样我们就可以在其他地方通过<code>@Autowired</code>注解来注入这个配置类。</p>
+<p><code>@ConfigurationProperties</code>注解用于将配置文件中的配置项映射到配置类中。<code>prefix</code>属性用于指定配置文件的前缀，这样我们就可以只读取前缀为<code>ssh</code>的配置项。</p>
+<p>假设我们接下来需要去<code>SSHServiceImpl</code>中注入这个方法，那么比较好的解决方案就是使用注解：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SSHServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">SSHService</span> &#123;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">private</span> SSHProperties sshProperties;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然，有些人可能会将这个修改为构造函数注入，这在<a href="/2024/05/11/Java/where-to-autowired/">另一篇文章</a>中有提到，这就是另外一回事了，我们单独讨论。</p>
+<p>之后，我们便可以在<code>SSHServiceImpl</code>中使用<code>sshProperties</code>对象来获取配置项。使用过程中，我们就可以直接获取到：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="built_in">this</span>.sshProperties.getUser(); <span class="comment">// 获取用户名</span></span><br><span class="line"><span class="built_in">this</span>.sshProperties.getPass(); <span class="comment">// 获取密码</span></span><br><span class="line"><span class="built_in">this</span>.sshProperties.getHost(); <span class="comment">// 获取主机地址</span></span><br><span class="line"><span class="built_in">this</span>.sshProperties.getPort(); <span class="comment">// 获取端口号</span></span><br><span class="line"><span class="built_in">this</span>.sshProperties.getDest(); <span class="comment">// 获取目标目录</span></span><br></pre></td></tr></table></figure>
+
+<p>非常方便。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>DI</tag>
+        <tag>Bean</tag>
       </tags>
   </entry>
   <entry>
@@ -461,65 +499,121 @@
       </tags>
   </entry>
   <entry>
-    <title>PDF加粗内容重复读取解决方案</title>
-    <url>/2024/02/21/Python/adjust-duplicates/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>pdfplumber</code>读取<code>PDF</code>的过程中，由于加黑的内容会被莫名其妙的读取两次，带来了很大的困扰。这篇文章将给出解决方案。</p>
+    <title>Autowired放成员变量上还是构造函数上？</title>
+    <url>/2024/05/11/Java/where-to-autowired/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>如果你是通义千问的忠实粉丝，你会发现有时候他会建议你把成员变量的依赖注入修改为构造函数的依赖注入，就像这样：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SSHServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">SSHService</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> SSHProperties sshProperties;</span><br><span class="line">  <span class="meta">@Autowired</span></span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">SSHServiceImpl</span><span class="params">(SSHProperties sshProperties)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>.sshProperties = sshProperties;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>有什么区别吗？</p>
 <span id="more"></span>
 
-<h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>在在使用<code>pdfplumber</code>读取<code>PDF</code>的过程中，读取普通内容是完全没有问题的。但是该公司早期<code>PDF</code>并未完全规范的过程中，有些标题加粗了，而有些却没有。加粗的标题将会被读取两次，比如好好的<code>123456</code>，加粗后将会被读取为<code>112233445566</code>。这可不太好。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>首先我们需要明白，加粗的内容只会被连续读取，而不会被随机读取，这一点使得字符串具备了一定的规律。所以循环或者递归都是可行的，只是我们需要记住递归的最大深度为<code>1000</code>。</p>
-<p>其次我们需要明确，不是所有的连续内容都应该被删除。比如<code>111</code>被读成了<code>111111</code>，那颗不能删的只剩下<code>1</code>，这就又和<code>PDF</code>上想要传达的内容不一致了。所以正则表达式也是不能乱用的。</p>
-<h2 id="大致逻辑"><a href="#大致逻辑" class="headerlink" title="大致逻辑"></a>大致逻辑</h2><p>既然有这些要求，我们就好办了。</p>
-<p>我们考虑极端场景：<code>111111</code>。我们就直接先数一数连续重复有几个，然后保留一半就好了。</p>
-<p>然后再考虑一般场景：<code>111111222222333333</code>。在处理过程中，实际上也就是相当于把字符串拆成了<code>3</code>份，每份利用极端场景<code>111111</code>的做法去做。</p>
-<h1 id="show-my-code"><a href="#show-my-code" class="headerlink" title="show my code"></a>show my code</h1><p>知道该怎么办了就直接干吧。</p>
-<p>虽然我们现在是针对加粗被重复读取的问题，字符串中的每一种字符一定是双数出现，所以简单一点的话就可以这么做：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">drop_duplicates</span>(<span class="params">arr</span>):</span><br><span class="line">  result, i = [], <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(arr):</span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计算连续相同元素的数量</span></span><br><span class="line">    <span class="keyword">while</span> i + count &lt; <span class="built_in">len</span>(arr) <span class="keyword">and</span> arr[i] == arr[i + count]:</span><br><span class="line">      count += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 保留一半</span></span><br><span class="line">    result.extend([arr[i]] * count // <span class="number">2</span>)</span><br><span class="line">    i += count  <span class="comment"># 处理下一段</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(result)</span><br></pre></td></tr></table></figure>
-
-<p>当然，考虑到并不一定具备跟现在一样完全理想的场景，所以这里也考虑了万一真的有一个数字落单的情况：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">drop_duplicates</span>(<span class="params">arr</span>):</span><br><span class="line">  result, i = [], <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(arr):</span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计算连续相同元素的数量</span></span><br><span class="line">    <span class="keyword">while</span> i + count &lt; <span class="built_in">len</span>(arr) <span class="keyword">and</span> arr[i] == arr[i + count]:</span><br><span class="line">      count += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 只有一个落单的话，1 // 2 = 0，这就不对了，所以上个保险，最低只能为1</span></span><br><span class="line">    result.extend([arr[i]] * <span class="built_in">max</span>(<span class="number">1</span>, count // <span class="number">2</span>))</span><br><span class="line">    i += count  <span class="comment"># 处理下一段</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(result)</span><br></pre></td></tr></table></figure>
-
-<p>解决。</p>
+<h1 id="就结果而言，没太大差异"><a href="#就结果而言，没太大差异" class="headerlink" title="就结果而言，没太大差异"></a>就结果而言，没太大差异</h1><p>这两者其实在最终的依赖注入结果上没有很大的差异，总之就是注入了。</p>
+<h1 id="在过程上，稍微有点区别"><a href="#在过程上，稍微有点区别" class="headerlink" title="在过程上，稍微有点区别"></a>在过程上，稍微有点区别</h1><p>但是呢，在过程上，稍微有这么几个小区别：</p>
+<ul>
+<li>直接注入成员变量不会执行构造函数，而直接为对象赋值；构造函数注入要求<code>Bean</code>实例化之前完成，即产生构造函数的执行过程；</li>
+<li>刚刚提到直接注入成员变量过程对对象的赋值过程，这也意味着注入允许对象的某个变量直接被替换，这是很操蛋的。而构造函数注入避免了这一点，默认值就是默认值，使得类与类之间变得内聚。</li>
+<li>构造函数注入可以解决循环依赖的问题，但是成员变量注入不能；</li>
+</ul>
+<h1 id="一些个人的理解"><a href="#一些个人的理解" class="headerlink" title="一些个人的理解"></a>一些个人的理解</h1><p>在看到本文之前，如果你已经查阅了较多的资料，有了自己的知识储备，你可能会有一些疑问，我也是。所以这里给出我个人的见解。</p>
+<h2 id="依赖可见性"><a href="#依赖可见性" class="headerlink" title="依赖可见性"></a>依赖可见性</h2><p>有些人可能会说存在依赖可见性的差异。因为构造函数注入其实隐形的要求我们将注入的成员变量设置为<code>private</code>，以保证依赖的可见性受限。当然，目前为止规范就是用<code>private</code>注入，所以这一点差距不大。</p>
+<h2 id="错误检测"><a href="#错误检测" class="headerlink" title="错误检测"></a>错误检测</h2><p>也有人会说存在错误检测的差异。因为当Bean匹配失败的时候，成员变量注入会尝试使用默认值，构造函数注入会直接报错，让问题出现地更早，方便定位，作用类似于<code>Object.requireNonNull</code>一样。但是呢，毕竟没谁有事没事就直接设置默认值。为了方便，大家都是直接将默认值放在<code>application.yml</code>中，而不会在注入的过程中再一次指定默认值。这只是一个比较单纯的习惯问题，反而避免了这个差异（欸嘿~⭐）。</p>
+<h2 id="为什么会让类之间内聚"><a href="#为什么会让类之间内聚" class="headerlink" title="为什么会让类之间内聚"></a>为什么会让类之间内聚</h2><p>为什么会提到内聚，实际上就是说明确类与类之间的分工。而如果一个类好好的，突然又在某个不知名的角落中被注入了奇奇怪怪的东西，虽然能提升程序员的不可替代性，但是让这个项目直接向着操蛋的方向一路飞奔。</p>
+<h2 id="循环依赖问题为什么能够被解决"><a href="#循环依赖问题为什么能够被解决" class="headerlink" title="循环依赖问题为什么能够被解决"></a>循环依赖问题为什么能够被解决</h2><p>循环依赖问题，这个是<code>Spring</code>的老生常谈了，具体看看<code>Spring</code>解决循环依赖的主要方式就行了，主要包括：</p>
+<ul>
+<li><code>Bean</code>工厂初始化</li>
+<li>提前暴露</li>
+<li>循环依赖检测</li>
+<li>延迟初始化</li>
+<li>初始化部分<code>Bean</code></li>
+<li>延迟填充</li>
+<li>完善<code>Bean</code></li>
+</ul>
+<p>其中，初始化部分<code>Bean</code>和延迟填充有时候也被整合为<strong>懒加载</strong>，是解决循环依赖的关键。</p>
+<p>如果熟悉这些的话，构造函数注入能够解决循环依赖问题，实际上也是得益于<code>Spring</code>本身的特点。</p>
 ]]></content>
       <categories>
-        <category>Python</category>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>Python</tag>
-        <tag>pdfplumber</tag>
-        <tag>字符串去重</tag>
+        <tag>DI</tag>
+        <tag>Bean</tag>
+        <tag>Autowired</tag>
       </tags>
   </entry>
   <entry>
-    <title>PyQt5中deleteLater不起作用的解决方案</title>
-    <url>/2024/02/23/Python/deleteLater-no-effect/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<code>PyQt5</code>中，考虑到组件之间存在事件关联，官方给了一个<code>deleteLater</code>方法，但是存在释放空间不及时的问题。本文给了一个粗暴的解决方案。</p>
+    <title>RIS方向的研究（二）：RIS硬件与机理</title>
+    <url>/2024/01/01/RIS/introduction-mechanism/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们在了解了衰减模型的基础上，了解到了信号在接触<code>RIS</code>之前与之后所产生的损耗，接下来，我们将继续探讨<code>RIS</code>的机理，并尝试挖掘<code>RIS</code>可做的内容。</p>
+<p>同样的，正文将以相对正经的文字编辑，在前言与附录中将给出类似博客一样口吻。</p>
 <span id="more"></span>
 
-<h1 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h1><p>我的需求是，将<code>QDialog</code>中地<code>QVBoxLayout</code>内所有的<code>QCheckBox</code>一批批地轮换，保证每次打开<code>QDialog</code>都是希望呈现的<code>QCheckBox</code>。</p>
-<p>但是使用<code>deleteLater</code>发现并不是这回事。由于增加了一个<code>QCheckBox</code>的全选逻辑，导致<code>QVBoxLayout</code>内所有的<code>QCheckBox</code>在<code>QDialog</code>被关闭后并没有及时断开槽链接，也就是说，<code>deleteLater</code>并不能及时释放这些<code>QCheckBox</code>。</p>
-<p>于是，当我再次打开<code>QDialog</code>的时候，显示的还是上一批的内容。而当我关闭<code>QDialog</code>后，再次打开，将显示这一批的内容。这也形成了一个恶性循环，每次打开<code>QDialog</code>都会显示上一批的内容。</p>
-<p>而如果直接使用<code>delete</code>呢，将会导致对象在父类信号传过来之前，收信号的家伙消失了。</p>
-<blockquote>
-<p>父类：我徒弟呢！</p>
-<p>子类：我不到啊！</p>
-<p>父类: 行吧，毁灭了吧。（TypeError</p>
-<p>在修bug的你：？</p>
-</blockquote>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>当然，解决方案也没那么复杂。</p>
-<p>无论如何挂起其他线程，无论如何关闭槽链接，无论如何提高优先级，关不掉的就是关不掉。</p>
-<p>所以，眼不见为净吧。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 我们在之前定义了一个q = QVBoxLayout存放生成的QCheckBox</span></span><br><span class="line">checkboxs = q.findChildren(QCheckBox)</span><br><span class="line">[checkbox.setVisible(<span class="literal">False</span>) <span class="keyword">for</span> checkbox <span class="keyword">in</span> checkboxs]</span><br><span class="line">[checkbox.deleteLater() <span class="keyword">for</span> checkbox <span class="keyword">in</span> checkboxs]</span><br></pre></td></tr></table></figure>
+<h1 id="RIS项目背景"><a href="#RIS项目背景" class="headerlink" title="RIS项目背景"></a>RIS项目背景</h1><p><code>RIS</code>作为一种超材料，为无线信号的反射带来了极大的便利。具体而言，<code>RIS</code>表面上分布着许多反射单元，每个反射单元灵活的控制系数变化来最大化传输的信号<sup><a href="https://ieeexplore.ieee.org/document/9348585">[1]</a></sup>。</p>
+<p>通过在无线网络中密集部署<code>IRSs</code>，灵活地协调反射发射机和接收器之间的信号传播，从而为无线信道衰落损耗和干扰问题提供了一种新的手段<sup><a href="https://ieeexplore.ieee.org/document/9723438">[2]</a></sup>。</p>
+<p><code>IRS</code>硬件架构如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示<sup><a href="https://d.wanfangdata.com.cn/thesis/ChJUaGVzaXNOZXdTMjAyMzEyMjISCUQwMjgwNzI3MRoIbmFkeDIxZDM%3D">[3]</a></sup>。</p>
+<p><img data-src="http://images.sakebow.cn/RIS/introduction-menchanism/RIS%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84.png" alt="IRS硬件架构"></p>
+<div style="color:#999;padding:2px;text-align:center;font-size:14px;">
+  图1 RIS硬件架构
+</div>
 
-<p>既然他们总会慢一拍，那我们就直接把这一拍消掉，下一拍就不得不顶上来了。</p>
-<p>很粗暴，但很有效。</p>
+<p>利用如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示的<code>IRS</code>设备，信号射到反射表面时，反射单元将调制后的信号反射到指定的位置。同时，每个反射单元都由独立的控制信号进行控制。其中，控制信号由基站发送，并遵循一定的反馈机制进行优化，如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g></g></svg></mjx-container>所示<sup><a href="https://arxiv.org/pdf/2006.03377.pdf">[4]</a></sup>。</p>
+<p><img data-src="http://images.sakebow.cn/RIS/introduction-menchanism/%E5%9F%BA%E7%AB%99%E6%A0%B9%E6%8D%AE%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BE%9BRIS%E4%BC%98%E5%8C%96.png" alt="基站根据反馈提供RIS优化"></p>
+<div style="color:#999;padding:2px;text-align:center;font-size:14px;">
+  图2 基站根据反馈进行优化
+</div>
+
+<p>基于</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Huang C., Zappone A., Alexandropoulos G., Debbah M., Yuen C., Reconfigurable intelligent surfaces for energy efficiency in wireless communication[C]. IEEE Transactions on Wireless Communications, IEEE 92nd Vehicular Technology Conference (VTC2020-Fall), Victoria, BC, Canada, 2020:1-5.</p>
+<p>[2] Qi F., Liu Q., Li W., Yu P., Qiu X.Enhanced 5G Mobile Broadcasting Service With Shape-Adaptive RIS[J].IEEE Transactions on Broadcasting 2022,68(3):704-711.</p>
+<p>[3] 邵智敏. 基于智能反射表面的无线信道传输技术研究[D]. 杭州电子科技大学,2022.</p>
+<p>[4] Bjrnson E., Zdogan Z., Larsson E.Reconfigurable Intelligent Surfaces: Three Myths and Two Critical Questions[J].IEEE Communications Magazine.2020, 58(12): 90-96.</p>
+<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>在这里将详细展开正文中没能说清楚的东西。</p>
+<h2 id="RIS为什么叫做超材料"><a href="#RIS为什么叫做超材料" class="headerlink" title="RIS为什么叫做超材料"></a>RIS为什么叫做超材料</h2><p>自然界中能够找到的材料（或者加工的材料），都是原子通过已知的规则组合在一起，都遵循自然界的物理规律。比如，粗糙表面是漫反射，而且漫反射的方向无法控制。超材料则是完全依靠人工的设计将原子组织在一起，所以具有那些自然材料所不具备的性质。比如<code>RIS</code>能够控制反射方向。</p>
+<h2 id="RIS？IRS？"><a href="#RIS？IRS？" class="headerlink" title="RIS？IRS？"></a>RIS？IRS？</h2><p><code>RIS</code>全称<code>Reconfigurable Intelligent  Surfaces</code>，直译是<strong>可重构智能表面</strong>，大多也都将他称为<strong>智能反射表面</strong>。</p>
+<p><code>IRS</code>全称<code>Intelligent Reflecting Surface</code>，直译是<strong>智能反射表面</strong>。似乎这个才是真正的智能反射表面。</p>
+<p>不过往往中文材料中都将两者混为一谈，所以也没必要刻意去区分两者的差别。如果真要较真的话，那就是说，<code>RIS</code>是材料，而<code>IRS</code>是实际应用。</p>
+]]></content>
+      <categories>
+        <category>RIS</category>
+      </categories>
+      <tags>
+        <tag>theory</tag>
+        <tag>introduction</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Python将CSV文件导入PostgreSQL数据库</title>
+    <url>/2024/03/25/Python/import-postgresql/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>遇到了一个需求，需要将给定的样表导入数据库中。这有什么，直接<code>SQL</code>！然后一看<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 1000 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z" transform="translate(500,0)"></path></g></g></g></svg></mjx-container>个属性，傻眼了。</p>
+<span id="more"></span>
+
+<h1 id="想点办法"><a href="#想点办法" class="headerlink" title="想点办法"></a>想点办法</h1><p>当然，这个时候就得请出我们无所不能的数据处理器：<code>pandas</code>。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_data = pandas.read_csv(<span class="string">'my_data.csv'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>没啥问题。</p>
+<p>然后呢？我们的<code>pandas</code>给了一个<code>to_sql</code>方法，直接导入数据库。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_data.to_sql(<span class="string">'my_table'</span>, conn, if_exists=<span class="string">'append'</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>也没啥问题。执行！</p>
+<h1 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h1><p>报错无法解析<code>conn</code>。而且报错内容很诡异，说是在<code>AND name=?;</code>这个地方出现了<code>SQLError</code>。</p>
+<p>但是我只有<code>to_sql</code>，也没有编写<code>SQL</code>，更没有用<code>execute</code>执行啊。</p>
+<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>于是注意到，<code>conn</code>需要使用<code>sqlalchemy</code>来创建，这是<code>PostgreSQL</code>的官方提示。</p>
+<p>那就试试看：</p>
+<p>先安装：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install sqlalchemy</span><br></pre></td></tr></table></figure>
+
+<p>然后写脚本：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换下面的参数为你自己的数据库信息</span></span><br><span class="line">username = ${username}</span><br><span class="line">password = ${password}</span><br><span class="line">host = ${host}</span><br><span class="line">port = ${port}</span><br><span class="line">database = ${database}</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建连接字符串</span></span><br><span class="line">connection_string = <span class="string">f'postgresql://<span class="subst">{username}</span>:<span class="subst">{password}</span>@<span class="subst">{host}</span>:<span class="subst">{port}</span>/<span class="subst">{database}</span>'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库引擎</span></span><br><span class="line">engine = create_engine(connection_string)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据，读取当前目录下的CSV文件</span></span><br><span class="line">df = pd.read_csv(<span class="string">'your_data.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用pandas的to_sql函数把数据导入到postgreSQL数据库中，并指定表名为your_table_name</span></span><br><span class="line">df.to_sql(<span class="string">'your_table_name'</span>, con=engine, index=<span class="literal">False</span>, if_exists=<span class="string">'replace'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这样就好了。</p>
+<p>需要注意的是，这样的方法并不需要你创建对应的表，直接就能够导入。非常的方便。</p>
 ]]></content>
       <categories>
         <category>Python</category>
       </categories>
       <tags>
         <tag>Python</tag>
-        <tag>PyQt5</tag>
+        <tag>PostgreSQL</tag>
+        <tag>pandas</tag>
       </tags>
   </entry>
   <entry>
@@ -599,6 +693,36 @@
         <tag>Python</tag>
         <tag>Interview</tag>
         <tag>Decorator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PDF加粗内容重复读取解决方案</title>
+    <url>/2024/02/21/Python/adjust-duplicates/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>pdfplumber</code>读取<code>PDF</code>的过程中，由于加黑的内容会被莫名其妙的读取两次，带来了很大的困扰。这篇文章将给出解决方案。</p>
+<span id="more"></span>
+
+<h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>在在使用<code>pdfplumber</code>读取<code>PDF</code>的过程中，读取普通内容是完全没有问题的。但是该公司早期<code>PDF</code>并未完全规范的过程中，有些标题加粗了，而有些却没有。加粗的标题将会被读取两次，比如好好的<code>123456</code>，加粗后将会被读取为<code>112233445566</code>。这可不太好。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>首先我们需要明白，加粗的内容只会被连续读取，而不会被随机读取，这一点使得字符串具备了一定的规律。所以循环或者递归都是可行的，只是我们需要记住递归的最大深度为<code>1000</code>。</p>
+<p>其次我们需要明确，不是所有的连续内容都应该被删除。比如<code>111</code>被读成了<code>111111</code>，那颗不能删的只剩下<code>1</code>，这就又和<code>PDF</code>上想要传达的内容不一致了。所以正则表达式也是不能乱用的。</p>
+<h2 id="大致逻辑"><a href="#大致逻辑" class="headerlink" title="大致逻辑"></a>大致逻辑</h2><p>既然有这些要求，我们就好办了。</p>
+<p>我们考虑极端场景：<code>111111</code>。我们就直接先数一数连续重复有几个，然后保留一半就好了。</p>
+<p>然后再考虑一般场景：<code>111111222222333333</code>。在处理过程中，实际上也就是相当于把字符串拆成了<code>3</code>份，每份利用极端场景<code>111111</code>的做法去做。</p>
+<h1 id="show-my-code"><a href="#show-my-code" class="headerlink" title="show my code"></a>show my code</h1><p>知道该怎么办了就直接干吧。</p>
+<p>虽然我们现在是针对加粗被重复读取的问题，字符串中的每一种字符一定是双数出现，所以简单一点的话就可以这么做：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">drop_duplicates</span>(<span class="params">arr</span>):</span><br><span class="line">  result, i = [], <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(arr):</span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计算连续相同元素的数量</span></span><br><span class="line">    <span class="keyword">while</span> i + count &lt; <span class="built_in">len</span>(arr) <span class="keyword">and</span> arr[i] == arr[i + count]:</span><br><span class="line">      count += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 保留一半</span></span><br><span class="line">    result.extend([arr[i]] * count // <span class="number">2</span>)</span><br><span class="line">    i += count  <span class="comment"># 处理下一段</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(result)</span><br></pre></td></tr></table></figure>
+
+<p>当然，考虑到并不一定具备跟现在一样完全理想的场景，所以这里也考虑了万一真的有一个数字落单的情况：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">drop_duplicates</span>(<span class="params">arr</span>):</span><br><span class="line">  result, i = [], <span class="number">0</span></span><br><span class="line">  <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(arr):</span><br><span class="line">    count = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 计算连续相同元素的数量</span></span><br><span class="line">    <span class="keyword">while</span> i + count &lt; <span class="built_in">len</span>(arr) <span class="keyword">and</span> arr[i] == arr[i + count]:</span><br><span class="line">      count += <span class="number">1</span></span><br><span class="line">    <span class="comment"># 只有一个落单的话，1 // 2 = 0，这就不对了，所以上个保险，最低只能为1</span></span><br><span class="line">    result.extend([arr[i]] * <span class="built_in">max</span>(<span class="number">1</span>, count // <span class="number">2</span>))</span><br><span class="line">    i += count  <span class="comment"># 处理下一段</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>.join(result)</span><br></pre></td></tr></table></figure>
+
+<p>解决。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>pdfplumber</tag>
+        <tag>字符串去重</tag>
       </tags>
   </entry>
   <entry>
@@ -702,6 +826,38 @@
       </tags>
   </entry>
   <entry>
+    <title>PyQt5中deleteLater不起作用的解决方案</title>
+    <url>/2024/02/23/Python/deleteLater-no-effect/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<code>PyQt5</code>中，考虑到组件之间存在事件关联，官方给了一个<code>deleteLater</code>方法，但是存在释放空间不及时的问题。本文给了一个粗暴的解决方案。</p>
+<span id="more"></span>
+
+<h1 id="问题发现"><a href="#问题发现" class="headerlink" title="问题发现"></a>问题发现</h1><p>我的需求是，将<code>QDialog</code>中地<code>QVBoxLayout</code>内所有的<code>QCheckBox</code>一批批地轮换，保证每次打开<code>QDialog</code>都是希望呈现的<code>QCheckBox</code>。</p>
+<p>但是使用<code>deleteLater</code>发现并不是这回事。由于增加了一个<code>QCheckBox</code>的全选逻辑，导致<code>QVBoxLayout</code>内所有的<code>QCheckBox</code>在<code>QDialog</code>被关闭后并没有及时断开槽链接，也就是说，<code>deleteLater</code>并不能及时释放这些<code>QCheckBox</code>。</p>
+<p>于是，当我再次打开<code>QDialog</code>的时候，显示的还是上一批的内容。而当我关闭<code>QDialog</code>后，再次打开，将显示这一批的内容。这也形成了一个恶性循环，每次打开<code>QDialog</code>都会显示上一批的内容。</p>
+<p>而如果直接使用<code>delete</code>呢，将会导致对象在父类信号传过来之前，收信号的家伙消失了。</p>
+<blockquote>
+<p>父类：我徒弟呢！</p>
+<p>子类：我不到啊！</p>
+<p>父类: 行吧，毁灭了吧。（TypeError</p>
+<p>在修bug的你：？</p>
+</blockquote>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>当然，解决方案也没那么复杂。</p>
+<p>无论如何挂起其他线程，无论如何关闭槽链接，无论如何提高优先级，关不掉的就是关不掉。</p>
+<p>所以，眼不见为净吧。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 我们在之前定义了一个q = QVBoxLayout存放生成的QCheckBox</span></span><br><span class="line">checkboxs = q.findChildren(QCheckBox)</span><br><span class="line">[checkbox.setVisible(<span class="literal">False</span>) <span class="keyword">for</span> checkbox <span class="keyword">in</span> checkboxs]</span><br><span class="line">[checkbox.deleteLater() <span class="keyword">for</span> checkbox <span class="keyword">in</span> checkboxs]</span><br></pre></td></tr></table></figure>
+
+<p>既然他们总会慢一拍，那我们就直接把这一拍消掉，下一拍就不得不顶上来了。</p>
+<p>很粗暴，但很有效。</p>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>PyQt5</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>setModel无法触发modelReset事件的解决方案</title>
     <url>/2024/03/04/Python/setmodel-no-effect/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>PyQt5</code>时，发现<code>setModel</code>无法触发<code>modelReset</code>事件，导致在使用<code>QTableView</code>时，无法动态更新数据。</p>
@@ -737,79 +893,65 @@
       </tags>
   </entry>
   <entry>
-    <title>使用Python将CSV文件导入PostgreSQL数据库</title>
-    <url>/2024/03/25/Python/import-postgresql/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>遇到了一个需求，需要将给定的样表导入数据库中。这有什么，直接<code>SQL</code>！然后一看<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="2.262ex" height="1.579ex" role="img" focusable="false" viewBox="0 -676 1000 698"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z" transform="translate(500,0)"></path></g></g></g></svg></mjx-container>个属性，傻眼了。</p>
+    <title>前端在线预览docx文件</title>
+    <url>/2024/01/24/WebDoc/introduction/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于文档上云，前端在线预览<code>word</code>这一类的文件就成了刚需。为了满足这个需求，我们先看看有哪些技术能够帮助我们。</p>
 <span id="more"></span>
 
-<h1 id="想点办法"><a href="#想点办法" class="headerlink" title="想点办法"></a>想点办法</h1><p>当然，这个时候就得请出我们无所不能的数据处理器：<code>pandas</code>。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_data = pandas.read_csv(<span class="string">'my_data.csv'</span>)</span><br></pre></td></tr></table></figure>
+<h1 id="baseline"><a href="#baseline" class="headerlink" title="baseline"></a>baseline</h1><p>既然我们现在都要站在巨人的肩膀上了，那就干脆站一个最高的巨人。也就是说，我们直接用技术选型最贴合我们需求的、搭建起来最方便的应用，我们以后的工作都将从这个应用开始。</p>
+<p>那么，无疑，这个应用就是<code>Hexo</code>了。简单的文件编写方式、多样化的文件样式、强大的静态资源管理，对小白来说上手超快。</p>
+<h1 id="文件在线预览"><a href="#文件在线预览" class="headerlink" title="文件在线预览"></a>文件在线预览</h1><p>那么接下来就是正题了。如何实现文件预览呢？总之我们先准备一个文档，里面放入各种各样的内容，来检测是不是能好好的识别。</p>
+<p><img data-src="http://images.sakebow.cn/WebDoc/%E5%87%86%E5%A4%87%E6%96%87%E6%A1%A3.png" alt="准备文档"></p>
+<p>接下来，就来让我们介绍一下我们可以使用什么技术。</p>
+<h2 id="pandoc"><a href="#pandoc" class="headerlink" title="pandoc"></a>pandoc</h2><p>既然是基于<code>markdown</code>的<code>Hexo</code>，那么就一定绕不过什么都转<code>markdown</code>的<code>pandoc</code>脚本。我们直接找到<a href="https://github.com/jgm/pandoc/releases/tag/3.1.11.1">pandoc资源库</a>，然后下载自己需要的内容。我这里选用<code>pandoc-3.1.11.1-linux-amd64.tar.gz</code>文件，然后解压，配置环境变量</p>
+<blockquote>
+<p>配置环境变量主要是为了让<code>pandoc</code>无论在什么工作目录下都可以使用。</p>
+</blockquote>
+<p>众所周知，<code>markdown</code>的图片功能完全是没有，所以在使用<code>pandoc</code>的时候别忘了把图片提取到单独的文件夹中，从而让<code>markdown</code>能够引用，也就是这个命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pandoc -f docx -t markdown input.docx -o output.md --extract-media=$(pwd) --wrap=none</span><br></pre></td></tr></table></figure>
 
-<p>没啥问题。</p>
-<p>然后呢？我们的<code>pandas</code>给了一个<code>to_sql</code>方法，直接导入数据库。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">my_data.to_sql(<span class="string">'my_table'</span>, conn, if_exists=<span class="string">'append'</span>, index=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+<p>于是就生成了<code>markdown</code>文件与存放多媒体资源的<code>media</code>文件夹。</p>
+<p>我们看看文件内容：</p>
+<p><img data-src="http://images.sakebow.cn/WebDoc/pandoc.png" alt="pandoc执行结果"></p>
+<p>如果是自己用，那么这个结果已经可以说是很不错了，因为已经把很多字全都提取出来了。但是如果要形成产品，这还远远不够。</p>
+<p>看来只能另想办法了。</p>
+<h2 id="mammoth-js"><a href="#mammoth-js" class="headerlink" title="mammoth.js"></a>mammoth.js</h2><p>这是一个最简便的前端库了，开箱即用。</p>
+<p>我们直接写一个本地提交文件的代码：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>word预览<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"document"</span> <span class="attr">type</span>=<span class="string">"file"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100%;"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">                &lt;divclass="well"&gt;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.bootcss.com/mammoth/1.4.8/mammoth.browser.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">"document"</span>).<span class="title function_">addEventListener</span>(<span class="string">"change"</span>, readFileInputEventAsArrayBuffer, <span class="literal">false</span>);</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">displayResult</span>(<span class="params">result</span>) {</span></span><br><span class="line"><span class="language-javascript">          <span class="keyword">let</span> html = result.<span class="property">value</span>;</span></span><br><span class="line"><span class="language-javascript">          <span class="keyword">let</span> newHTML = html.<span class="title function_">replace</span>(<span class="string">'&lt;h1&gt;'</span>, <span class="string">'&lt;h1 style="text-align: center;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;table&gt;/g</span>, <span class="string">'&lt;table style="border-collapse: collapse;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;tr&gt;/g</span>, <span class="string">'&lt;tr style="height: 30px;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;td&gt;/g</span>, <span class="string">'&lt;td style="border: 1px solid pink;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;p&gt;/g</span>, <span class="string">'&lt;p style="text-indent: 2em;"&gt;'</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">"output"</span>).<span class="property">innerHTML</span> = newHTML;</span></span><br><span class="line"><span class="language-javascript">        }</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">readFileInputEventAsArrayBuffer</span>(<span class="params">event</span>) {</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> file = event.<span class="property">target</span>.<span class="property">files</span>[<span class="number">0</span>];</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>();</span></span><br><span class="line"><span class="language-javascript">            reader.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params">loadEvent</span>) {</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">const</span> arrayBuffer = loadEvent.<span class="property">target</span>.<span class="property">result</span>;</span></span><br><span class="line"><span class="language-javascript">                mammoth.<span class="title function_">convertToHtml</span>({ <span class="attr">arrayBuffer</span>: arrayBuffer }).<span class="title function_">then</span>(displayResult).<span class="title function_">done</span>();</span></span><br><span class="line"><span class="language-javascript">            };</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            reader.<span class="title function_">readAsArrayBuffer</span>(file);</span></span><br><span class="line"><span class="language-javascript">        }</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>也没啥问题。执行！</p>
-<h1 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h1><p>报错无法解析<code>conn</code>。而且报错内容很诡异，说是在<code>AND name=?;</code>这个地方出现了<code>SQLError</code>。</p>
-<p>但是我只有<code>to_sql</code>，也没有编写<code>SQL</code>，更没有用<code>execute</code>执行啊。</p>
-<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>于是注意到，<code>conn</code>需要使用<code>sqlalchemy</code>来创建，这是<code>PostgreSQL</code>的官方提示。</p>
-<p>那就试试看：</p>
-<p>先安装：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pip install sqlalchemy</span><br></pre></td></tr></table></figure>
+<p>可以说是连样式都没有的简陋了。</p>
+<p>那么效果又是如何呢？</p>
+<p><img data-src="http://images.sakebow.cn/WebDoc/mammoth.png" alt="mammoth效果"></p>
+<p>比<code>pandoc</code>稍微好一点，好就好在表格识别出来了，也给了一定的样式。但也就仅此而已了。</p>
+<h2 id="vue-office"><a href="#vue-office" class="headerlink" title="vue-office"></a>vue-office</h2><p>这相当于是另起炉灶的操作。先尝试一下试试。</p>
+<p>首先，使用<code>vue3</code>创建一个<code>vue</code>项目，选用什么插件其实无所谓，默认配置也没什么不好的。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">vue create vue-office</span></span><br></pre></td></tr></table></figure>
 
-<p>然后写脚本：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> create_engine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换下面的参数为你自己的数据库信息</span></span><br><span class="line">username = ${username}</span><br><span class="line">password = ${password}</span><br><span class="line">host = ${host}</span><br><span class="line">port = ${port}</span><br><span class="line">database = ${database}</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建连接字符串</span></span><br><span class="line">connection_string = <span class="string">f'postgresql://<span class="subst">{username}</span>:<span class="subst">{password}</span>@<span class="subst">{host}</span>:<span class="subst">{port}</span>/<span class="subst">{database}</span>'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建数据库引擎</span></span><br><span class="line">engine = create_engine(connection_string)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取数据，读取当前目录下的CSV文件</span></span><br><span class="line">df = pd.read_csv(<span class="string">'your_data.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用pandas的to_sql函数把数据导入到postgreSQL数据库中，并指定表名为your_table_name</span></span><br><span class="line">df.to_sql(<span class="string">'your_table_name'</span>, con=engine, index=<span class="literal">False</span>, if_exists=<span class="string">'replace'</span>)</span><br></pre></td></tr></table></figure>
+<p>顺带着把需要准备的包也装上：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install @vue-office/docx vue-demi element-plus --save --legacy-peer-deps</span></span><br></pre></td></tr></table></figure>
 
-<p>这样就好了。</p>
-<p>需要注意的是，这样的方法并不需要你创建对应的表，直接就能够导入。非常的方便。</p>
+<p>然后我们引入一个<code>Element-plus</code>，也就是在<code>main.ts</code>中写下这些：</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> { createApp } <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">'./App.vue'</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ElementPlus</span> <span class="keyword">from</span> <span class="string">'element-plus'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'element-plus/dist/index.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>)</span><br><span class="line">app.<span class="title function_">use</span>(router).<span class="title function_">use</span>(<span class="title class_">ElementPlus</span>).<span class="title function_">mount</span>(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后再在<code>About.vue</code>代码中的所有内容删掉，然后写下这些：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"docx-demo"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-upload</span> <span class="attr">:limit</span>=<span class="string">"1"</span> <span class="attr">:file-list</span>=<span class="string">"fileList"</span> <span class="attr">accept</span>=<span class="string">".docx"</span> <span class="attr">:beforeUpload</span>=<span class="string">"beforeUpload"</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">size</span>=<span class="string">"small"</span> <span class="attr">type</span>=<span class="string">"warning"</span>&gt;</span>点击上传<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-upload</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">vue-office-docx</span> <span class="attr">:src</span>=<span class="string">"src"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">lang</span>=<span class="string">"ts"</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> { ref } <span class="keyword">from</span> <span class="string">'vue'</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> <span class="title class_">VueOfficeDocx</span> <span class="keyword">from</span> <span class="string">'@vue-office/docx'</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> <span class="string">'@vue-office/docx/lib/index.css'</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> src = <span class="title function_">ref</span>()</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> fileList = <span class="title function_">ref</span>([])</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">function</span> <span class="title function_">beforeUpload</span> (<span class="attr">file</span>: <span class="title class_">Blob</span>) {</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">const</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>()</span></span><br><span class="line"><span class="language-javascript">  reader.<span class="title function_">readAsArrayBuffer</span>(file)</span></span><br><span class="line"><span class="language-javascript">  reader.<span class="property">onload</span> = <span class="function">(<span class="params">loadEvent</span>) =&gt;</span> {</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> arrayBuffer = <span class="literal">null</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">if</span> (loadEvent.<span class="property">target</span>) {</span></span><br><span class="line"><span class="language-javascript">      arrayBuffer = loadEvent.<span class="property">target</span>.<span class="property">result</span></span></span><br><span class="line"><span class="language-javascript">    }</span></span><br><span class="line"><span class="language-javascript">    src.<span class="property">value</span> = arrayBuffer</span></span><br><span class="line"><span class="language-javascript">  }</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line"><span class="language-javascript">}</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>官方文档给的是非<code>typescript</code>版本的，这里根据<code>typescript</code>的一些特点进行了一捏捏修改，并且大致上是符合<code>typescript-eslint</code>规范的。</p>
+<p>试着运行一下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
+
+<p>出现了这样的结果：</p>
+<p><img data-src="http://images.sakebow.cn/WebDoc/vue-office.png" alt="vue-office"></p>
+<p>这样的效果已经超出<code>pandoc</code>与<code>mammoth</code>太多太多了。</p>
+<p>虽然说文本中使用的字体是黑体标题+宋体正文+英文<code>Times New Roman</code>，而在这里显示的只有微软雅黑的中文与<code>Times New Roman</code>的英文，公式的样式也是丑丑的，但是多少什么都能识别了。</p>
+<p>当然，也有一定的局限性，比如页眉会被识别成正文、页脚页码会丢失。</p>
 ]]></content>
       <categories>
-        <category>Python</category>
+        <category>webdoc</category>
       </categories>
       <tags>
-        <tag>Python</tag>
-        <tag>PostgreSQL</tag>
-        <tag>pandas</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>RIS方向的研究（二）：RIS硬件与机理</title>
-    <url>/2024/01/01/RIS/introduction-mechanism/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>我们在了解了衰减模型的基础上，了解到了信号在接触<code>RIS</code>之前与之后所产生的损耗，接下来，我们将继续探讨<code>RIS</code>的机理，并尝试挖掘<code>RIS</code>可做的内容。</p>
-<p>同样的，正文将以相对正经的文字编辑，在前言与附录中将给出类似博客一样口吻。</p>
-<span id="more"></span>
-
-<h1 id="RIS项目背景"><a href="#RIS项目背景" class="headerlink" title="RIS项目背景"></a>RIS项目背景</h1><p><code>RIS</code>作为一种超材料，为无线信号的反射带来了极大的便利。具体而言，<code>RIS</code>表面上分布着许多反射单元，每个反射单元灵活的控制系数变化来最大化传输的信号<sup><a href="https://ieeexplore.ieee.org/document/9348585">[1]</a></sup>。</p>
-<p>通过在无线网络中密集部署<code>IRSs</code>，灵活地协调反射发射机和接收器之间的信号传播，从而为无线信道衰落损耗和干扰问题提供了一种新的手段<sup><a href="https://ieeexplore.ieee.org/document/9723438">[2]</a></sup>。</p>
-<p><code>IRS</code>硬件架构如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示<sup><a href="https://d.wanfangdata.com.cn/thesis/ChJUaGVzaXNOZXdTMjAyMzEyMjISCUQwMjgwNzI3MRoIbmFkeDIxZDM%3D">[3]</a></sup>。</p>
-<p><img data-src="http://images.sakebow.cn/RIS/introduction-menchanism/RIS%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84.png" alt="IRS硬件架构"></p>
-<div style="color:#999;padding:2px;text-align:center;font-size:14px;">
-  图1 RIS硬件架构
-</div>
-
-<p>利用如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g></svg></mjx-container>所示的<code>IRS</code>设备，信号射到反射表面时，反射单元将调制后的信号反射到指定的位置。同时，每个反射单元都由独立的控制信号进行控制。其中，控制信号由基站发送，并遵循一定的反馈机制进行优化，如图<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: 0;" xmlns="http://www.w3.org/2000/svg" width="1.131ex" height="1.507ex" role="img" focusable="false" viewBox="0 -666 500 666"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g></g></g></svg></mjx-container>所示<sup><a href="https://arxiv.org/pdf/2006.03377.pdf">[4]</a></sup>。</p>
-<p><img data-src="http://images.sakebow.cn/RIS/introduction-menchanism/%E5%9F%BA%E7%AB%99%E6%A0%B9%E6%8D%AE%E5%8F%8D%E9%A6%88%E6%8F%90%E4%BE%9BRIS%E4%BC%98%E5%8C%96.png" alt="基站根据反馈提供RIS优化"></p>
-<div style="color:#999;padding:2px;text-align:center;font-size:14px;">
-  图2 基站根据反馈进行优化
-</div>
-
-<p>基于</p>
-<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Huang C., Zappone A., Alexandropoulos G., Debbah M., Yuen C., Reconfigurable intelligent surfaces for energy efficiency in wireless communication[C]. IEEE Transactions on Wireless Communications, IEEE 92nd Vehicular Technology Conference (VTC2020-Fall), Victoria, BC, Canada, 2020:1-5.</p>
-<p>[2] Qi F., Liu Q., Li W., Yu P., Qiu X.Enhanced 5G Mobile Broadcasting Service With Shape-Adaptive RIS[J].IEEE Transactions on Broadcasting 2022,68(3):704-711.</p>
-<p>[3] 邵智敏. 基于智能反射表面的无线信道传输技术研究[D]. 杭州电子科技大学,2022.</p>
-<p>[4] Bjrnson E., Zdogan Z., Larsson E.Reconfigurable Intelligent Surfaces: Three Myths and Two Critical Questions[J].IEEE Communications Magazine.2020, 58(12): 90-96.</p>
-<h1 id="附录"><a href="#附录" class="headerlink" title="附录"></a>附录</h1><p>在这里将详细展开正文中没能说清楚的东西。</p>
-<h2 id="RIS为什么叫做超材料"><a href="#RIS为什么叫做超材料" class="headerlink" title="RIS为什么叫做超材料"></a>RIS为什么叫做超材料</h2><p>自然界中能够找到的材料（或者加工的材料），都是原子通过已知的规则组合在一起，都遵循自然界的物理规律。比如，粗糙表面是漫反射，而且漫反射的方向无法控制。超材料则是完全依靠人工的设计将原子组织在一起，所以具有那些自然材料所不具备的性质。比如<code>RIS</code>能够控制反射方向。</p>
-<h2 id="RIS？IRS？"><a href="#RIS？IRS？" class="headerlink" title="RIS？IRS？"></a>RIS？IRS？</h2><p><code>RIS</code>全称<code>Reconfigurable Intelligent  Surfaces</code>，直译是<strong>可重构智能表面</strong>，大多也都将他称为<strong>智能反射表面</strong>。</p>
-<p><code>IRS</code>全称<code>Intelligent Reflecting Surface</code>，直译是<strong>智能反射表面</strong>。似乎这个才是真正的智能反射表面。</p>
-<p>不过往往中文材料中都将两者混为一谈，所以也没必要刻意去区分两者的差别。如果真要较真的话，那就是说，<code>RIS</code>是材料，而<code>IRS</code>是实际应用。</p>
-]]></content>
-      <categories>
-        <category>RIS</category>
-      </categories>
-      <tags>
-        <tag>theory</tag>
-        <tag>introduction</tag>
+        <tag>doc-preview</tag>
+        <tag>web</tag>
       </tags>
   </entry>
   <entry>
@@ -1061,68 +1203,6 @@
       </tags>
   </entry>
   <entry>
-    <title>前端在线预览docx文件</title>
-    <url>/2024/01/24/WebDoc/introduction/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>由于文档上云，前端在线预览<code>word</code>这一类的文件就成了刚需。为了满足这个需求，我们先看看有哪些技术能够帮助我们。</p>
-<span id="more"></span>
-
-<h1 id="baseline"><a href="#baseline" class="headerlink" title="baseline"></a>baseline</h1><p>既然我们现在都要站在巨人的肩膀上了，那就干脆站一个最高的巨人。也就是说，我们直接用技术选型最贴合我们需求的、搭建起来最方便的应用，我们以后的工作都将从这个应用开始。</p>
-<p>那么，无疑，这个应用就是<code>Hexo</code>了。简单的文件编写方式、多样化的文件样式、强大的静态资源管理，对小白来说上手超快。</p>
-<h1 id="文件在线预览"><a href="#文件在线预览" class="headerlink" title="文件在线预览"></a>文件在线预览</h1><p>那么接下来就是正题了。如何实现文件预览呢？总之我们先准备一个文档，里面放入各种各样的内容，来检测是不是能好好的识别。</p>
-<p><img data-src="http://images.sakebow.cn/WebDoc/%E5%87%86%E5%A4%87%E6%96%87%E6%A1%A3.png" alt="准备文档"></p>
-<p>接下来，就来让我们介绍一下我们可以使用什么技术。</p>
-<h2 id="pandoc"><a href="#pandoc" class="headerlink" title="pandoc"></a>pandoc</h2><p>既然是基于<code>markdown</code>的<code>Hexo</code>，那么就一定绕不过什么都转<code>markdown</code>的<code>pandoc</code>脚本。我们直接找到<a href="https://github.com/jgm/pandoc/releases/tag/3.1.11.1">pandoc资源库</a>，然后下载自己需要的内容。我这里选用<code>pandoc-3.1.11.1-linux-amd64.tar.gz</code>文件，然后解压，配置环境变量</p>
-<blockquote>
-<p>配置环境变量主要是为了让<code>pandoc</code>无论在什么工作目录下都可以使用。</p>
-</blockquote>
-<p>众所周知，<code>markdown</code>的图片功能完全是没有，所以在使用<code>pandoc</code>的时候别忘了把图片提取到单独的文件夹中，从而让<code>markdown</code>能够引用，也就是这个命令：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pandoc -f docx -t markdown input.docx -o output.md --extract-media=$(pwd) --wrap=none</span><br></pre></td></tr></table></figure>
-
-<p>于是就生成了<code>markdown</code>文件与存放多媒体资源的<code>media</code>文件夹。</p>
-<p>我们看看文件内容：</p>
-<p><img data-src="http://images.sakebow.cn/WebDoc/pandoc.png" alt="pandoc执行结果"></p>
-<p>如果是自己用，那么这个结果已经可以说是很不错了，因为已经把很多字全都提取出来了。但是如果要形成产品，这还远远不够。</p>
-<p>看来只能另想办法了。</p>
-<h2 id="mammoth-js"><a href="#mammoth-js" class="headerlink" title="mammoth.js"></a>mammoth.js</h2><p>这是一个最简便的前端库了，开箱即用。</p>
-<p>我们直接写一个本地提交文件的代码：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>word预览<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"document"</span> <span class="attr">type</span>=<span class="string">"file"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">"width: 100%;"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">                &lt;divclass="well"&gt;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.bootcss.com/mammoth/1.4.8/mammoth.browser.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">"document"</span>).<span class="title function_">addEventListener</span>(<span class="string">"change"</span>, readFileInputEventAsArrayBuffer, <span class="literal">false</span>);</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">displayResult</span>(<span class="params">result</span>) {</span></span><br><span class="line"><span class="language-javascript">          <span class="keyword">let</span> html = result.<span class="property">value</span>;</span></span><br><span class="line"><span class="language-javascript">          <span class="keyword">let</span> newHTML = html.<span class="title function_">replace</span>(<span class="string">'&lt;h1&gt;'</span>, <span class="string">'&lt;h1 style="text-align: center;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;table&gt;/g</span>, <span class="string">'&lt;table style="border-collapse: collapse;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;tr&gt;/g</span>, <span class="string">'&lt;tr style="height: 30px;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;td&gt;/g</span>, <span class="string">'&lt;td style="border: 1px solid pink;"&gt;'</span>)</span></span><br><span class="line"><span class="language-javascript">          .<span class="title function_">replace</span>(<span class="regexp">/&lt;p&gt;/g</span>, <span class="string">'&lt;p style="text-indent: 2em;"&gt;'</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">"output"</span>).<span class="property">innerHTML</span> = newHTML;</span></span><br><span class="line"><span class="language-javascript">        }</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">readFileInputEventAsArrayBuffer</span>(<span class="params">event</span>) {</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> file = event.<span class="property">target</span>.<span class="property">files</span>[<span class="number">0</span>];</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">let</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>();</span></span><br><span class="line"><span class="language-javascript">            reader.<span class="property">onload</span> = <span class="keyword">function</span> (<span class="params">loadEvent</span>) {</span></span><br><span class="line"><span class="language-javascript">                <span class="keyword">const</span> arrayBuffer = loadEvent.<span class="property">target</span>.<span class="property">result</span>;</span></span><br><span class="line"><span class="language-javascript">                mammoth.<span class="title function_">convertToHtml</span>({ <span class="attr">arrayBuffer</span>: arrayBuffer }).<span class="title function_">then</span>(displayResult).<span class="title function_">done</span>();</span></span><br><span class="line"><span class="language-javascript">            };</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">            reader.<span class="title function_">readAsArrayBuffer</span>(file);</span></span><br><span class="line"><span class="language-javascript">        }</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>可以说是连样式都没有的简陋了。</p>
-<p>那么效果又是如何呢？</p>
-<p><img data-src="http://images.sakebow.cn/WebDoc/mammoth.png" alt="mammoth效果"></p>
-<p>比<code>pandoc</code>稍微好一点，好就好在表格识别出来了，也给了一定的样式。但也就仅此而已了。</p>
-<h2 id="vue-office"><a href="#vue-office" class="headerlink" title="vue-office"></a>vue-office</h2><p>这相当于是另起炉灶的操作。先尝试一下试试。</p>
-<p>首先，使用<code>vue3</code>创建一个<code>vue</code>项目，选用什么插件其实无所谓，默认配置也没什么不好的。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">vue create vue-office</span></span><br></pre></td></tr></table></figure>
-
-<p>顺带着把需要准备的包也装上：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm install @vue-office/docx vue-demi element-plus --save --legacy-peer-deps</span></span><br></pre></td></tr></table></figure>
-
-<p>然后我们引入一个<code>Element-plus</code>，也就是在<code>main.ts</code>中写下这些：</p>
-<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> { createApp } <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">App</span> <span class="keyword">from</span> <span class="string">'./App.vue'</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">'./router'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">ElementPlus</span> <span class="keyword">from</span> <span class="string">'element-plus'</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">'element-plus/dist/index.css'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> app = <span class="title function_">createApp</span>(<span class="title class_">App</span>)</span><br><span class="line">app.<span class="title function_">use</span>(router).<span class="title function_">use</span>(<span class="title class_">ElementPlus</span>).<span class="title function_">mount</span>(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>然后再在<code>About.vue</code>代码中的所有内容删掉，然后写下这些：</p>
-<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"docx-demo"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">el-upload</span> <span class="attr">:limit</span>=<span class="string">"1"</span> <span class="attr">:file-list</span>=<span class="string">"fileList"</span> <span class="attr">accept</span>=<span class="string">".docx"</span> <span class="attr">:beforeUpload</span>=<span class="string">"beforeUpload"</span> <span class="attr">action</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">el-button</span> <span class="attr">size</span>=<span class="string">"small"</span> <span class="attr">type</span>=<span class="string">"warning"</span>&gt;</span>点击上传<span class="tag">&lt;/<span class="name">el-button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">el-upload</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">vue-office-docx</span> <span class="attr">:src</span>=<span class="string">"src"</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">lang</span>=<span class="string">"ts"</span> <span class="attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> { ref } <span class="keyword">from</span> <span class="string">'vue'</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> <span class="title class_">VueOfficeDocx</span> <span class="keyword">from</span> <span class="string">'@vue-office/docx'</span></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">import</span> <span class="string">'@vue-office/docx/lib/index.css'</span></span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> src = <span class="title function_">ref</span>()</span></span><br><span class="line"><span class="language-javascript"><span class="keyword">const</span> fileList = <span class="title function_">ref</span>([])</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">function</span> <span class="title function_">beforeUpload</span> (<span class="attr">file</span>: <span class="title class_">Blob</span>) {</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">const</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>()</span></span><br><span class="line"><span class="language-javascript">  reader.<span class="title function_">readAsArrayBuffer</span>(file)</span></span><br><span class="line"><span class="language-javascript">  reader.<span class="property">onload</span> = <span class="function">(<span class="params">loadEvent</span>) =&gt;</span> {</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">let</span> arrayBuffer = <span class="literal">null</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">if</span> (loadEvent.<span class="property">target</span>) {</span></span><br><span class="line"><span class="language-javascript">      arrayBuffer = loadEvent.<span class="property">target</span>.<span class="property">result</span></span></span><br><span class="line"><span class="language-javascript">    }</span></span><br><span class="line"><span class="language-javascript">    src.<span class="property">value</span> = arrayBuffer</span></span><br><span class="line"><span class="language-javascript">  }</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">return</span> <span class="literal">false</span></span></span><br><span class="line"><span class="language-javascript">}</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>官方文档给的是非<code>typescript</code>版本的，这里根据<code>typescript</code>的一些特点进行了一捏捏修改，并且大致上是符合<code>typescript-eslint</code>规范的。</p>
-<p>试着运行一下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">npm run serve</span><br></pre></td></tr></table></figure>
-
-<p>出现了这样的结果：</p>
-<p><img data-src="http://images.sakebow.cn/WebDoc/vue-office.png" alt="vue-office"></p>
-<p>这样的效果已经超出<code>pandoc</code>与<code>mammoth</code>太多太多了。</p>
-<p>虽然说文本中使用的字体是黑体标题+宋体正文+英文<code>Times New Roman</code>，而在这里显示的只有微软雅黑的中文与<code>Times New Roman</code>的英文，公式的样式也是丑丑的，但是多少什么都能识别了。</p>
-<p>当然，也有一定的局限性，比如页眉会被识别成正文、页脚页码会丢失。</p>
-]]></content>
-      <categories>
-        <category>webdoc</category>
-      </categories>
-      <tags>
-        <tag>doc-preview</tag>
-        <tag>web</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>RuoYi框架结合OpenLayer实现地图模块</title>
     <url>/2023/12/26/WebGIS/ruoyi-admin-openlayer/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>有一个需求需要使用<code>RuoYi</code>框架搭配<code>OpenLayer</code>使用。于是记录一下遇到的问题。</p>
@@ -1146,6 +1226,30 @@
 <p>所以，修改<code>package.json</code>文件，将<code>ol</code>的版本从最新的<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="4.652ex" height="1.557ex" role="img" focusable="false" viewBox="0 -666 2056 688"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="38" d="M70 417T70 494T124 618T248 666Q319 666 374 624T429 515Q429 485 418 459T392 417T361 389T335 371T324 363L338 354Q352 344 366 334T382 323Q457 264 457 174Q457 95 399 37T249 -22Q159 -22 101 29T43 155Q43 263 172 335L154 348Q133 361 127 368Q70 417 70 494ZM286 386L292 390Q298 394 301 396T311 403T323 413T334 425T345 438T355 454T364 471T369 491T371 513Q371 556 342 586T275 624Q268 625 242 625Q201 625 165 599T128 534Q128 511 141 492T167 463T217 431Q224 426 228 424L286 386ZM250 21Q308 21 350 55T392 137Q392 154 387 169T375 194T353 216T330 234T301 253T274 270Q260 279 244 289T218 306L210 311Q204 311 181 294T133 239T107 157Q107 98 150 60T250 21Z"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(500,0)"></path><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z" transform="translate(778,0)"></path></g><g data-mml-node="mn" transform="translate(1278,0)"><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(278,0)"></path></g></g></g></svg></mjx-container>降到<mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.05ex;" xmlns="http://www.w3.org/2000/svg" width="4.652ex" height="1.581ex" role="img" focusable="false" viewBox="0 -677 2056 699"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mn"><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(500,0)"></path><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z" transform="translate(778,0)"></path></g><g data-mml-node="mn" transform="translate(1278,0)"><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(278,0)"></path></g></g></g></svg></mjx-container>。</p>
 <h1 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h1><p>最后，我们使用<code>npm run dev</code>就能够运行了。</p>
 <p><img data-src="http://images.sakebow.cn/WebGIS/ruoyi-admin-openlayer/%E8%A7%A3%E5%86%B3%E7%89%88%E6%9C%AC%E5%86%B2%E7%AA%81%E5%B0%B1%E8%83%BD%E8%BF%90%E8%A1%8C%E4%BA%86.png" alt="解决版本冲突就能运行了"></p>
+]]></content>
+      <categories>
+        <category>customize</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+        <tag>customize</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>通过引入js文件的方式使Hexo设置更多的动态背景图</title>
+    <url>/2023/12/26/custom/background-dynamic-import/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="/2023/12/26/custom/background-dynamic-more/">这篇文章</a>中，我们发现了如何通过修改<code>utils.js</code>实现背景图轮播与更新，现在我们再用一个引入<code>js</code>文件的方式，实现<code>NexT_config</code>可以控制的背景图轮播与更新。</p>
+<span id="more"></span>
+
+<h1 id="查看官方示例"><a href="#查看官方示例" class="headerlink" title="查看官方示例"></a>查看官方示例</h1><p>你可能会怀疑哪里来的官方示例，那当然是源码中给的提示。比如<code>NexT</code>可以在<code>themes/next/layout/_scripts/index.njk</code>下看到这些内容：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;%- include <span class="string">&#x27;vendors.njk&#x27;</span> -%&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;comments.js&#x27;</span>) &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;utils.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">motion</span>.<span class="property">enable</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;motion.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">scheme</span> === <span class="string">&#x27;Muse&#x27;</span> or theme.<span class="property">scheme</span> === <span class="string">&#x27;Mist&#x27;</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;schemes/muse.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;next-boot.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">bookmark</span>.<span class="property">enable</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;bookmark.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">pjax</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;pjax.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后去看<code>themes/next/source/js</code>文件夹下，还果然就是这些文件。</p>
+<p>那么就是说，我只需要将代码放在这个文件夹下，然后再去<code>themes/next/layout/_scripts/index.njk</code>中引用不就好了？</p>
+<p>于是，把<a href="/2023/12/26/custom/background-dynamic-more/">这篇文章</a>中提到的完整代码单独拉出来放入独立的<code>javascript</code>文件中，命名为<code>add-background.js</code>。同时，为了方便管理，把<code>add-background.js</code>文件放入自行创建的<code>themes/next/source/js/custom</code>文件夹中，然后引入：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">transparent</span>.<span class="property">enable</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;custom/add-background.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>于是，现在背景图片的轮播就能够随意开关了。</p>
 ]]></content>
       <categories>
         <category>customize</category>
@@ -1238,30 +1342,6 @@
         <tag>Linux</tag>
         <tag>YOLO5</tag>
         <tag>AI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>通过引入js文件的方式使Hexo设置更多的动态背景图</title>
-    <url>/2023/12/26/custom/background-dynamic-import/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="/2023/12/26/custom/background-dynamic-more/">这篇文章</a>中，我们发现了如何通过修改<code>utils.js</code>实现背景图轮播与更新，现在我们再用一个引入<code>js</code>文件的方式，实现<code>NexT_config</code>可以控制的背景图轮播与更新。</p>
-<span id="more"></span>
-
-<h1 id="查看官方示例"><a href="#查看官方示例" class="headerlink" title="查看官方示例"></a>查看官方示例</h1><p>你可能会怀疑哪里来的官方示例，那当然是源码中给的提示。比如<code>NexT</code>可以在<code>themes/next/layout/_scripts/index.njk</code>下看到这些内容：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;%- include <span class="string">&#x27;vendors.njk&#x27;</span> -%&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;comments.js&#x27;</span>) &#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;utils.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">motion</span>.<span class="property">enable</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;motion.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">scheme</span> === <span class="string">&#x27;Muse&#x27;</span> or theme.<span class="property">scheme</span> === <span class="string">&#x27;Mist&#x27;</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;schemes/muse.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;next-boot.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">bookmark</span>.<span class="property">enable</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;bookmark.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">pjax</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;pjax.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后去看<code>themes/next/source/js</code>文件夹下，还果然就是这些文件。</p>
-<p>那么就是说，我只需要将代码放在这个文件夹下，然后再去<code>themes/next/layout/_scripts/index.njk</code>中引用不就好了？</p>
-<p>于是，把<a href="/2023/12/26/custom/background-dynamic-more/">这篇文章</a>中提到的完整代码单独拉出来放入独立的<code>javascript</code>文件中，命名为<code>add-background.js</code>。同时，为了方便管理，把<code>add-background.js</code>文件放入自行创建的<code>themes/next/source/js/custom</code>文件夹中，然后引入：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&#123;%- <span class="keyword">if</span> theme.<span class="property">transparent</span>.<span class="property">enable</span> %&#125;</span><br><span class="line">  &#123;&#123;- <span class="title function_">next_js</span>(<span class="string">&#x27;custom/add-background.js&#x27;</span>) &#125;&#125;</span><br><span class="line">&#123;%- endif %&#125;</span><br></pre></td></tr></table></figure>
-
-<p>于是，现在背景图片的轮播就能够随意开关了。</p>
-]]></content>
-      <categories>
-        <category>customize</category>
-      </categories>
-      <tags>
-        <tag>css</tag>
-        <tag>customize</tag>
       </tags>
   </entry>
   <entry>
@@ -1679,50 +1759,6 @@
       </tags>
   </entry>
   <entry>
-    <title>AlmaLinux右键菜单（Gnome）</title>
-    <url>/2024/02/11/experience/almalinux-right-click/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>VSCode</code>的过程中，<code>AlmaLinux</code>没能像<code>Windows</code>一样在右键菜单上显示打开方式，所以找了一下解决方案，罗列出来</p>
-<span id="more"></span>
-
-<h1 id="前提说明"><a href="#前提说明" class="headerlink" title="前提说明"></a>前提说明</h1><p>虽然说无论是<code>media</code>还是<code>StackOverflow</code>都推荐使用这条命令：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/harry-cpp/code-nautilus/master/install.sh | bash</span><br></pre></td></tr></table></figure>
-
-<p>当然，如果你找的是年代比较久远的帖子，你看到的应该是</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash</span><br></pre></td></tr></table></figure>
-
-<p>这只是作者改了个名而已，使用第一个就好了。但是呢，我也查看了源码，对<code>Ubuntu</code>的支持较好，使用了<code>apt-get</code>与<code>dnf</code>安装<code>nautius-python</code>，再将作者的<code>Python</code>脚本放入这个插件中，然后就能够出现<code>Open in VSCode</code>之类的字样。</p>
-<p>实际上对于<code>AlmaLinux</code>的$9.2$与$9.3$来说都是适合的，因为<code>AlmaLinux</code>本来就有<code>dnf</code>。但是呢，我还是想直接利用现有的内容做一点修改。</p>
-<h1 id="在文件上右键"><a href="#在文件上右键" class="headerlink" title="在文件上右键"></a>在文件上右键</h1><p>针对<code>GNOME</code>桌面，在右键菜单中考虑文件就需要在<code>~/.local/share/applications/mimeapps.list</code>中增加一个可选项，就像<code>usr/share/applications/*.desktop</code>中的文件一样给出一定的配置。</p>
-<p>在这里我们仅针对<code>html</code>相关文件进行优化，于是增加配置：</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[Added Associations]</span><br><span class="line">text/html=code.desktop</span><br><span class="line">text/css=code.desktop</span><br><span class="line">text/javascript=code.desktop</span><br></pre></td></tr></table></figure>
-
-<p>当然，如此配置的前提是你有一个<code>code.desktop</code>，即已安装<code>VSCode</code>标准版，而不是<code>VSCodium</code>。如果你选择安装了<code>VSCodium</code>，也没有太大关系，将<code>code.desktop</code>修改为<code>codium.desktop</code>就好了。</p>
-<blockquote>
-<p>P.S.：我个人选择的是源码安装<code>VSCodium</code>，所以<code>codium.desktop</code>是自己写的。如果安装的是<code>deb</code>或者<code>rpm</code>等安装包，可以选择使用安装包自动生成的内容。</p>
-</blockquote>
-<p>这样设置之后，当你在<code>html</code>相关的文件上点击右键的时候，就会出现<code>Open With Visual Studio Code</code>，并且还有<code>VSCode</code>的小<code>logo</code>。</p>
-<h1 id="在文件夹上右键"><a href="#在文件夹上右键" class="headerlink" title="在文件夹上右键"></a>在文件夹上右键</h1><p>很可惜的是，目前还没有发现能够类似<code>Windows</code>一样在任意位置右键都能够打开文件夹的功能。所以我目前使用的是直接右键想要打开的文件夹，出现一个<code>Scripts</code>选项，然后选择其中的<code>open in code</code>选项。</p>
-<p>如何实现呢？我们找到这个文件夹：<code>~/.local/share/nautilus/scripts</code>，在这里创建脚本文件<code>open-in-code.sh</code>，并写入如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">if [ -n &quot;$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS&quot; ]; then</span><br><span class="line">    set $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS</span><br><span class="line">    if [ $# -eq 1 ]; then</span><br><span class="line">        destination=&quot;$1&quot;</span><br><span class="line">    else</span><br><span class="line">        zenity --error --title=&quot;Error - Open in Visual Studio Code&quot; \</span><br><span class="line">        --text=&quot;You can only select one file/directory.&quot;</span><br><span class="line">        exit 1</span><br><span class="line">    fi</span><br><span class="line">else</span><br><span class="line">    destination=&quot;`echo &quot;$NAUTILUS_SCRIPT_CURRENT_URI&quot; | sed &#x27;s/^file:\/\///&#x27;`&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">It<span class="string">&#x27;s only possible to go to local directories</span></span></span><br><span class="line">if [ -n &quot;`echo &quot;$destination&quot; | grep &#x27;^[a-zA-Z0-9]\+:&#x27;`&quot; ]; then</span><br><span class="line">    zenity --error --title=&quot;Error - Open in Visual Studio Code&quot; \</span><br><span class="line">    --text=&quot;Only local directories can be used.&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec code &quot;$destination&quot;</span><br></pre></td></tr></table></figure>
-
-<p>然后赋予权限：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">chmod</span> +x ~/.local/share/nautilus/scripts/open-in-code.sh</span></span><br></pre></td></tr></table></figure>
-
-<p>如果你现在手头没有什么事情的话，重启就能生效。</p>
-<p>但如果你有点事情不能立即重启，就需要想办法重启<code>nautilus</code>了。当然等到事情结束了再重启也行。</p>
-<p>生效后，我们就可以如图所示使用<code>VSCode</code>打开文件夹：</p>
-<p><img data-src="http://images.sakebow.cn/experience/almalinux-right-click/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95.png" alt="右键菜单"></p>
-<p>虽然可能与你想象的不太一样，但是能用。</p>
-]]></content>
-      <categories>
-        <category>experience</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>context menu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>AlmaLinux9.2安装</title>
     <url>/2024/02/07/experience/almalinux-install/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>又忘记了关闭自动更新，果不其然驱动还是掉了。行吧，全部重来。这次没那么顺利，记录一下。</p>
@@ -1786,6 +1822,50 @@
       <tags>
         <tag>Linux</tag>
         <tag>kickstart</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AlmaLinux右键菜单（Gnome）</title>
+    <url>/2024/02/11/experience/almalinux-right-click/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在使用<code>VSCode</code>的过程中，<code>AlmaLinux</code>没能像<code>Windows</code>一样在右键菜单上显示打开方式，所以找了一下解决方案，罗列出来</p>
+<span id="more"></span>
+
+<h1 id="前提说明"><a href="#前提说明" class="headerlink" title="前提说明"></a>前提说明</h1><p>虽然说无论是<code>media</code>还是<code>StackOverflow</code>都推荐使用这条命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/harry-cpp/code-nautilus/master/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>当然，如果你找的是年代比较久远的帖子，你看到的应该是</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash</span><br></pre></td></tr></table></figure>
+
+<p>这只是作者改了个名而已，使用第一个就好了。但是呢，我也查看了源码，对<code>Ubuntu</code>的支持较好，使用了<code>apt-get</code>与<code>dnf</code>安装<code>nautius-python</code>，再将作者的<code>Python</code>脚本放入这个插件中，然后就能够出现<code>Open in VSCode</code>之类的字样。</p>
+<p>实际上对于<code>AlmaLinux</code>的$9.2$与$9.3$来说都是适合的，因为<code>AlmaLinux</code>本来就有<code>dnf</code>。但是呢，我还是想直接利用现有的内容做一点修改。</p>
+<h1 id="在文件上右键"><a href="#在文件上右键" class="headerlink" title="在文件上右键"></a>在文件上右键</h1><p>针对<code>GNOME</code>桌面，在右键菜单中考虑文件就需要在<code>~/.local/share/applications/mimeapps.list</code>中增加一个可选项，就像<code>usr/share/applications/*.desktop</code>中的文件一样给出一定的配置。</p>
+<p>在这里我们仅针对<code>html</code>相关文件进行优化，于是增加配置：</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">[Added Associations]</span><br><span class="line">text/html=code.desktop</span><br><span class="line">text/css=code.desktop</span><br><span class="line">text/javascript=code.desktop</span><br></pre></td></tr></table></figure>
+
+<p>当然，如此配置的前提是你有一个<code>code.desktop</code>，即已安装<code>VSCode</code>标准版，而不是<code>VSCodium</code>。如果你选择安装了<code>VSCodium</code>，也没有太大关系，将<code>code.desktop</code>修改为<code>codium.desktop</code>就好了。</p>
+<blockquote>
+<p>P.S.：我个人选择的是源码安装<code>VSCodium</code>，所以<code>codium.desktop</code>是自己写的。如果安装的是<code>deb</code>或者<code>rpm</code>等安装包，可以选择使用安装包自动生成的内容。</p>
+</blockquote>
+<p>这样设置之后，当你在<code>html</code>相关的文件上点击右键的时候，就会出现<code>Open With Visual Studio Code</code>，并且还有<code>VSCode</code>的小<code>logo</code>。</p>
+<h1 id="在文件夹上右键"><a href="#在文件夹上右键" class="headerlink" title="在文件夹上右键"></a>在文件夹上右键</h1><p>很可惜的是，目前还没有发现能够类似<code>Windows</code>一样在任意位置右键都能够打开文件夹的功能。所以我目前使用的是直接右键想要打开的文件夹，出现一个<code>Scripts</code>选项，然后选择其中的<code>open in code</code>选项。</p>
+<p>如何实现呢？我们找到这个文件夹：<code>~/.local/share/nautilus/scripts</code>，在这里创建脚本文件<code>open-in-code.sh</code>，并写入如下内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">if [ -n &quot;$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS&quot; ]; then</span><br><span class="line">    set $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS</span><br><span class="line">    if [ $# -eq 1 ]; then</span><br><span class="line">        destination=&quot;$1&quot;</span><br><span class="line">    else</span><br><span class="line">        zenity --error --title=&quot;Error - Open in Visual Studio Code&quot; \</span><br><span class="line">        --text=&quot;You can only select one file/directory.&quot;</span><br><span class="line">        exit 1</span><br><span class="line">    fi</span><br><span class="line">else</span><br><span class="line">    destination=&quot;`echo &quot;$NAUTILUS_SCRIPT_CURRENT_URI&quot; | sed &#x27;s/^file:\/\///&#x27;`&quot;</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">It<span class="string">&#x27;s only possible to go to local directories</span></span></span><br><span class="line">if [ -n &quot;`echo &quot;$destination&quot; | grep &#x27;^[a-zA-Z0-9]\+:&#x27;`&quot; ]; then</span><br><span class="line">    zenity --error --title=&quot;Error - Open in Visual Studio Code&quot; \</span><br><span class="line">    --text=&quot;Only local directories can be used.&quot;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">exec code &quot;$destination&quot;</span><br></pre></td></tr></table></figure>
+
+<p>然后赋予权限：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">chmod</span> +x ~/.local/share/nautilus/scripts/open-in-code.sh</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你现在手头没有什么事情的话，重启就能生效。</p>
+<p>但如果你有点事情不能立即重启，就需要想办法重启<code>nautilus</code>了。当然等到事情结束了再重启也行。</p>
+<p>生效后，我们就可以如图所示使用<code>VSCode</code>打开文件夹：</p>
+<p><img data-src="http://images.sakebow.cn/experience/almalinux-right-click/%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95.png" alt="右键菜单"></p>
+<p>虽然可能与你想象的不太一样，但是能用。</p>
+]]></content>
+      <categories>
+        <category>experience</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>context menu</tag>
       </tags>
   </entry>
   <entry>
@@ -1946,6 +2026,91 @@
       <tags>
         <tag>mathjax</tag>
         <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Paddle2+PaddleDetect安装</title>
+    <url>/2024/02/26/paddle/paddle-install/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>安装paddle的时候，由于驱动是最新的，就硬着头皮上了最新的<code>paddle</code>。结果试试就逝世。</p>
+<span id="more"></span>
+
+<h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>我参照官网进行安装：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -m pip install paddlepaddle-gpu==2.6.0.post120 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html</span></span><br></pre></td></tr></table></figure>
+
+<p>然后再加上<code>PaddleDetection</code>：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://github.com/PaddlePaddle/PaddleDetection.git</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> PaddleDetection</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">pip install -r requirements.txt -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html</span></span><br></pre></td></tr></table></figure>
+
+<p>一顿操作猛如虎！</p>
+<p>我们再来看看官方给我们留下来的安装说明：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python setup.py install</span></span><br></pre></td></tr></table></figure>
+
+<p>说是这样可以安装<code>ppdet</code>模块，这样就能让所有的东西都跑起来。</p>
+<p>最后，测试一下官方用例：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python ppdet/modeling/tests/test_architectures.py</span></span><br></pre></td></tr></table></figure>
+
+<p>不成，说是<code>libstdc++.so.6</code>不太行。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ImportError: libstdc++.so.6: version `GLIBCXX_3.4.30&#x27; not found (required by paddle/base/libpaddle.so)</span><br></pre></td></tr></table></figure>
+
+<h1 id="想点办法"><a href="#想点办法" class="headerlink" title="想点办法"></a>想点办法</h1><p>根据日志，我们发现，本机的<code>libstdc++.so.6</code>最高支持的<code>GLIBC</code>只有<code>3.4.29</code>，但是<code>paddle</code>需要<code>3.4.30</code>。</p>
+<p>看了看其他人，直接改软连接就成了？试试就逝世！</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> /usr/lib64/libstdc++.so.6</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">ln</span> -s ~/miniconda/envs/ppd/lib/libstdc++.so.6.0.32 /usr/lib64/libstdc++.so.6</span></span><br></pre></td></tr></table></figure>
+
+<p>没什么效果，还是显示一样的错误。</p>
+<p>于是，我想着，可能是没有重启的原因。重启应该就生效了。</p>
+<p>然后就真的逝世了。</p>
+<p>桌面炸了：<code>Oh no! Something has gone wrong.</code></p>
+<p>玩大发了。于是我尝试了<code>Ctrl</code>+<code>Alt</code>+<code>F1</code>强行进入命令行模式，结果无法使用<code>startx</code>启动桌面。</p>
+<p>那行，可能是修改了软连接的原因，我试着还原一下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> /usr/lib64/libstdc++.so.6</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">ln</span> -s /usr/lib64/libstdc++.so.6.0.29 /usr/lib64/libstdc++.so.6</span></span><br></pre></td></tr></table></figure>
+
+<p>没效果，桌面还是炸穿了。</p>
+<p>真玩大发了。最难受的是，我都不知道日志在哪，也不知道到底是错了什么。</p>
+<h1 id="先修复桌面"><a href="#先修复桌面" class="headerlink" title="先修复桌面"></a>先修复桌面</h1><p>就在我万念俱灰准备重装的时候，也不知道是怎么想的，反正就是准备先把<code>cuda</code>卸了再说。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo ./usr/local/cuda/bin/cuda-uninstaller</span></span><br></pre></td></tr></table></figure>
+
+<p>这一步是为了将<code>cudnn</code>卸载干净。当然，也可以不这么做，因为重新安装的时候会覆盖掉的。</p>
+<p>然后就是把剩下的东西全都删掉：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> -r /usr/local/cuda*</span></span><br></pre></td></tr></table></figure>
+
+<p>然后，我们尝试<code>reboot</code>，这个时候能看到桌面已经好了。</p>
+<p>真是惊险。</p>
+<h1 id="复原CUDA"><a href="#复原CUDA" class="headerlink" title="复原CUDA"></a>复原CUDA</h1><p>桌面修好了，就先把<code>CUDA</code>，安装回去吧。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ./cuda-installer.sh</span><br></pre></td></tr></table></figure>
+
+<p>安装过程中记得不要勾选驱动，因为我们没有删除<code>NVIDIA</code>的驱动。</p>
+<p>这里是我自己将下载的文件重命名了，所以是这个。如果没有重命名的话，就用原始名字安装就行。</p>
+<p>最后，配置环境变量：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo vim /etc/profile.d/cuda.sh</span></span><br></pre></td></tr></table></figure>
+
+<p>输入这些内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda/lib64</span><br><span class="line">export CUDA_HOME=/usr/local/cuda/</span><br><span class="line">export PATH=$PATH:$CUDA_HOME/bin:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
+
+<p>然后生效：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">source</span> /etc/profile</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Paddle安装"><a href="#Paddle安装" class="headerlink" title="Paddle安装"></a>Paddle安装</h1><p>看来问题还是出在<code>paddle</code>上。应该怎么办呢？</p>
+<p>在这里还是非常感谢<a href="https://github.com/paddlepaddle/paddle/issues/56047">Issue</a>中的所有人，介绍了最终的解决方案。</p>
+<p>实际上就是因为<code>anaconda</code>或者<code>miniconda</code>内置的<code>gcc</code>版本不够新的原因。当然，也有人在指责官方没有及时说明。</p>
+<p>所以最终的解决方案就是——更改<code>conda</code>的<code>gcc</code>版本：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda install -c conda-forge gcc=12.2.0</span></span><br></pre></td></tr></table></figure>
+
+<p>当然，<code>conda</code>需要设置镜像，否则上述命令将会失败。</p>
+<p>修改版本后，<code>paddle</code>安装成功。</p>
+<p>然后再测试一次：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python ppdet/modeling/tests/test_architectures.py</span></span><br></pre></td></tr></table></figure>
+
+<p>出现了输出：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Warning: Unable to use numba in PP-Tracking, please install numba, for example(python3.7): `pip install numba==0.56.4`</span><br><span class="line">Warning: Unable to use numba in PP-Tracking, please install numba, for example(python3.7): `pip install numba==0.56.4`</span><br><span class="line">W0226 16:00:55.449805 16554 gpu_resources.cc:119] Please NOTE: device: 0, GPU Compute Capability: 7.5, Driver API Version: 12.3, Runtime API Version: 12.0</span><br><span class="line">W0226 16:00:55.450834 16554 gpu_resources.cc:149] device: 0, cuDNN Version: 8.9.</span><br><span class="line">.......</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 7 tests in 0.735s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<p>这就彻底完成了。</p>
+]]></content>
+      <categories>
+        <category>experience</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>cuda</tag>
+        <tag>paddle</tag>
       </tags>
   </entry>
   <entry>
@@ -2194,91 +2359,6 @@
       <tags>
         <tag>theory</tag>
         <tag>introduction</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Paddle2+PaddleDetect安装</title>
-    <url>/2024/02/26/paddle/paddle-install/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>安装paddle的时候，由于驱动是最新的，就硬着头皮上了最新的<code>paddle</code>。结果试试就逝世。</p>
-<span id="more"></span>
-
-<h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>我参照官网进行安装：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python -m pip install paddlepaddle-gpu==2.6.0.post120 -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html</span></span><br></pre></td></tr></table></figure>
-
-<p>然后再加上<code>PaddleDetection</code>：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git <span class="built_in">clone</span> https://github.com/PaddlePaddle/PaddleDetection.git</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> PaddleDetection</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">pip install -r requirements.txt -f https://www.paddlepaddle.org.cn/whl/linux/mkl/avx/stable.html</span></span><br></pre></td></tr></table></figure>
-
-<p>一顿操作猛如虎！</p>
-<p>我们再来看看官方给我们留下来的安装说明：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python setup.py install</span></span><br></pre></td></tr></table></figure>
-
-<p>说是这样可以安装<code>ppdet</code>模块，这样就能让所有的东西都跑起来。</p>
-<p>最后，测试一下官方用例：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python ppdet/modeling/tests/test_architectures.py</span></span><br></pre></td></tr></table></figure>
-
-<p>不成，说是<code>libstdc++.so.6</code>不太行。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ImportError: libstdc++.so.6: version `GLIBCXX_3.4.30&#x27; not found (required by paddle/base/libpaddle.so)</span><br></pre></td></tr></table></figure>
-
-<h1 id="想点办法"><a href="#想点办法" class="headerlink" title="想点办法"></a>想点办法</h1><p>根据日志，我们发现，本机的<code>libstdc++.so.6</code>最高支持的<code>GLIBC</code>只有<code>3.4.29</code>，但是<code>paddle</code>需要<code>3.4.30</code>。</p>
-<p>看了看其他人，直接改软连接就成了？试试就逝世！</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> /usr/lib64/libstdc++.so.6</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">ln</span> -s ~/miniconda/envs/ppd/lib/libstdc++.so.6.0.32 /usr/lib64/libstdc++.so.6</span></span><br></pre></td></tr></table></figure>
-
-<p>没什么效果，还是显示一样的错误。</p>
-<p>于是，我想着，可能是没有重启的原因。重启应该就生效了。</p>
-<p>然后就真的逝世了。</p>
-<p>桌面炸了：<code>Oh no! Something has gone wrong.</code></p>
-<p>玩大发了。于是我尝试了<code>Ctrl</code>+<code>Alt</code>+<code>F1</code>强行进入命令行模式，结果无法使用<code>startx</code>启动桌面。</p>
-<p>那行，可能是修改了软连接的原因，我试着还原一下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> /usr/lib64/libstdc++.so.6</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">ln</span> -s /usr/lib64/libstdc++.so.6.0.29 /usr/lib64/libstdc++.so.6</span></span><br></pre></td></tr></table></figure>
-
-<p>没效果，桌面还是炸穿了。</p>
-<p>真玩大发了。最难受的是，我都不知道日志在哪，也不知道到底是错了什么。</p>
-<h1 id="先修复桌面"><a href="#先修复桌面" class="headerlink" title="先修复桌面"></a>先修复桌面</h1><p>就在我万念俱灰准备重装的时候，也不知道是怎么想的，反正就是准备先把<code>cuda</code>卸了再说。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo ./usr/local/cuda/bin/cuda-uninstaller</span></span><br></pre></td></tr></table></figure>
-
-<p>这一步是为了将<code>cudnn</code>卸载干净。当然，也可以不这么做，因为重新安装的时候会覆盖掉的。</p>
-<p>然后就是把剩下的东西全都删掉：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo <span class="built_in">rm</span> -r /usr/local/cuda*</span></span><br></pre></td></tr></table></figure>
-
-<p>然后，我们尝试<code>reboot</code>，这个时候能看到桌面已经好了。</p>
-<p>真是惊险。</p>
-<h1 id="复原CUDA"><a href="#复原CUDA" class="headerlink" title="复原CUDA"></a>复原CUDA</h1><p>桌面修好了，就先把<code>CUDA</code>，安装回去吧。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo ./cuda-installer.sh</span><br></pre></td></tr></table></figure>
-
-<p>安装过程中记得不要勾选驱动，因为我们没有删除<code>NVIDIA</code>的驱动。</p>
-<p>这里是我自己将下载的文件重命名了，所以是这个。如果没有重命名的话，就用原始名字安装就行。</p>
-<p>最后，配置环境变量：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">sudo vim /etc/profile.d/cuda.sh</span></span><br></pre></td></tr></table></figure>
-
-<p>输入这些内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda/lib64</span><br><span class="line">export CUDA_HOME=/usr/local/cuda/</span><br><span class="line">export PATH=$PATH:$CUDA_HOME/bin:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
-
-<p>然后生效：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">source</span> /etc/profile</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="Paddle安装"><a href="#Paddle安装" class="headerlink" title="Paddle安装"></a>Paddle安装</h1><p>看来问题还是出在<code>paddle</code>上。应该怎么办呢？</p>
-<p>在这里还是非常感谢<a href="https://github.com/paddlepaddle/paddle/issues/56047">Issue</a>中的所有人，介绍了最终的解决方案。</p>
-<p>实际上就是因为<code>anaconda</code>或者<code>miniconda</code>内置的<code>gcc</code>版本不够新的原因。当然，也有人在指责官方没有及时说明。</p>
-<p>所以最终的解决方案就是——更改<code>conda</code>的<code>gcc</code>版本：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">conda install -c conda-forge gcc=12.2.0</span></span><br></pre></td></tr></table></figure>
-
-<p>当然，<code>conda</code>需要设置镜像，否则上述命令将会失败。</p>
-<p>修改版本后，<code>paddle</code>安装成功。</p>
-<p>然后再测试一次：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">python ppdet/modeling/tests/test_architectures.py</span></span><br></pre></td></tr></table></figure>
-
-<p>出现了输出：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Warning: Unable to use numba in PP-Tracking, please install numba, for example(python3.7): `pip install numba==0.56.4`</span><br><span class="line">Warning: Unable to use numba in PP-Tracking, please install numba, for example(python3.7): `pip install numba==0.56.4`</span><br><span class="line">W0226 16:00:55.449805 16554 gpu_resources.cc:119] Please NOTE: device: 0, GPU Compute Capability: 7.5, Driver API Version: 12.3, Runtime API Version: 12.0</span><br><span class="line">W0226 16:00:55.450834 16554 gpu_resources.cc:149] device: 0, cuDNN Version: 8.9.</span><br><span class="line">.......</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 7 tests in 0.735s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
-
-<p>这就彻底完成了。</p>
-]]></content>
-      <categories>
-        <category>experience</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>cuda</tag>
-        <tag>paddle</tag>
       </tags>
   </entry>
 </search>
