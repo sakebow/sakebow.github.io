@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/fav/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/fav/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/fav/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/fav/android-chrome-512x512.png" color="#222">
+  <link rel="manifest" href="/images/fav/site.manifest.json">
+  <meta name="msvalidate.01" content="baidu_verify_codeva-pRzwrRUz9m.html">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <script src='https://unpkg.com/mermaid@/dist/mermaid.min.js'></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({theme: 'forest'});
+    }
+  </script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha256-yIDrPSXHZdOZhAqiBP7CKzIwMQmRCJ8UeB8Jo17YC4o=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.28/fancybox/fancybox.css" integrity="sha256-6cQIC71/iBIYXFK+0RHAvwmjwWzkWd+r7v/BX3/vZDc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/themes/pink/pace-theme-fill-left.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"sakebow.cn","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.19.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"mac"},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":10,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言从来没想过在接入通义千问的时候还会遇到NotImplementedError。实在难以理解，处理过后才明白问题。现在总结后给出结果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用langchain异步获取网络信息">
+<meta property="og:url" content="http://sakebow.cn/2024/06/13/LLM/langchain-io-api/index.html">
+<meta property="og:site_name" content="小小万事屋">
+<meta property="og:description" content="前言从来没想过在接入通义千问的时候还会遇到NotImplementedError。实在难以理解，处理过后才明白问题。现在总结后给出结果。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-13T07:56:40.000Z">
+<meta property="article:modified_time" content="2024-06-13T10:03:50.164Z">
+<meta property="article:author" content="sakebow">
+<meta property="article:tag" content="langchain">
+<meta property="article:tag" content="qwen">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://sakebow.cn/2024/06/13/LLM/langchain-io-api/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://sakebow.cn/2024/06/13/LLM/langchain-io-api/","path":"2024/06/13/LLM/langchain-io-api/","title":"使用langchain异步获取网络信息"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用langchain异步获取网络信息 | 小小万事屋</title>
+  
+
+
+
+
+
+
+
+<script async src="/lib/fireworks.js"></script>
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">小小万事屋</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个似乎什么都想做的网站</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">64</span></a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">13</span></a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">50</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E7%8E%B0%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">发现问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text">分析问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">阻塞？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E%EF%BC%81"><span class="nav-number">5.</span> <span class="nav-text">阻塞！</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%EF%BC%9A%E7%94%A8%E4%BB%80%E4%B9%88%E9%98%BB%E5%A1%9Estreamlit%E8%BF%9B%E7%A8%8B"><span class="nav-number">6.</span> <span class="nav-text">附：用什么阻塞streamlit进程</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sakebow"
+      src="/images/avatar/avatar.jpg"
+          onmouseover = "this.src='/images/avatar/avatarc.png'"
+          onmouseout = "this.src='/images/avatar/avatar.jpg'"
+      >
+  <p class="site-author-name" itemprop="name">sakebow</p>
+  <div class="site-description" itemprop="description">一个似乎什么都想做的小站</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sakebow" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;sakebow" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.zhihu.com/people/yao-fan-de-ma-nong" title="ZhiHu → https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;yao-fan-de-ma-nong" rel="noopener me" target="_blank"><i class="fab fa-zhihu fa-fw"></i></a>
+      </span>
+  </div>
+  <div class="cc-license animated" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="https://cdnjs.cloudflare.com/ajax/libs/creativecommons-vocabulary/2020.11.3/assets/license_badges/small/by_nc_sa.svg" alt="Creative Commons"></a>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://sakebow.cn/2024/06/13/LLM/langchain-io-api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar/avatar.jpg">
+      <meta itemprop="name" content="sakebow">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小小万事屋">
+      <meta itemprop="description" content="一个似乎什么都想做的小站">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用langchain异步获取网络信息 | 小小万事屋">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用langchain异步获取网络信息
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2024-06-13 15:56:40 / 修改时间：18:03:50" itemprop="dateCreated datePublished" datetime="2024-06-13T15:56:40+08:00">2024-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LLM/" itemprop="url" rel="index"><span itemprop="name">LLM</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>5 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>从来没想过在接入通义千问的时候还会遇到<code>NotImplementedError</code>。实在难以理解，处理过后才明白问题。现在总结后给出结果。</p>
+<span id="more"></span>
+
+<h1 id="发现问题"><a href="#发现问题" class="headerlink" title="发现问题"></a>发现问题</h1><p>我们来看个例子。就比如这段代码：</p>
+<blockquote>
+<p>摘自<a target="_blank" rel="noopener" href="https://github.com/ranying666/langchain_tongyi_practical">ranying666&#x2F;langchain_tongyi_practical</a>中的<a target="_blank" rel="noopener" href="https://github.com/ranying666/langchain_tongyi_practical/blob/main/5-langchain-search-document_loaders.py">5-langchain-search-document_loaders.py</a></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">loader = AsyncChromiumLoader([<span class="string">&quot;https://dataea.cn/okr-keyresult-checklist/&quot;</span>])</span><br><span class="line">html = loader.load()</span><br><span class="line">html2text = Html2TextTransformer()</span><br><span class="line">docs_transformed = html2text.transform_documents(html)</span><br></pre></td></tr></table></figure>
+
+<p>如果把这段直接接入<code>streamlit</code>，那就直接报错：</p>
+<p><code>NotImplementedError</code></p>
+<p>比较离谱的是，只有这么一个错误，没有其他信息。</p>
+<h1 id="分析问题"><a href="#分析问题" class="headerlink" title="分析问题"></a>分析问题</h1><p>很难理解为什么是这个错。</p>
+<p>随着排查的进行，发现问题好像出在<code>AsyncChromiumLoader</code>中。</p>
+<p><code>AsyncChromiumLoader</code>继承自<code>BaseLoader</code>，而<code>BaseLoader</code>的<code>load</code>方法中，调用的却是<code>lazy_load</code>。先不用看这个方法的具体内容，就看这个方法的名字，你大概也能猜出来什么问题了：</p>
+<p>懒加载带来的未能实例化的问题。</p>
+<p>简单地说，就是：<code>streamlit</code>已在前面飞，<code>loader.load()</code>还在后面追。终于，追不上了，就爆炸了。而刚好的是，<code>lazy_load</code>中抛出的异常就是这个<code>NotImplementedError</code>。</p>
+<p>众所周知，<code>streamlit</code>构建网页的过程是单线程的。</p>
+<p>所以，当我们需要请求内容的时候，使用异步请求的<code>AsyncChromiumLoader</code>就会出现这种问题。</p>
+<p>那么，该怎么办呢？</p>
+<h1 id="阻塞？"><a href="#阻塞？" class="headerlink" title="阻塞？"></a>阻塞？</h1><p>怎么办呢？阻塞，对吧？很容易想到。</p>
+<p>于是会想当然的这么用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">loader = AsyncChromiumLoader([<span class="string">&quot;https://dataea.cn/okr-keyresult-checklist/&quot;</span>])</span><br><span class="line">html = loader.load()</span><br><span class="line"><span class="keyword">while</span> html <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">  time.sleep(<span class="number">1</span>)</span><br><span class="line">html2text = Html2TextTransformer()</span><br><span class="line">docs_transformed = html2text.transform_documents(html)</span><br></pre></td></tr></table></figure>
+
+<p>看着很直观，检测<code>html</code>是否有返回值。</p>
+<p>如果真这么简单的话我也不会把它写在这里（🤷‍♂️）。</p>
+<p>结果就是，还是报错。这又是为什么呢？逻辑没问题呀？</p>
+<p>逻辑是没问题，问题出在底层。作为一个异步函数，他怎么可能没有返回值呢？</p>
+<p>我们来回顾一下<code>load</code>方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Sub-classes should not implement this method directly. Instead, they should implement the lazy load method.</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>(<span class="params">self</span>) -&gt; <span class="type">List</span>[Document]:</span><br><span class="line">  <span class="string">&quot;&quot;&quot;Load data into Document objects.&quot;&quot;&quot;</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">list</span>(self.lazy_load())</span><br></pre></td></tr></table></figure>
+
+<p>那么，<code>lazy_load</code>是怎么回事呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">lazy_load</span>(<span class="params">self</span>) -&gt; Iterator[Document]:</span><br><span class="line">  <span class="string">&quot;&quot;&quot;A lazy loader for Documents.&quot;&quot;&quot;</span></span><br><span class="line">  <span class="keyword">if</span> <span class="built_in">type</span>(self).load != BaseLoader.load:</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">iter</span>(self.load())</span><br><span class="line">  <span class="keyword">raise</span> NotImplementedError(</span><br><span class="line">    <span class="string">f&quot;<span class="subst">&#123;self.__class__.__name__&#125;</span> does not implement lazy_load()&quot;</span></span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p>这里比较有意思的是，对实例化的<code>AsyncChromiumLoader</code>对象（就是这个<code>self</code>），判断<code>AsyncChromiumLoader.load</code>与<code>BaseLoader.load</code>是否一致。</p>
+<p>其实这里比较的是地址信息，因为子类如果重写了这个<code>load</code>方法，那么地址就会被改变。如果不一致的话，就会返回一个迭代器，这个迭代器就是为了后续过程中无论返回的是否是<code>list</code>，都能够迭代。</p>
+<p>听起来没问题。</p>
+<p>但是，懒加载呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">aload</span>(<span class="params">self</span>) -&gt; <span class="type">List</span>[Document]:</span><br><span class="line">  <span class="string">&quot;&quot;&quot;Load data into Document objects.&quot;&quot;&quot;</span></span><br><span class="line">  <span class="keyword">return</span> [document <span class="keyword">async</span> <span class="keyword">for</span> document <span class="keyword">in</span> self.alazy_load()]</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">alazy_load</span>(<span class="params">self</span>) -&gt; AsyncIterator[Document]:</span><br><span class="line">  <span class="string">&quot;&quot;&quot;A lazy loader for Documents.&quot;&quot;&quot;</span></span><br><span class="line">  iterator = <span class="keyword">await</span> run_in_executor(<span class="literal">None</span>, self.lazy_load)</span><br><span class="line">  done = <span class="built_in">object</span>()</span><br><span class="line">  <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    doc = <span class="keyword">await</span> run_in_executor(<span class="literal">None</span>, <span class="built_in">next</span>, iterator, done)  <span class="comment"># type: ignore[call-arg, arg-<span class="built_in">type</span>]</span></span><br><span class="line">    <span class="keyword">if</span> doc <span class="keyword">is</span> done:</span><br><span class="line">      <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">yield</span> doc  <span class="comment"># type: ignore[misc]</span></span><br></pre></td></tr></table></figure>
+
+<p>比较神奇的就出现在这里了。<code>alazy_load</code>方法最终给出来的就是一个<code>Document</code>类的迭代器，然后最终通过<code>yield</code>给到调用方，直到<code>doc</code>在迭代过程中达到了<code>done</code>。</p>
+<p>但是呢，<code>doc</code>变量的结果是<code>await run_in_executor(None, next, iterator, done)</code>，即使<code>run_in_executor</code>返回的是一个迭代器对象，最终由<code>await</code>进行处理，所以<strong>是有返回值的</strong>，但是返回的是未来需要返回的，是<code>asyncio.futures.Future</code>类。这一点完全可以类比<code>Java</code>中的<code>Future</code>对象。</p>
+<p>所以，最终而言，<code>AsyncChromiumLoader.load</code>并不是直到结束才返回值，而是在执行的过程中不断地通过<code>yield</code>给出返回值，只是在<code>await</code>最终处理为<code>AsyncIterator[Document]</code>类型。</p>
+<h1 id="阻塞！"><a href="#阻塞！" class="headerlink" title="阻塞！"></a>阻塞！</h1><p>为了让<code>streamlit</code>等待异步请求，就需要主线程停下来，直到请求结束了才能继续执行。</p>
+<p>那这回该怎么办呢？直接用<code>asyncio</code>与<code>playwright</code>给阻塞掉。</p>
+<p>首先，我们需要利用<code>asyncio</code>创建一个阻塞事件，并设置所有的事件都需要在阻塞事件结束后执行。</p>
+<p>其次，在执行这个阻塞之间的时候，我们依然使用异步请求，只不过是所有的事件都在等我们。</p>
+<p>于是，可以给出代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> platform</span><br><span class="line"><span class="keyword">from</span> playwright.async_api <span class="keyword">import</span> async_playwright</span><br><span class="line"><span class="comment"># 阻塞事件</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">fetch_page_content</span>(<span class="params">url</span>):</span><br><span class="line">  <span class="keyword">async</span> <span class="keyword">with</span> async_playwright() <span class="keyword">as</span> p:</span><br><span class="line">    browser = <span class="keyword">await</span> p.chromium.launch()</span><br><span class="line">    page = <span class="keyword">await</span> browser.new_page()</span><br><span class="line">    <span class="keyword">await</span> page.goto(url)</span><br><span class="line">    content = <span class="keyword">await</span> page.content()</span><br><span class="line">    <span class="keyword">await</span> browser.close()</span><br><span class="line">    <span class="keyword">return</span> content</span><br><span class="line"><span class="comment"># 阻塞主进程</span></span><br><span class="line"><span class="meta">@st.cache_data</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_documents</span>(<span class="params">url</span>):</span><br><span class="line">  loop = <span class="literal">None</span></span><br><span class="line">  <span class="keyword">if</span> platform.system() == <span class="string">&#x27;Windows&#x27;</span>:</span><br><span class="line">    loop = asyncio.ProactorEventLoop()</span><br><span class="line">  <span class="keyword">elif</span> platform.system() == <span class="string">&#x27;Linux&#x27;</span>:</span><br><span class="line">    loop = asyncio.new_event_loop()</span><br><span class="line">  <span class="keyword">elif</span> platform.system() == <span class="string">&#x27;Darwin&#x27;</span>:</span><br><span class="line">    loop = asyncio.SelectorEventLoop()</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">  html_content = loop.run_until_complete(fetch_page_content(url))</span><br><span class="line">  html2text = Html2TextTransformer()</span><br><span class="line">  document = Document(page_content=html_content)</span><br><span class="line">  docs_transformed = <span class="built_in">list</span>(html2text.transform_documents([document]))</span><br><span class="line">  <span class="keyword">return</span> docs_transformed</span><br></pre></td></tr></table></figure>
+
+<p>其实这里面最核心的就是<code>asyncio</code>下的<code>run_until_complete</code>函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">run_until_complete</span>(<span class="params">self, future</span>):</span><br><span class="line">  <span class="string">&quot;&quot;&quot;Run until the Future is done.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  If the argument is a coroutine, it is wrapped in a Task.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  WARNING: It would be disastrous to call run_until_complete()</span></span><br><span class="line"><span class="string">  with the same coroutine twice -- it would wrap it in two</span></span><br><span class="line"><span class="string">  different Tasks and that can&#x27;t be good.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Return the Future&#x27;s result, or raise its exception.</span></span><br><span class="line"><span class="string">  &quot;&quot;&quot;</span></span><br><span class="line">  self._check_closed()</span><br><span class="line">  self._check_running()</span><br><span class="line"></span><br><span class="line">  new_task = <span class="keyword">not</span> futures.isfuture(future)</span><br><span class="line">  future = tasks.ensure_future(future, loop=self)</span><br><span class="line">  <span class="keyword">if</span> new_task:</span><br><span class="line">    <span class="comment"># An exception is raised if the future didn&#x27;t complete, so there</span></span><br><span class="line">    <span class="comment"># is no need to log the &quot;destroy pending task&quot; message</span></span><br><span class="line">    future._log_destroy_pending = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">  future.add_done_callback(_run_until_complete_cb)</span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">    self.run_forever()</span><br><span class="line">  <span class="keyword">except</span>:</span><br><span class="line">    <span class="keyword">if</span> new_task <span class="keyword">and</span> future.done() <span class="keyword">and</span> <span class="keyword">not</span> future.cancelled():</span><br><span class="line">      <span class="comment"># The coroutine raised a BaseException. Consume the exception</span></span><br><span class="line">      <span class="comment"># to not log a warning, the caller doesn&#x27;t have access to the</span></span><br><span class="line">      <span class="comment"># local task.</span></span><br><span class="line">      future.exception()</span><br><span class="line">    <span class="keyword">raise</span></span><br><span class="line">  <span class="keyword">finally</span>:</span><br><span class="line">    future.remove_done_callback(_run_until_complete_cb)</span><br><span class="line">  <span class="keyword">if</span> <span class="keyword">not</span> future.done():</span><br><span class="line">    <span class="keyword">raise</span> RuntimeError(<span class="string">&#x27;Event loop stopped before Future completed.&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> future.result()</span><br></pre></td></tr></table></figure>
+
+<p>这个函数最大的特点就是会创建一个任务并执行。直到任务执行完成或者报错中断之前，其他所有任务都得等着这个任务的回调函数。</p>
+<p>于是，这个函数就阻塞了<code>streamlit</code>的进程，直到异步任务完成。</p>
+<h1 id="附：用什么阻塞streamlit进程"><a href="#附：用什么阻塞streamlit进程" class="headerlink" title="附：用什么阻塞streamlit进程"></a>附：用什么阻塞streamlit进程</h1><p>其实这段文字本来应该接在上面这段的。但是这个坑实在太神奇了，单独拉出来说明。</p>
+<p>这里面还有一个很神奇的坑：用什么东西阻塞。</p>
+<p>就像上面这段代码，针对<code>Windows</code>、<code>Linux</code>、<code>Darwin</code>，分别采用了<code>ProactorEventLoop</code>、<code>new_event_loop</code>、<code>SelectorEventLoop</code>阻塞<code>streamlit</code>进程。</p>
+<p>如果在<code>Linux</code>平台中使用<code>ProactorEventLoop</code>，那么<code>streamlit</code>进程依然不会阻塞，因为他们都只能在各自的操作系统中起作用。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>sakebow
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://sakebow.cn/2024/06/13/LLM/langchain-io-api/" title="使用langchain异步获取网络信息">http://sakebow.cn/2024/06/13/LLM/langchain-io-api/</a>
+  </li>
+  <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/langchain/" rel="tag"># langchain</a>
+              <a href="/tags/qwen/" rel="tag"># qwen</a>
+              <a href="/tags/LLM/" rel="tag"># LLM</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/06/11/LLM/qwen-construct/" rel="prev" title="通义千问的小机器人到底是怎么个事">
+                  <i class="fa fa-angle-left"></i> 通义千问的小机器人到底是怎么个事
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">鄂ICP备2020023162号-1 </a>
+      <img src="http://images.sakebow.cn/icons/icp.png" alt="">
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">sakebow</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">56k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">3:23</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <a href="https://github.com/sakebow" class="github-corner" title="在 GitHub 上关注我" aria-label="在 GitHub 上关注我" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.28/fancybox/fancybox.umd.js" integrity="sha256-ytMJGN3toR+a84u7g7NuHm91VIR06Q41kMWDr2pq7Zo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/custom/add-background.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js","integrity":"sha256-mm3Re3y7xlvh+yCD+l/Zs1d+PU0AEad93MkWvljfm/s="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+  <script class="next-config" data-name="wavedrom" type="application/json">{"enable":true,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.3.0/wavedrom.min.js","integrity":"sha256-IRMDzTC+wK5stMucZ/XSXkeS5VNtxZ+/Bm8Mcqfoxdo="}}</script>
+  <script class="next-config" data-name="wavedrom_skin" type="application/json">{"enable":true,"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/wavedrom/3.3.0/skins/default.js","integrity":"sha256-fduc/Zszk5ezWws2uInY/ALWVmIrmV6VTgXbsYSReFI="}}</script>
+  <script src="/js/third-party/tags/wavedrom.js"></script>
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+  <script src="/js/third-party/pace.js"></script>
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
